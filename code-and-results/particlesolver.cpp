@@ -1,4 +1,4 @@
-#include "jacobimethodsolver.hpp"
+#include "particlesolver.hpp"
 #include<iostream>
 #include<string>
 #include<chrono>
@@ -8,7 +8,7 @@ using namespace chrono;
 
 //Setting up the superclass for Jacobi's method with rotational algorithm to be used in all derived classes
 
-mat SolarSystem::initialize(int N, int k){
+mat ParticleSolver::initialize(int N, int k){
   m_N = N;
   //to be used in all derived classes
 
@@ -17,25 +17,21 @@ mat SolarSystem::initialize(int N, int k){
   vec Y = zeros<vec>(N*K)
   vec Z = zeros<vec>(N*K)
 
+};
 
-}
 
-
-void SolarSystem::grav_force(){
+void ParticleSolver::force(){
  m_force = m_G*M
-}
+};
 
-void SolarSystem::Verlet(){
+void ParticleSolver::Verlet(){
 
+};
 
-}
+void ParticleSolver::EulerChromer(){
 
-void SolarSystem::EulerChromer(){
+};
 
+void ParticleSolver::RungeKutta4(){
 
-}
-
-void SolarSystem::RungeKutta4(){
-
-
-}
+};
