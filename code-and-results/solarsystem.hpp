@@ -10,22 +10,25 @@ using namespace arma;
 using namespace chrono;
 
 // Setting up solarsystem as a superclass
+// Work in units: time [years], distance [AU], mass [solar masses]
 
 class SolarSystem {
 
 private:
-
 
 protected:
   string m_name
   vec m_x,_y,m_m_z
   double m_force
   int m_N           // number of planets
+  int m_k           // number of time steps
+  double m_G =      //
+
 
 
 
 public:
-  void initialize(m_N)      // Use keys for each planet
+  void initialize(m_N,m_k)      // Use keys for each planet
   void grav_force()         // calculate force between stellar objects
   void Verlet()             // Verlet solver
   void EulerChromer()       // EulerChromer solver

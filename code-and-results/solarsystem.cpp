@@ -5,19 +5,24 @@
 using namespace std;
 using namespace chrono;
 
+
 //Setting up the superclass for Jacobi's method with rotational algorithm to be used in all derived classes
 
-mat SolarSystem::initialize(int N){
+mat SolarSystem::initialize(int N, int k){
   m_N = N;
-  //initialize variables to set up Jacobis algorithm
   //to be used in all derived classes
+
+  //initialize vectors
+  vec X = zeros<vec>(N*K)
+  vec Y = zeros<vec>(N*K)
+  vec Z = zeros<vec>(N*K)
+
 
 }
 
 
 void SolarSystem::grav_force(){
-
-
+ m_force = m_G*M
 }
 
 void SolarSystem::Verlet(){
