@@ -20,9 +20,9 @@ protected:
   string m_name
   vec m_x,_y,m_m_z
   double m_force
-  int m_N           // number of planets
-  int m_k           // number of time steps
-  double m_G =      //
+  int m_N                  // number of planets
+  int m_k                  // number of time steps
+  double m_G = 39.478;     //AU^3 yr^-2 M_sol^-1
 
 
 
