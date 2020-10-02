@@ -22,17 +22,22 @@ protected:
   double m_force;
   int m_N;         // number of planets
   int m_k;          // number of time steps
-  double m_G =      //
 
+public:                          // general solver
+  void initialize(m_N,m_k);      // Use keys for each planet
+  void Verlet();                // Verlet solver
+  void EulerChromer();          // EulerChromer solver
+  void RungeKutta4();           // RungeKutta4 solver
 
+};
 
+//subclass to solve planet case
+class PlanetSolver : public ParticleSolver {
+private:
 
 public:
-  void initialize(m_N,m_k);      // Use keys for each planet
-  void force();        // calculate force between stellar objects
-  void Verlet();            // Verlet solver
-  void EulerChromer();       // EulerChromer solver
-  void RungeKutta4();        // RungeKutta4 solver
+  void init();            //init special solver for planet case
+  void solvesystem()      //  solve for planet system
 
 };
 
