@@ -1,5 +1,5 @@
-#ifndef PARTICLESOLVER_HPP
-#define PARTICLESOLVER_HPP
+#ifndef ParticleSolver_HPP
+#define ParticleSolver_HPP
 
 #include <fstream>
 #include <armadillo>
@@ -23,15 +23,15 @@ protected:
   vec m_Vx,m_Vy, m_Vx_prev, m_Vy_prev;
   vec m_ax, m_ax_prev, m_ay,m_ay_prev;
 
-  double m_force;
   int m_N;         // number of planets
   int m_k;          // number of time steps
+  double m_T, m_T0;
 
 public:                          // general solver
   void initialize(int m_N, int k);      // Use keys for each planet
-  void Verlet();                // Verlet solver
-  void EulerChromer();          // EulerChromer solver
-  void RungeKutta4();           // RungeKutta4 solver
+  void verlet(double f(double x, double y));                // Verlet solver
+  void eulerchromer();          // EulerChromer solver
+  void rungekutta4();           // RungeKutta4 solver
 };
 
 //subclass to solve planet case

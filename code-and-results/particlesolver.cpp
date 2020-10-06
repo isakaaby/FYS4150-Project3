@@ -48,16 +48,16 @@ void ParticleSolver::initialize(int N, int k){
   vec m_Vx_prev = zeros<vec>(N);
   vec m_Vy_prev = zeros<vec>(N);
 
-  vec m_ax zeros<vec>(N);
-  vec m_ax_prev zeros<vec>(N);
-  vec m_ay zeros<vec>(N);
-  vec m_ay_prev zeros<vec>(N);
+  vec m_ax = zeros<vec>(N);
+  vec m_ax_prev = zeros<vec>(N);
+  vec m_ay = zeros<vec>(N);
+  vec m_ay_prev = zeros<vec>(N);
 };
 
-void ParticleSolver::Verlet(double force(double x,y){
-  h = (m_T-T0)/(m_k - 1); // time step
-  for (int j = 0; int j < m_k){ // for time
-    for (int i = 0; int i < m_N){ //for planets
+void ParticleSolver::verlet(double force(double x, double y)){
+  double h = (m_T-m_T0)/(m_k - 1); // time step
+  for (int j = 0; j < m_k; ++j){ // for time
+    for (int i = 0; i < m_N; ++i){ //for planets
       m_X(i*m_k+j+1) = m_X(i*m_k+j) + h*m_Vx_prev(i) + (1./2)*h*h*m_ax_prev(i);
       m_ax(i) = force(m_X(i*m_k+j+1),m_Y(i*m_k+j+1));
       m_Vx(i) = m_Vx(i) + (1./2)*h*h*(m_ax(i) + m_ax_prev(i));
@@ -69,10 +69,10 @@ void ParticleSolver::Verlet(double force(double x,y){
       // Update to prev
       m_ax_prev(i) = m_ax(i);
       m_ay_prev(i) = m_ay(i);
-      m_Vx_prev(i) = m_Vx(i)
-      m_Vy_prev(i) = m_Vy(i)
-    }
-  }
+      m_Vx_prev(i) = m_Vx(i);
+      m_Vy_prev(i) = m_Vy(i);
+    };
+  };
 };
 
 /*void ParticleSolver::EulerChromer(){
