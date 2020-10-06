@@ -19,7 +19,10 @@ private:
 
 protected:
   string m_name;
-  vec m_x,_y,m_m_z;
+  vec m_X,m_Y,m_m_Z;
+  vec m_Vx,m_Vy, m_Vx_prev, m_Vy_prev;
+  vec m_ax, m_ax_prev, m_ay,m_ay_prev;
+
   double m_force;
   int m_N;         // number of planets
   int m_k;          // number of time steps
@@ -29,7 +32,6 @@ public:                          // general solver
   void Verlet();                // Verlet solver
   void EulerChromer();          // EulerChromer solver
   void RungeKutta4();           // RungeKutta4 solver
-
 };
 
 //subclass to solve planet case
