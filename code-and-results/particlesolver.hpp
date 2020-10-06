@@ -18,12 +18,12 @@ private:
   int K;
 
 protected:
-  string m_name;
+  vector<string> m_names;
   vec m_X,m_Y,m_m_Z;
   vec m_Vx,m_Vy, m_Vx_prev, m_Vy_prev;
   vec m_ax, m_ax_prev, m_ay,m_ay_prev;
 
-  int m_N;         // number of planets
+  int m_N;          // number of planets
   int m_k;          // number of time steps
   double m_T, m_T0;
 
@@ -39,7 +39,7 @@ class PlanetSolver : public ParticleSolver {
 private:
 
 public:
-  void init();            //init special solver for planet case
+  void init(vector <string> m_name);            //init special solver for planet case
   void solvesystem();      //  solve for planet system
 
 };

@@ -55,7 +55,7 @@ public:
   //double get_Mass(string name);      // calculate force between stellar objects
   //double get_Distance(string name);
   vec initialize(string planet);
-  void initialize(double m, double r);
+  //void initialize(double m, double r);
 };
 
 

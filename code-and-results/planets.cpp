@@ -15,7 +15,6 @@ vec Planets::initialize(string planet){
   //defining masses
   if(planet == "Earth"){
     mass = m_earth;
-    cout << mass << endl;
     distance_sun = r_earth;
   } else if(planet == "Jupiter"){
     mass = m_jupiter;
@@ -43,10 +42,8 @@ vec Planets::initialize(string planet){
     distance_sun = r_pluto;
   }
   vec l = zeros<vec>(2);
-  l(0) = m_earth;
+  l(0) = mass;
   l(1) = distance_sun;
-  cout << (6E+24)/(2E+30) << endl;
-  //cout << mass << endl;
   return l;
 }
 
@@ -55,7 +52,6 @@ vec Planets::initialize(string planet){
 //  distance_sun = r;
 //}
 
-
 /*double Planets::get_Mass(string name) {
   double names = "m_" + name;
   //cout << names << "\n";
@@ -63,8 +59,9 @@ vec Planets::initialize(string planet){
   //cout << names << "\n";
   return value;
 }
+*/
 
-double Planets::get_Distance(string name) {
+/*double Planets::get_Distance(string name) {
   string names = "r_" + name;
 
   double value = atof(names.c_str());
