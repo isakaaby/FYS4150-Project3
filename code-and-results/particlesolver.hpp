@@ -1,5 +1,5 @@
-#ifndef Particlesolver_HPP
-#define ParticleSolver_HPP
+#ifndef PARTICLESOLVER_HPP
+#define PARTICLESOLVER_HPP
 
 #include <fstream>
 #include <armadillo>
@@ -15,6 +15,7 @@ using namespace chrono;
 class ParticleSolver {
 
 private:
+  int K;
 
 protected:
   string m_name;
@@ -24,7 +25,7 @@ protected:
   int m_k;          // number of time steps
 
 public:                          // general solver
-  void initialize(m_N,m_k);      // Use keys for each planet
+  void initialize(int m_N, int k);      // Use keys for each planet
   void Verlet();                // Verlet solver
   void EulerChromer();          // EulerChromer solver
   void RungeKutta4();           // RungeKutta4 solver
@@ -37,7 +38,7 @@ private:
 
 public:
   void init();            //init special solver for planet case
-  void solvesystem()      //  solve for planet system
+  void solvesystem();      //  solve for planet system
 
 };
 
