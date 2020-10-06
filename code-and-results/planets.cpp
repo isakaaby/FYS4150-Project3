@@ -2,13 +2,15 @@
 #include<iostream>
 #include<string>
 #include<chrono>
-#include<cmath>
+#include<stdlib.h>
+#include<armadillo>
 using namespace std;
 using namespace chrono;
+using namespace arma;
 
-double m_sun = 2E30;
-double m_earth = 6E24/m_sun;
-double m_jupiter = (1.9E27)/m_sun;
+double m_sun = 2E+30;
+double m_earth = (6E+24)/m_sun;
+double m_jupiter = (1.9E+27)/m_sun;
 double m_mars = (6.6E23)/m_sun;
 double m_venus = (4.9E24)/m_sun;
 double m_saturn = (5.5E26)/m_sun;
@@ -30,10 +32,10 @@ double r_pluto = 39.53;
 
 double mass;
 double distance_sun;
-
 double sun = 1;
 
-void Planets::initialize(string planet){
+
+vec Planets::initialize(string planet){
   //defining masses
   if(planet == "Earth"){
     mass = m_earth;
@@ -63,4 +65,33 @@ void Planets::initialize(string planet){
     mass = m_pluto;
     distance_sun = r_pluto;
   }
+  vec l = zeros<vec>(2);
+  l(0) = m_earth;
+  l(1) = distance_sun;
+  cout << (6E+24)/(2E+30) << endl;
+  cout << mass << endl;
+  return l;
 }
+
+void Planets::initialize(double m, double r){
+  mass = m;
+  distance_sun = r;
+}
+
+
+/*double Planets::get_Mass(string name) {
+  double names = "m_" + name;
+  //cout << names << "\n";
+  double value = atof(names.cstr());
+  //cout << names << "\n";
+  return value;
+
+}
+
+double Planets::get_Distance(string name) {
+  string names = "r_" + name;
+
+  double value = atof(names.c_str());
+
+  return value;
+}*/
