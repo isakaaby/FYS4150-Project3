@@ -8,20 +8,7 @@ using namespace std;
 using namespace chrono;
 using namespace arma;
 
-<<<<<<< HEAD
-void Planets::intialize(double mass1, double mass2, double r){
-  m_mass1 = mass1;
-  m_mass2 = mass2;
-  m_r = r;
-}
 
-void Planets::g_force(){
-  force = (mass1*mass2*G)/(m_r*m_r);
-
-
-  //defining distances from sun for the different planets in AU
-
-=======
 double m_sun = 2E+30;
 double m_earth = (6E+24)/m_sun;
 double m_jupiter = (1.9E+27)/m_sun;
