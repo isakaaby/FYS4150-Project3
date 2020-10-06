@@ -32,11 +32,16 @@ protected:
   double mass;
   double distance_sun;
 
+  vector<string> names;
+  vector<double> system_mass;
+  vector<double> system_r;
+
 
 public:
-//  void mass();      // calculate force between stellar objects
-//  void distance();
-void initialize(string planet);
+  //double get_Mass(string name);      // calculate force between stellar objects
+  //double get_Distance(string name);
+  vec initialize(string planet);
+  void initialize(double m, double r);
 };
 
 

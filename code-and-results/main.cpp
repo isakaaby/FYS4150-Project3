@@ -2,11 +2,20 @@
 // tried to make a general class system which can be used on many body problems
 // this uses class planets
 #include<cmath>
+#include<armadillo>
+#include "particlesolver.hpp"
+
+using namespace arma;
+using namespace std;
 
 //double grav_force();
 
 int main(int argc, char const *argv[]){
-  
+  //vec mass = vec(9);
+  ParticleSolver solver;
+  int N = 9;
+  solver.initialize(N,1000);
+
 
 }
 
