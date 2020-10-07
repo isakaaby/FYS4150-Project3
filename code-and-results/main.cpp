@@ -14,7 +14,7 @@ int main(int argc, char const *argv[]){
   //vec mass = vec(9);
   ParticleSolver solver;
   int N = 9;
-  solver.initialize(N,1000);
+  solver.initialize(N,1000,2);
 
 
 }
