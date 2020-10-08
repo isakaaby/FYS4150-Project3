@@ -8,6 +8,7 @@ using namespace std;
 using namespace chrono;
 using namespace arma;
 
+<<<<<<< HEAD
 
 double m_sun = 2E+30;
 double m_earth = (6E+24)/m_sun;
@@ -34,7 +35,10 @@ double r_pluto = 39.53;
 double mass;
 double distance_sun;
 double sun = 1;
+=======
+>>>>>>> 88476de5d03e874f28b3a9bb1f5cbeca349ade23
 
+double sun = 1.;
 
 vec Planets::initialize(string planet){
   //defining masses
@@ -67,18 +71,15 @@ vec Planets::initialize(string planet){
     distance_sun = r_pluto;
   }
   vec l = zeros<vec>(2);
-  l(0) = m_earth;
+  l(0) = mass;
   l(1) = distance_sun;
-  cout << (6E+24)/(2E+30) << endl;
-  cout << mass << endl;
   return l;
 }
 
-void Planets::initialize(double m, double r){
-  mass = m;
-  distance_sun = r;
-}
-
+//void Planets::initialize(double m, double r){
+//  mass = m;
+//  distance_sun = r;
+//}
 
 /*double Planets::get_Mass(string name) {
   double names = "m_" + name;
@@ -86,11 +87,15 @@ void Planets::initialize(double m, double r){
   double value = atof(names.cstr());
   //cout << names << "\n";
   return value;
+<<<<<<< HEAD
 >>>>>>> ff47c7ac2e14fce3b1ba7362944ca93824ac2612
 
+=======
+>>>>>>> 88476de5d03e874f28b3a9bb1f5cbeca349ade23
 }
+*/
 
-double Planets::get_Distance(string name) {
+/*double Planets::get_Distance(string name) {
   string names = "r_" + name;
 
   double value = atof(names.c_str());
