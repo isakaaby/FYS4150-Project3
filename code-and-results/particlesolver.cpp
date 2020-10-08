@@ -69,15 +69,9 @@ void ParticleSolver::verlet(double force(double s, double x, double y)){
       m_Vx_prev(i) = m_Vx(i);
       m_Vy_prev(i) = m_Vy(i);
 
-      position_x(i) = m_X(i*m_k+j);
-      position_y(i) = m_Y(i*m_k+j);
-      position_z(i) = m_Z(i*m_k+j);
-
-
-      //
-
-
-
+      //position_x(i) = m_X(i*m_k+j); Must update for all time steps correctly
+      //position_y(i) = m_Y(i*m_k+j);
+      //position_z(i) = m_Z(i*m_k+j);
     };
   };
 };
