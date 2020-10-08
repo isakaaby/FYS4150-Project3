@@ -9,12 +9,13 @@ using namespace chrono;
 
 //Setting up the superclass for Jacobi's method with rotational algorithm to be used in all derived classes
 
-void ParticleSolver::initialize(int N, int k, int m_T){
+void ParticleSolver::initialize(double beta, int N, int k, int m_T){
 
   m_N = N;
   m_k = k;
   double step = (m_T-m_T0)/(m_k - 1); // time step
   m_h = step;
+  m_beta = beta;
 
   //initialize vectors
   vec m_X = zeros<vec>(N*m_k);  // N number of planets, m_k number of time step
@@ -31,8 +32,27 @@ void ParticleSolver::initialize(int N, int k, int m_T){
   vec m_ay_prev = zeros<vec>(N);
 };
 
-void ParticleSolver::verlet(double force(double x, double y)){
+double particleSolver::force_a(vec pos1, vec pos2, vec pos3, double m, int planet_index){
+  double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
+  double a = 0;
+  for (int j = 0; j < m_N; ++j){ //for planets
+    if (j =! planet_index){
+      diff1 = pos1(planet_index) - pos1(j);
+      diff2 = pos2(planet_index) - pos2(j);
+      diff3 = pos3(planet_index) - pos3(j);
+      rdiff = diff1*diff1 + diff2*diff2 + diff3*diff3;
+      r = pow(rdiff,(m_beta+1)/2)
+      a += ((pos1(planet_index)-pos1(j))*G*m_masses(j))/r
+    }
+  }
+  return a;
+}
+
+void ParticleSolver::verlet(double force(double s, double x, double y)){
   double h = m_h;
+  vec position_x = vec(m_N);
+  vec position_y = vec(m_N);
+  vec position_z = vec(m_N);
   for (int j = 0; j < m_k; ++j){ // for time
     for (int i = 0; i < m_N; ++i){ //for planets
       m_X(i*m_k+j+1) = m_X(i*m_k+j) + h*m_Vx_prev(i) + (1./2)*h*h*m_ax_prev(i);
@@ -48,6 +68,16 @@ void ParticleSolver::verlet(double force(double x, double y)){
       m_ay_prev(i) = m_ay(i);
       m_Vx_prev(i) = m_Vx(i);
       m_Vy_prev(i) = m_Vy(i);
+
+      position_x(i) = m_X(i*m_k+j);
+      position_y(i) = m_Y(i*m_k+j);
+      position_z(i) = m_Z(i*m_k+j);
+
+
+      //
+
+
+
     };
   };
 };
@@ -55,7 +85,6 @@ void ParticleSolver::verlet(double force(double x, double y)){
 void ParticleSolver::RK4_xupdate(double t, double x,double y, double v, double f1(double t, double x, double y, double v), double f2(double t, double x, double y, double v)){
   // s is spatial variable, v is velocity associated with s
   double h = m_h;
-
   double K1s = f1(t,x,y,v);
   double K1v = f2(t,x,y,v);
   double K2s = f1(t + h/2,x + h*K1s/2,y,v + h*K1v/2);

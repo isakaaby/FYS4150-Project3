@@ -23,6 +23,8 @@ protected:
   vec m_Vx,m_Vy, m_Vx_prev, m_Vy_prev;
   vec m_ax, m_ax_prev, m_ay,m_ay_prev;
   vec m_xupdate, m_yupdate; // params for RK4
+  double m_beta;
+  vec m_masses;
 
   int m_N;          // number of planets
   int m_k;          // number of time steps
@@ -30,8 +32,9 @@ protected:
   double m_T0 = 0.0;
 
 public:                          // general solver
-  void initialize(int m_N, int k, int m_T);      // Use keys for each planet
-  void verlet(double f(double x, double y));                // Verlet solver
+  void initialize(double m_beta,int m_N, int k, int m_T);      // Use keys for each planet
+  double force_a(double s, double x, double y, double m);
+  void verlet(double f(double s, double x, double y));                // Verlet solver
   void eulerchromer();          // EulerChromer solver
   void RK4(double f1(double t, double x, double y, double v),double force(double t, double x, double y, double v));           // RungeKutta4 solver
   void RK4_xupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));

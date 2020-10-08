@@ -5,7 +5,7 @@ void PlanetSolver::init(vector<string> names){
   vector<string> m_names = names; // std type vector
 
   //to be used in all derived classes
-  vec masses = vec(m_N);
+  m_masses = vec(m_N);
   vec distances = vec(m_N);
   vec params = vec(2);
   Planets Planet;
