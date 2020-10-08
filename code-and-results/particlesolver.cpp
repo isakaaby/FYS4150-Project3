@@ -20,29 +20,30 @@ void ParticleSolver::initialize(double beta, int N, int k, int m_T){
   //initialize vectors
   vec m_X = zeros<vec>(N*m_k);  // N number of planets, m_k number of time step
   vec m_Y = zeros<vec>(N*m_k);
+  vec m_Z = zeros<vec>(N*m_k);
 
-  vec m_Vx = zeros<vec>(N);
-  vec m_Vy = zeros<vec>(N);
-  vec m_Vx_prev = zeros<vec>(N);
-  vec m_Vy_prev = zeros<vec>(N);
+  vec m_Vx = zeros<vec>(N*m_k);
+  vec m_Vy = zeros<vec>(N*m_k);
+  vec m_Vz = zeros<vec>(N*m_k);
 
-  vec m_ax = zeros<vec>(N);
-  vec m_ax_prev = zeros<vec>(N);
-  vec m_ay = zeros<vec>(N);
-  vec m_ay_prev = zeros<vec>(N);
+  vec m_ax = zeros<vec>(N*m_k);
+  vec m_ay = zeros<vec>(N*m_k);
+  vec m_az = zeros<vec>(N*m_k);
+
 };
 
-double particleSolver::force_a(vec pos1, vec pos2, vec pos3, double m, int planet_index){
+double ParticleSolver::force_a(vec pos, double x, double y, double z, int l, int j){
   double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
   double a = 0;
-  for (int j = 0; j < m_N; ++j){ //for planets
-    if (j =! planet_index){
-      diff1 = pos1(planet_index) - pos1(j);
-      diff2 = pos2(planet_index) - pos2(j);
-      diff3 = pos3(planet_index) - pos3(j);
-      rdiff = diff1*diff1 + diff2*diff2 + diff3*diff3;
-      r = pow(rdiff,(m_beta+1)/2)
-      a += ((pos1(planet_index)-pos1(j))*G*m_masses(j))/r
+  double diffx,diffy,diffz,diffr,r;
+  for (int i = 0; i < m_N; ++i){ //for planets
+    if (i != l){                 //l is the index of the specific planet we are looking at
+      diffx = x - m_X(i*m_k+j);   //j is the given timestep
+      diffy = y - m_Y(i*m_k+j);
+      diffz = z - m_Z(i*m_k+j);
+      diffr = diffx*diffx + diffy*diffy + diffz*diffz;
+      r = pow(diffr,(m_beta+1)/2);
+      a += ((pos(l*m_k+j+1)-pos(i*m_k+j))*G*m_masses(i))/r;
     }
   }
   return a;
@@ -50,33 +51,31 @@ double particleSolver::force_a(vec pos1, vec pos2, vec pos3, double m, int plane
 
 void ParticleSolver::verlet(double force(double s, double x, double y)){
   double h = m_h;
-  vec position_x = vec(m_N);
-  vec position_y = vec(m_N);
-  vec position_z = vec(m_N);
   for (int j = 0; j < m_k; ++j){ // for time
     for (int i = 0; i < m_N; ++i){ //for planets
-      m_X(i*m_k+j+1) = m_X(i*m_k+j) + h*m_Vx_prev(i) + (1./2)*h*h*m_ax_prev(i);
-      m_ax(i) = force(m_X(i*m_k+j+1),m_Y(i*m_k+j+1));
-      m_Vx(i) = m_Vx(i) + (1./2)*h*h*(m_ax(i) + m_ax_prev(i));
+      m_X(i*m_k+j+1) = m_X(i*m_k+j) + h*m_Vx(i*m_k+j) + (1./2)*h*h*m_ax(i*m_k+j);
+      m_Y(i*m_k+j+1) = m_Y(i*m_k+j) + h*m_Vy(i*m_k+j) + (1./2)*h*h*m_ay(i*m_k+j);
+      m_Z(i*m_k+j+1) = m_Z(i*m_k+j) + h*m_Vz(i*m_k+j) + (1./2)*h*h*m_az(i*m_k+j);
 
-      m_Y(i*m_k+j+1) = m_Y(i*m_k+j) + h*m_Vy_prev(i) + (1./2)*h*h*m_ay_prev(i);
-      m_ay(i) = force(m_X(i*m_k+j+1),m_Y(i*m_k+j+1));
-      m_Vy(i) = m_Vy(i) + (1./2)*h*h*(m_ay(i) + m_ay_prev(i));
+      double pos_x = m_X(i*m_k+j+1);
+      double pos_y = m_Y(i*m_k+j+1);
+      double pos_z = m_Z(i*m_k+j+1);
 
-      // Update to prev
-      m_ax_prev(i) = m_ax(i);
-      m_ay_prev(i) = m_ay(i);
-      m_Vx_prev(i) = m_Vx(i);
-      m_Vy_prev(i) = m_Vy(i);
+      m_ax(i*m_k+j+1) = force_a(m_X,pos_x,pos_y,pos_z,i,j);
+      m_Vx(i*m_k+j+1) = m_Vx(i*m_k+j) + (1./2)*h*(m_ax(i*m_k+j+1) + m_ax(i*m_k+j));
 
-      //position_x(i) = m_X(i*m_k+j); Must update for all time steps correctly
-      //position_y(i) = m_Y(i*m_k+j);
-      //position_z(i) = m_Z(i*m_k+j);
+      m_ay(i*m_k+j+1) = force_a(m_Y,pos_x,pos_y,pos_z,i,j);
+      m_Vy(i*m_k+j+1) = m_Vy(i*m_k+j) + (1./2)*h*(m_ay(i*m_k+j+1) + m_ay(i*m_k+j));
+
+      m_az(i*m_k+j+1) = force_a(m_Z,pos_x,pos_y,pos_z,i,j);
+      m_Vz(i*m_k+j+1) = m_Vz(i*m_k+j) + (1./2)*h*(m_az(i*m_k+j+1) + m_az(i*m_k+j));
     };
   };
 };
 
-void ParticleSolver::RK4_xupdate(double t, double x,double y, double v, double f1(double t, double x, double y, double v), double f2(double t, double x, double y, double v)){
+
+
+/*void ParticleSolver::RK4_xupdate(double t, double x,double y, double v, double f1(double t, double x, double y, double v), double f2(double t, double x, double y, double v)){
   // s is spatial variable, v is velocity associated with s
   double h = m_h;
   double K1s = f1(t,x,y,v);
@@ -125,7 +124,7 @@ void ParticleSolver::RK4(double f1(double t, double x, double y, double v),doubl
   };
 };
 
-/* void ParticleSolver::EulerChromer(){
+ void ParticleSolver::EulerChromer(){
 };
 
 double get_force() {

@@ -19,9 +19,9 @@ private:
 
 protected:
   vector<string> m_names;
-  vec m_X,m_Y,m_m_Z;
-  vec m_Vx,m_Vy, m_Vx_prev, m_Vy_prev;
-  vec m_ax, m_ax_prev, m_ay,m_ay_prev;
+  vec m_X,m_Y,m_Z;
+  vec m_Vx,m_Vy, m_Vz;
+  vec m_ax,m_ay,m_az;
   vec m_xupdate, m_yupdate; // params for RK4
   double m_beta;
   vec m_masses;
@@ -33,7 +33,7 @@ protected:
 
 public:                          // general solver
   void initialize(double m_beta,int m_N, int k, int m_T);      // Use keys for each planet
-  double force_a(double s, double x, double y, double m);
+  double force_a(vec pos, double x, double y, double z, int l, int j);
   void verlet(double f(double s, double x, double y));                // Verlet solver
   void eulerchromer();          // EulerChromer solver
   void RK4(double f1(double t, double x, double y, double v),double force(double t, double x, double y, double v));           // RungeKutta4 solver

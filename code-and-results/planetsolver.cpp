@@ -11,7 +11,7 @@ void PlanetSolver::init(vector<string> names){
   Planets Planet;
   for (int i = 0; i < m_N; ++i){
     params = Planet.initialize(m_names[i]);
-    masses(i) = params(0);
+    m_masses(i) = params(0);
     distances(i) = params(1);
   }
 };
