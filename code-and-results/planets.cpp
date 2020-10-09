@@ -12,6 +12,9 @@ using namespace arma;
 double sun = 1.;
 
 vec Planets::initialize(string planet){
+  //Read off txt file from NASA here or in method below (return as vector)
+
+
   //defining masses
   if(planet == "Earth"){
     mass = m_earth;

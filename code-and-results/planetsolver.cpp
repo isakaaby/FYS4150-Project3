@@ -13,9 +13,12 @@ void PlanetSolver::init(vector<string> names){
     params = Planet.initialize(m_names[i]);
     m_masses(i) = params(0);
     distances(i) = params(1);
-  }
+  };
 };
 
 void PlanetSolver::solvesystem(){
+  // if euler use euler
+  // if verlet use verlet
+  // if RK4 use RK4
 
 };
