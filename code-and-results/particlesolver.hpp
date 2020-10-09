@@ -33,7 +33,7 @@ protected:
 
 public:                          // general solver
   void initialize(double m_beta,int m_N, int k, int m_T);      // Use keys for each planet
-  double force_a(vec pos, double x, double y, double z, int l, int j);
+  double force_a(vec pos, int l, int j);
   void verlet(double f(double s, double x, double y));                // Verlet solver
   void eulerchromer();          // EulerChromer solver
   void RK4(double f1(double t, double x, double y, double v),double force(double t, double x, double y, double v));           // RungeKutta4 solver
