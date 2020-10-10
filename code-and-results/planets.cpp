@@ -38,6 +38,9 @@ void Planets::read_pos_vel(){
 }
 
 vec Planets::initialize(string planet){
+  //Read off txt file from NASA here or in method below (return as vector)
+
+
   //defining masses
   double x, y, z, vx, vy, vz;
   if (planet == "Sun"){

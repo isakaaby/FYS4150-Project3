@@ -54,11 +54,20 @@ double ParticleSolver::force_a(vec pos, int l, int j){
 
 void ParticleSolver::verlet(){
   double h = m_h;
+<<<<<<< HEAD
   for (int j = 0; j < m_k-1; j++){ // for time
     for (int i = 0; i < m_N; i++){ //for planets
       m_X(i + (j+1)*m_N) = m_X(i + j*m_N) + h*m_Vx(i + j*m_N) + (1./2)*h*h*m_ax(i + j*m_N);
       m_Y(i + (j+1)*m_N) = m_Y(i + j*m_N) + h*m_Vy(i + j*m_N) + (1./2)*h*h*m_ay(i + j*m_N);
       m_Z(i + (j+1)*m_N) = m_Z(i + j*m_N) + h*m_Vz(i + j*m_N) + (1./2)*h*h*m_az(i + j*m_N);
+=======
+  double hh = h*h;
+  for (int j = 0; j < m_k; ++j){ // for time
+    for (int i = 0; i < m_N; ++i){ //for planets
+      m_X(i*m_k+j+1) = m_X(i*m_k+j) + h*m_Vx(i*m_k+j) + (1./2)*hh*m_ax(i*m_k+j);
+      m_Y(i*m_k+j+1) = m_Y(i*m_k+j) + h*m_Vy(i*m_k+j) + (1./2)*hh*m_ay(i*m_k+j);
+      m_Z(i*m_k+j+1) = m_Z(i*m_k+j) + h*m_Vz(i*m_k+j) + (1./2)*hh*m_az(i*m_k+j);
+>>>>>>> 7bd85313ed5e899d57788543ee024d03113aab09
     }
     for (int i = 0; i < m_N; i++){
       m_ax(i + (j+1)*m_N) = force_a(m_X,i,j+1);
@@ -74,18 +83,37 @@ void ParticleSolver::verlet(){
 };
 
 
+void ParticleSolver::eulerchromer(){
+  double h = m_h;
+  for (int j = 0; j < m_k; ++j){ // for time
+    for (int i = 0; i < m_N; ++i){ //for planets
+    m_ax(i*m_k+j) = force_a(m_X,i,j);
+    m_Vx(i*m_k+j+1) = m_Vx(i*m_k+j) + h*m_ax(i*m_k+j);
+    m_X(i*m_k+j+1) = m_X(i*m_k+j) +   h*m_Vx(i*m_k+j+1);
+
+    m_ay(i*m_k+j) = force_a(m_Y,i,j);
+    m_Vy(i*m_k+j+1) = m_Vy(i*m_k+j) + h*m_ay(i*m_k+j);
+    m_Y(i*m_k+j+1) = m_Y(i*m_k+j) +   h*m_Vy(i*m_k+j+1);
+
+    m_az(i*m_k+j) = force_a(m_Y,i,j);
+    m_Vz(i*m_k+j+1) = m_Vz(i*m_k+j) + h*m_az(i*m_k+j);
+    m_Z(i*m_k+j+1) = m_Z(i*m_k+j) +   h*m_Vz(i*m_k+j+1);
+    };
+  };
+};
+
 
 /*void ParticleSolver::RK4_xupdate(double t, double x,double y, double v, double f1(double t, double x, double y, double v), double f2(double t, double x, double y, double v)){
   // s is spatial variable, v is velocity associated with s
   double h = m_h;
-  double K1s = f1(t,x,y,v);
-  double K1v = f2(t,x,y,v);
-  double K2s = f1(t + h/2,x + h*K1s/2,y,v + h*K1v/2);
-  double K2v = f2(t + h/2,x + h*K1s/2,y,v + h*K1v/2);
-  double K3s = f1(t + h/2,x + h*K2s/2,y,v + h*K2v/2);
-  double K3v = f2(t + h/2,x + h*K2s/2,y,v + h*K2v/2);
-  double K4s = f1(t + h/2,x + h*K3s/2,y,v + h*K3v/2);
-  double K4v = f2(t + h/2,x + h*K3s/2,y,v + h*K3v/2);
+  double K1s = f1(v);
+  double K1v = f2(x,y);
+  double K2s = f1(v + h*K1v/2);
+  double K2v = f2(x + h*K1s/2,y);
+  double K3s = f1(v + h*K2v/2);
+  double K3v = f2(x + h*K2s/2,y);
+  double K4s = f1(v + h*K3v/2);
+  double K4v = f2(x + h*K3x/2,y);
 
   double s_new = x + h/6*(K1s + 2*K2s + 2*K3s + K4s);
   double v_new = v + h/6*(K1v + 2*K2v + 2*K3v + K4v);
@@ -98,14 +126,15 @@ void ParticleSolver::RK4_yupdate(double t,double x,double y, double v, double f1
   // s is spatial variable, v is velocity associated with s
   double h = m_h;
 
-  double K1s = f1(t,x,y,v);
-  double K1v = f2(t,x,y,v);
-  double K2s = f1(t + h/2,x,y + h*K1s/2,v + h*K1v/2);
-  double K2v = f2(t + h/2,x,y + h*K1s/2,v + h*K1v/2);
-  double K3s = f1(t + h/2,x,y + h*K2s/2,v + h*K2v/2);
-  double K3v = f2(t + h/2,x,y + h*K2s/2,v + h*K2v/2);
-  double K4s = f1(t + h/2,x,y + h*K3s/2,v + h*K3v/2);
-  double K4v = f2(t + h/2,x,y + h*K3s/2,v + h*K3v/2);
+  double h = m_h;
+  double K1s = f1(v);
+  double K1v = f2(x,y);
+  double K2s = f1(v + h*K1v/2);
+  double K2v = f2(x,y + h*K1s/2);
+  double K3s = f1(v + h*K2v/2);
+  double K3v = f2(x,y + h*K2s/2);
+  double K4s = f1(v + h*K3v/2);
+  double K4v = f2(x,y + h*K3x/2);
 
   double s_new = x + h/6*(K1s + 2*K2s + 2*K3s + K4s);
   double v_new = v + h/6*(K1v + 2*K2v + 2*K3v + K4v);
@@ -123,10 +152,4 @@ void ParticleSolver::RK4(double f1(double t, double x, double y, double v),doubl
     };
   };
 };
-
- void ParticleSolver::EulerChromer(){
-};
-
-double get_force() {
-}
 */
