@@ -4,6 +4,8 @@
 #include<cmath>
 #include<armadillo>
 #include "particlesolver.hpp"
+#include <vector>
+#include <string>
 
 using namespace arma;
 using namespace std;
@@ -11,11 +13,38 @@ using namespace std;
 //double grav_force();
 
 int main(int argc, char const *argv[]){
-  //vec mass = vec(9);
-  ParticleSolver solver;
-  int N = 9;
+  int task;
+  cout << "Press 1 to run for Earth-Sun system \n";
+  cout << "Press 2 to run for Earth-Jupiter-Sun system \n";
+  cout << "Press 3 to run for all planets \n";           //asking which task you want to run
+  cout << "Enter number:" << " ";
+  cin >> task;
+
+  //int N;
   int k = 100;
-  solver.initialize(2,N,k,1000);
+  double beta = 2;
+  double T = 1000;
+
+  if (task==1){
+    int N = 2;
+    PlanetSolver solver;
+    solver.init(beta,N,k,T);
+    solver.solvesystem();
+    solver.write_pos_to_file();
+
+  }
+  if (task==2){
+    int N = 3;
+    PlanetSolver solver;
+    solver.init(beta,N,k,T);
+    solver.solvesystem();
+  }
+
+  if (task==3){
+    int N = 10;
+    PlanetSolver solver;
+    solver.init(beta,N,k,T);
+  }
 
 
 }

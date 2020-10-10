@@ -18,7 +18,6 @@ private:
 
 
 protected:
-
   double m_sun = 2E+30;
   double m_earth = (6E+24)/m_sun;
   //double earth = (6E+24)/m_sun;
@@ -46,7 +45,8 @@ protected:
   double mass;
   double distance_sun;
 
-  vector<string> names;
+  double *x0, *y0, *z0, *vx0, *vy0, *vz0;
+
   vector<double> system_mass;
   vector<double> system_r;
 
@@ -54,6 +54,7 @@ protected:
 public:
   //double get_Mass(string name);      // calculate force between stellar objects
   //double get_Distance(string name);
+  void read_pos_vel();
   vec initialize(string planet);
   //void initialize(double m, double r);
 };
