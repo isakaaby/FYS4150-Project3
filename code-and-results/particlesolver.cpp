@@ -9,26 +9,27 @@ using namespace chrono;
 
 //Setting up the superclass for Jacobi's method with rotational algorithm to be used in all derived classes
 
-void ParticleSolver::initialize(double beta, int N, int k, int m_T){
+void ParticleSolver::initialize(double beta, int N, int k, int T){
 
   m_N = N;
   m_k = k;
-  double step = (m_T-m_T0)/(m_k - 1); // time step
-  m_h = step;
+  m_T = T;
+  m_T0 = 0.0;
+  m_h = (m_T-m_T0)/(m_k - 1); // time step
   m_beta = beta;
 
   //initialize vectors
-  vec m_X = zeros<vec>(N*m_k);  // N number of planets, m_k number of time step
-  vec m_Y = zeros<vec>(N*m_k);
-  vec m_Z = zeros<vec>(N*m_k);
+  m_X = zeros<vec>(m_N*m_k);  // N number of planets, m_k number of time steps
+  m_Y = zeros<vec>(m_N*m_k);
+  m_Z = zeros<vec>(m_N*m_k);
 
-  vec m_Vx = zeros<vec>(N*m_k);
-  vec m_Vy = zeros<vec>(N*m_k);
-  vec m_Vz = zeros<vec>(N*m_k);
+  m_Vx = zeros<vec>(m_N*m_k);
+  m_Vy = zeros<vec>(m_N*m_k);
+  m_Vz = zeros<vec>(m_N*m_k);
 
-  vec m_ax = zeros<vec>(N*m_k);
-  vec m_ay = zeros<vec>(N*m_k);
-  vec m_az = zeros<vec>(N*m_k);
+  m_ax = zeros<vec>(m_N*m_k);
+  m_ay = zeros<vec>(m_N*m_k);
+  m_az = zeros<vec>(m_N*m_k);
 
   //for (int i = 0; i < ) fill initial conditions for position, velcocity and acceleration
 
@@ -38,7 +39,7 @@ double ParticleSolver::force_a(vec pos, int l, int j){
   double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
   double a = 0;
   double diffx,diffy,diffz,diffr,r;
-  for (int i = 0; i < m_N; ++i){ //for planets
+  for (int i = 0; i < m_N; i++){ //for planets
     if (i != l){                 //l is the index of the specific planet we are looking at
       diffx = m_X(l*m_k+j) - m_X(i*m_k+j);   //j is the given timestep
       diffy = m_Y(l*m_k+j) - m_Y(i*m_k+j);
@@ -51,23 +52,23 @@ double ParticleSolver::force_a(vec pos, int l, int j){
   return a;
 }
 
-void ParticleSolver::verlet(double force(double s, double x, double y)){
+void ParticleSolver::verlet(){
   double h = m_h;
-  for (int j = 0; j < m_k; ++j){ // for time
-    for (int i = 0; i < m_N; ++i){ //for planets
-      m_X(i*m_k+j+1) = m_X(i*m_k+j) + h*m_Vx(i*m_k+j) + (1./2)*h*h*m_ax(i*m_k+j);
-      m_Y(i*m_k+j+1) = m_Y(i*m_k+j) + h*m_Vy(i*m_k+j) + (1./2)*h*h*m_ay(i*m_k+j);
-      m_Z(i*m_k+j+1) = m_Z(i*m_k+j) + h*m_Vz(i*m_k+j) + (1./2)*h*h*m_az(i*m_k+j);
+  for (int j = 0; j < m_k-1; j++){ // for time
+    for (int i = 0; i < m_N; i++){ //for planets
+      m_X(i + (j+1)*m_N) = m_X(i + j*m_N) + h*m_Vx(i + j*m_N) + (1./2)*h*h*m_ax(i + j*m_N);
+      m_Y(i + (j+1)*m_N) = m_Y(i + j*m_N) + h*m_Vy(i + j*m_N) + (1./2)*h*h*m_ay(i + j*m_N);
+      m_Z(i + (j+1)*m_N) = m_Z(i + j*m_N) + h*m_Vz(i + j*m_N) + (1./2)*h*h*m_az(i + j*m_N);
     }
     for (int i = 0; i < m_N; i++){
-      m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
-      m_Vx(i*m_k+j+1) = m_Vx(i*m_k+j) + (1./2)*h*(m_ax(i*m_k+j+1) + m_ax(i*m_k+j));
+      m_ax(i + (j+1)*m_N) = force_a(m_X,i,j+1);
+      m_Vx(i + (j+1)*m_N) = m_Vx(i + j*m_N) + (1./2)*h*(m_ax(i + (j+1)*m_N) + m_ax(i + j*m_N));
 
-      m_ay(i*m_k+j+1) = force_a(m_Y,i,j+1);
-      m_Vy(i*m_k+j+1) = m_Vy(i*m_k+j) + (1./2)*h*(m_ay(i*m_k+j+1) + m_ay(i*m_k+j));
+      m_ay(i + (j+1)*m_N) = force_a(m_Y,i,j+1);
+      m_Vy(i + (j+1)*m_N) = m_Vy(i + j*m_N) + (1./2)*h*(m_ay(i + (j+1)*m_N) + m_ay(i + j*m_N));
 
-      m_az(i*m_k+j+1) = force_a(m_Z,i,j+1);
-      m_Vz(i*m_k+j+1) = m_Vz(i*m_k+j) + (1./2)*h*(m_az(i*m_k+j+1) + m_az(i*m_k+j));
+      m_az(i + (j+1)*m_N) = force_a(m_Z,i,j+1);
+      m_Vz(i + (j+1)*m_N) = m_Vz(i + j*m_N) + (1./2)*h*(m_az(i + (j+1)*m_N) + m_az(i + j*m_N));
     };
   };
 };
