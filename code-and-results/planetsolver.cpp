@@ -32,7 +32,6 @@ void PlanetSolver::init(double beta, int N, int k, int T){
   for (int i = 0; i < m_N; ++i){
     params = Planet.initialize(m_names[i]);
     m_masses(i) = params(0);
-<<<<<<< HEAD
     m_X(i) = params(1); m_Y(i) = params(2); m_Z(i) = params(3);
     m_Vx(i) = params(4); m_Vy(i) = params(5); m_Vz(i) = params(6);
     m_ax(i) = m_ay(i) = m_az(i) = 0;
@@ -43,16 +42,6 @@ void PlanetSolver::init(double beta, int N, int k, int T){
 
 void PlanetSolver::solvesystem(){
   verlet();
-=======
-    distances(i) = params(1);
-  };
-};
-
-void PlanetSolver::solvesystem(){
-  // if euler use euler
-  // if verlet use verlet
-  // if RK4 use RK4
->>>>>>> 7bd85313ed5e899d57788543ee024d03113aab09
 
 };
 
