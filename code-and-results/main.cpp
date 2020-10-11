@@ -23,7 +23,7 @@ int main(int argc, char const *argv[]){
   //int N;
   int k = 1000;
   double beta = 2;
-  double T = 1000;
+  double T = 1;
 
   if (task==1){
     int N = 2;

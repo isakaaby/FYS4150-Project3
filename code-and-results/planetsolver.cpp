@@ -33,6 +33,7 @@ void PlanetSolver::init(double beta, int N, int k, int T){
     params = Planet.initialize(m_names[i]);
     m_masses(i) = params(0);
   }
+
   /*double M = 0;
   double posMx = 0;
   double posMy = 0;
@@ -69,7 +70,6 @@ void PlanetSolver::init(double beta, int N, int k, int T){
   m_X(1*m_k) = 1.; m_Y(1*m_k) = 0.; m_Z(1*m_k) = 0.;
   m_Vx(0*m_k) = 0.; m_Vy(0*m_k) = 0.; m_Vz(0*m_k) = 0.;
   m_Vx(1*m_k) = 2*M_PI; m_Vy(1*m_k) = 0.; m_Vz(1*m_k) = 0.;
-
 
 
 }
