@@ -11,7 +11,6 @@ using namespace chrono;
 using namespace arma;
 
 
-double sun = 1.;
 
 void Planets::read_pos_vel(){
   int Nparticles = 10;
@@ -29,9 +28,6 @@ void Planets::read_pos_vel(){
   //Loop over each particle and extract its mass and initial conditions:
   for (int i = 0; i < Nparticles; i++){
     fscanf(fp_init, "%lf %lf %lf %lf %lf %lf", &x0[i], &y0[i], &z0[i], &vx0[i], &vy0[i], &vz0[i]);
-    vx0[i] = 365*vx0[i];
-    vy0[i] = 365*vx0[i];
-    vz0[i] = 365*vx0[i];
   }
   fclose(fp_init); //Close file with initial conditions
 

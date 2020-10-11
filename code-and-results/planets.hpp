@@ -41,7 +41,7 @@ protected:
   double r_neptune = 30.065;
   double r_pluto = 39.53;
 
-  double sun;
+  double sun = 1.;
   double mass;
   double distance_sun;
 

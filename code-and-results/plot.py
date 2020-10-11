@@ -1,7 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-infile = open("./results/Earth_sun.txt", "r")
+infile = open("./results/position_x.txt", "r")
+infile = open("./results/position_y.txt", "r")
+infile = open("./results/position_z.txt", "r")
+
 
 k = 100
 N = 2

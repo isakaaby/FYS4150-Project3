@@ -14,11 +14,6 @@ using namespace chrono;
 
 class ParticleSolver {
 
-<<<<<<< HEAD
-private:
-
-=======
->>>>>>> 7bd85313ed5e899d57788543ee024d03113aab09
 protected:
   vec m_X,m_Y,m_Z;
   vec m_Vx,m_Vy, m_Vz;
@@ -37,16 +32,9 @@ public:                          // general solver
   double force_a(vec pos, int l, int j);
   void verlet();                // Verlet solver
   void eulerchromer();          // EulerChromer solver
-<<<<<<< HEAD
-  void RK4(double f1(double t, double x, double y, double v),double force(double t, double x, double y, double v));           // RungeKutta4 solver
-  void RK4_xupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
-  void RK4_yupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
-
-=======
   //void RK4(double f1(double v),double force( double x, double y, double z));           // RungeKutta4 solver
   //void RK4_xupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
   //void RK4_yupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
->>>>>>> 7bd85313ed5e899d57788543ee024d03113aab09
 };
 
 //subclass to solve planet case

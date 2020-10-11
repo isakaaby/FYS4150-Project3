@@ -21,7 +21,7 @@ int main(int argc, char const *argv[]){
   cin >> task;
 
   //int N;
-  int k = 100;
+  int k = 1000;
   double beta = 2;
   double T = 1000;
 
@@ -44,6 +44,8 @@ int main(int argc, char const *argv[]){
     int N = 10;
     PlanetSolver solver;
     solver.init(beta,N,k,T);
+    solver.solvesystem();
+    solver.write_pos_to_file();
   }
 
 
