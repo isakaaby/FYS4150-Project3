@@ -56,9 +56,15 @@ void ParticleSolver::verlet(){
   double h = m_h;
   for (int j = 0; j < m_k-1; j++){ // for time
     for (int i = 0; i < m_N; i++){ //for planets
+<<<<<<< HEAD
       m_X(i*m_k+j+1) = m_X(i*m_k+j) + h*m_Vx(i*m_k+j) + (1./2)*h*h*m_ax(i*m_k+j);
       m_Y(i*m_k+j+1) = m_Y(i*m_k+j) + h*m_Vy(i*m_k+j) + (1./2)*h*h*m_ay(i*m_k+j);
       m_Z(i*m_k+j+1) = m_Z(i*m_k+j) + h*m_Vz(i*m_k+j) + (1./2)*h*h*m_az(i*m_k+j);
+=======
+      m_X(i + (j+1)*m_N) = m_X(i + j*m_N) + h*m_Vx(i + j*m_N) + (1./2)*h*h*m_ax(i + j*m_N);
+      m_Y(i + (j+1)*m_N) = m_Y(i + j*m_N) + h*m_Vy(i + j*m_N) + (1./2)*h*h*m_ay(i + j*m_N);
+      m_Z(i + (j+1)*m_N) = m_Z(i + j*m_N) + h*m_Vz(i + j*m_N) + (1./2)*h*h*m_az(i + j*m_N);
+>>>>>>> 67d7289ba4a778ece275c96973e95c97bb92effb
     }
     for (int i = 0; i < m_N; i++){
       m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
