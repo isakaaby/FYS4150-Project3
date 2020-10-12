@@ -6,3 +6,6 @@ compile:
 
 execute:
 	./main.out
+
+plot1:
+	python3 plot.py

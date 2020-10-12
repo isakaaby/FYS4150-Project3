@@ -1,8 +1,8 @@
 // declare force here PS. Remember unit time [years], length in [AU] and mass [solar mass]
 // tried to make a general class system which can be used on many body problems
 // this uses class planets
-#include<cmath>
-#include<armadillo>
+#include <cmath>
+#include <armadillo>
 #include "particlesolver.hpp"
 #include <vector>
 #include <string>
@@ -21,7 +21,7 @@ int main(int argc, char const *argv[]){
   cin >> task;
 
   //int N;
-  int k = 1000;
+  int k = 10000;
   double beta = 2;
   double T = 1;
 
