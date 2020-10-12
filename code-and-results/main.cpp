@@ -11,8 +11,15 @@ using namespace arma;
 using namespace std;
 
 //double grav_force();
+void menu();
 
 int main(int argc, char const *argv[]){
+  menu();
+
+
+}
+
+void menu() {
   int task;
   cout << "Press 1 to run for Earth-Sun system \n";
   cout << "Press 2 to run for Earth-Jupiter-Sun system \n";
@@ -47,8 +54,6 @@ int main(int argc, char const *argv[]){
     solver.solvesystem();
     solver.write_pos_to_file();
   }
-
-
 }
 
 /*

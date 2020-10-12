@@ -10,7 +10,6 @@ using namespace chrono;
 //Setting up the superclass for Jacobi's method with rotational algorithm to be used in all derived classes
 
 void ParticleSolver::initialize(double beta, int N, int k, int T){
-
   m_N = N;
   m_k = k;
   m_T = T;

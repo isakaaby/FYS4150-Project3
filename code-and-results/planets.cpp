@@ -20,7 +20,7 @@ void Planets::read_pos_vel(){
   vx0 = new double[Nparticles];
   vy0 = new double[Nparticles];
   vz0 = new double[Nparticles];
-  char* filename_pos_vel = "./data/NASA_pos_vel.txt";
+  char const *filename_pos_vel = "./data/NASA_pos_vel.txt";
 
   //Open files
   FILE *fp_init = fopen(filename_pos_vel, "r"); //Open file to read, specified by "r".
