@@ -5,41 +5,8 @@ infile1 = open("./results/position_x.txt", "r")
 infile2 = open("./results/position_y.txt", "r")
 infile3 = open("./results/position_z.txt", "r")
 
-
 k = 10000
 N = 2
-
-
-"""
-x_1 = np.zeros(k)
-x_2 = np.zeros(k)
-x_3 = np.zeros(k)
-x_4 = np.zeros(k)
-x_5 = np.zeros(k)
-x_6 = np.zeros(k)
-x_7 = np.zeros(k)
-x_8 = np.zeros(k)
-x_9 = np.zeros(k)
-x_10 = np.zeros(k)
-
-
-y_1 = np.zeros(k)
-y_2 = np.zeros(k)
-y_3 = np.zeros(k)
-y_4 = np.zeros(k)
-y_5 = np.zeros(k)
-y_6 = np.zeros(k)
-y_7 = np.zeros(k)
-y_8 = np.zeros(k)
-y_9 = np.zeros(k)
-y_10 = np.zeros(k)
-
-xlines = infile1.readlines()
-ylines = infile2.readlines()
-zlines = infile3.readlines()
-"""
-
-
 
 x_1 = np.zeros(k)
 x_2 = np.zeros(k)
@@ -92,8 +59,6 @@ for line in infile2:
     y_9[i] = float(numbers2[8])
     y_10[i] = float(numbers2[9])
     i = i + 1
-
-
 
 
 plt.plot(x_1, y_1)
