@@ -26,6 +26,7 @@ protected:
   int m_N;          // number of planets
   int m_k;          // number of time steps
   double m_T, m_h, m_T0;
+  double M;
 
 public:                          // general solver
   void initialize(double m_beta,int m_N, int k, int m_T);      // Use keys for each planet
