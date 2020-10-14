@@ -59,6 +59,7 @@ void ParticleSolver::verlet(){
       m_Y(i*m_k+j+1) = m_Y(i*m_k+j) + h*m_Vy(i*m_k+j) + (1./2)*h*h*m_ay(i*m_k+j);
       m_Z(i*m_k+j+1) = m_Z(i*m_k+j) + h*m_Vz(i*m_k+j) + (1./2)*h*h*m_az(i*m_k+j);
     }
+
     for (int i = 0; i < m_N; i++){
       m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
       m_Vx(i*m_k+j+1) = m_Vx(i*m_k+j) + (1./2)*h*(m_ax(i*m_k+j+1) + m_ax(i*m_k+j));

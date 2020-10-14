@@ -30,7 +30,7 @@ void menu() {
   //int N;
   int k = 10000;
   double beta = 2;
-  double T = 1;
+  double T = 250;
 
   if (task==1){
     int N = 2;
@@ -38,6 +38,8 @@ void menu() {
     solver.init(beta,N,k,T);
     solver.solvesystem();
     solver.write_pos_to_file();
+
+
 
   }
   if (task==2){
