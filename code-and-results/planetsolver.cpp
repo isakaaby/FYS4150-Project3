@@ -10,24 +10,7 @@ void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names){
   for(int i = 0; i < names.size(); i++) {
     m_names.push_back(names[i]);
   }
-  /*
-  all_names.push_back("Sun");
-  all_names.push_back("Earth");
-  all_names.push_back("Jupiter");
-  all_names.push_back("Mars");
-  all_names.push_back("Venus");
-  all_names.push_back("Saturn");
-  all_names.push_back("Mercury");
-  all_names.push_back("Uranus");
-  all_names.push_back("Neptune");
-  all_names.push_back("Pluto");
 
-  vector<string> m_names;
-
-  for (int i = 0; i < m_N; i++){
-    m_names.push_back(all_names[i]);
-  }
-  */
   Planets Planet;
   Planet.read_pos_vel();
   vec params = vec(7);
