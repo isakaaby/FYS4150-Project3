@@ -27,12 +27,19 @@ protected:
   int m_k;          // number of time steps
   double m_T, m_h, m_T0;
   double M;
+  vec m_Etot, m_Lx, m_Ly, m_Lz;
 
 public:                          // general solver
   void initialize(double m_beta,int m_N, int k, int m_T);      // Use keys for each planet
   double force_a(vec pos, int l, int j);
   void verlet();                // Verlet solver
   void eulerchromer();          // EulerChromer solver
+  void forwardeuler();          // Forward euler solver
+  double kinetic_energy(int i, int j);
+  double potential_energy(double r, int l, int i, int j);
+  double angular_momentum(double pos1, double v1, double pos2, double v2);
+  void get_angular_momentum();
+
   //void RK4(double f1(double v),double force( double x, double y, double z));           // RungeKutta4 solver
   //void RK4_xupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
   //void RK4_yupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
@@ -46,6 +53,7 @@ public:
   void init(double beta, int N, int k, int m_T);           //init special solver for planet case
   void solvesystem();      //  solve for planet system
   void write_pos_to_file();
+
 
 };
 
