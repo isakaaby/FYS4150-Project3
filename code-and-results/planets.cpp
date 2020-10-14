@@ -10,8 +10,6 @@ using namespace std;
 using namespace chrono;
 using namespace arma;
 
-
-
 void Planets::read_pos_vel(){
   int Nparticles = 10;
   x0 = new double[Nparticles];
