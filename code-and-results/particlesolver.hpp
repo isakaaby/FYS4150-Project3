@@ -29,9 +29,10 @@ protected:
   double M;
 
 public:                          // general solver
-  void initialize(double m_beta,int m_N, int k, int m_T);      // Use keys for each planet
-  double force_a(vec pos, int l, int j);
-  void verlet();                // Verlet solver
+  void initialize(double beta, int N, int k, double T);      // Use keys for each planet
+  void verlet_position(int l, int j);                // Verlet solver
+  void verlet_velocity(int l, int j);                // Verlet solver
+
   void eulerchromer();          // EulerChromer solver
   //void RK4(double f1(double v),double force( double x, double y, double z));           // RungeKutta4 solver
   //void RK4_xupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
@@ -43,11 +44,24 @@ class PlanetSolver : public ParticleSolver {
 private:
 
 public:
-  void init(double beta, int N, int k, int m_T);           //init special solver for planet case
-  void solvesystem();      //  solve for planet system
+  void init(vector<string> m_names, double beta, int N, int k, double T); //init special solver for planet case
+  double force_a(vec pos, int l, int j);
+  void solvesystem();                         //  solve for planet system
   void write_pos_to_file();
 
 };
+
+class MercurySunSolver : public ParticleSolver {
+private:
+
+public:
+  void init(vector<string> m_names, double beta, int N, int k, double T);           //init special solver for planet case
+  void solve_mercury_sun();                          //  solve for planet system
+  void write_pos_to_file();
+
+};
+
+
 
 
 
