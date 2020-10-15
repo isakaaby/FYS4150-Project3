@@ -54,33 +54,14 @@ void PlanetSolver::init(vector<string> m_names, double beta, int N, int k, doubl
   }
 };
 
-double PlanetSolver::force_a(vec pos, int l, int j){
-  double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
-  double a = 0;
-  double diffx,diffy,diffz,diffr,r;
-  for (int i = 0; i < m_N; i++){ //for planets
-    if (i != l){                 //l is the index of the specific planet we are looking at
-      diffx = m_X(l*m_k+j) - m_X(i*m_k+j);   //j is the given timestep
-      diffy = m_Y(l*m_k+j) - m_Y(i*m_k+j);
-      diffz = m_Z(l*m_k+j) - m_Z(i*m_k+j);
-      diffr = diffx*diffx + diffy*diffy + diffz*diffz;
-      r = pow(diffr,(m_beta+1)/2);
-      a += ((pos(l*m_k+j)-pos(i*m_k+j))*G*m_masses(i))/r;
-    }
-  }
-  return -a;
-}
 
 void PlanetSolver::solvesystem(){
   for (int j = 0; j < m_k-1; j++){ // for time
     for (int i = 0; i < m_N; i++){ //for planets
-      verlet_position(i,j);
+      verlet_pos(i,j);
     }
     for (int i = 0; i < m_N; i++){ //for planets
-      m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
-      m_ay(i*m_k+j+1) = force_a(m_Y,i,j+1);
-      m_az(i*m_k+j+1) = force_a(m_Z,i,j+1);
-      verlet_velocity(i,j);
+      verlet_vel_and_a(i,j);
     }
   }
 };

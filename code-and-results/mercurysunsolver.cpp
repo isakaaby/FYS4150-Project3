@@ -25,19 +25,6 @@ void MercurySunSolver::init(vector<string> m_names, double beta, int N, int k, d
 
 };
 
-double PlanetSolver::force_a(vec pos, int j){
-  double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
-  double x,y,z,r2,r;
-  x = m_X(m_k+j)
-  y = m_Y(m_k+j)
-  z = m_Z(m_k+j)
-  r2 = x*x + y*y + z*z;
-  r = pow(diffr,(m_beta+1)/2);
-  doubl a = ((pos(m_k+j))*G*m_masses(i))/r;
-
-  return -a;
-}
-
 
 
 void MercurySunSolver::solve_mercury_sun(){
