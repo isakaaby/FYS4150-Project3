@@ -30,9 +30,11 @@ protected:
   vec m_Etot, m_Lx, m_Ly, m_Lz;
 
 public:                          // general solver
-  void initialize(double m_beta,int m_N, int k, int m_T);      // Use keys for each planet
+  void initialize(double beta, int N, int k, double T);      // Use keys for each planet
   double force_a(vec pos, int l, int j);
-  void verlet();                // Verlet solver
+  void verlet_pos(int l, int j);                // Verlet solver
+  void verlet_vel_and_a(int l, int j);                // Verlet solver
+
   void eulerchromer();          // EulerChromer solver
   void forwardeuler();          // Forward euler solver
   double kinetic_energy(int i, int j);
@@ -53,6 +55,8 @@ public:
 
 
 };
+
+
 
 
 

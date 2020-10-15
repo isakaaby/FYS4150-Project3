@@ -59,9 +59,16 @@ void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names){
   }
 };
 
-void PlanetSolver::solvesystem(){
-  verlet();
 
+void PlanetSolver::solvesystem(){
+  for (int j = 0; j < m_k-1; j++){ // for time
+    for (int i = 0; i < m_N; i++){ //for planets
+      verlet_pos(i,j);
+    }
+    for (int i = 0; i < m_N; i++){ //for planets
+      verlet_vel_and_a(i,j);
+    }
+  }
 };
 
 void PlanetSolver::write_pos_to_file(){
