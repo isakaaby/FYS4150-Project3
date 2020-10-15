@@ -40,9 +40,6 @@ public:                          // general solver
   double angular_momentum(double pos1, double v1, double pos2, double v2);
   void get_angular_momentum();
 
-  //void RK4(double f1(double v),double force( double x, double y, double z));           // RungeKutta4 solver
-  //void RK4_xupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
-  //void RK4_yupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
 };
 
 //subclass to solve planet case
