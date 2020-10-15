@@ -28,7 +28,7 @@ void menu() {
   cin >> task;
 
   int N;
-  int k = 10000;
+  int k = 1000;
   double beta = 2;
   double T = 250;
   vector<string> planets;
@@ -37,8 +37,8 @@ void menu() {
 
   if (task==1){
     int N = 2;
-    planets.push_back("Earth");
     planets.push_back("Sun");
+    planets.push_back("Earth");
     PlanetSolver solver;
     solver.init(beta,N,k,T, planets);
     solver.solvesystem();
@@ -49,18 +49,19 @@ void menu() {
   }
   if (task==2){
     int N = 3;
-    planets.push_back("Earth");
     planets.push_back("Sun");
+    planets.push_back("Earth");
     planets.push_back("Jupiter");
     PlanetSolver solver;
     solver.init(beta,N,k,T, planets);
     solver.solvesystem();
+    solver.write_pos_to_file();
   }
 
   if (task==3){
     int N = 10;
-    planets.push_back("Earth");
     planets.push_back("Sun");
+    planets.push_back("Earth");
     planets.push_back("Jupiter");
     planets.push_back("Mars");
     planets.push_back("Venus");

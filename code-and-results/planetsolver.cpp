@@ -6,7 +6,6 @@
 void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names){
   initialize(beta, N, k, T);
 
-  vector<string> m_names;
   for(int i = 0; i < names.size(); i++) {
     m_names.push_back(names[i]);
   }
