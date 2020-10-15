@@ -53,6 +53,7 @@ public:
   void init(double beta, int N, int k, int m_T, vector<string> names);           //init special solver for planet case
   void solvesystem();      //  solve for planet system
   void write_pos_to_file();
+  void write_vel_to_file();
 
 
 };

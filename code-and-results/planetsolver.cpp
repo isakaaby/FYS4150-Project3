@@ -89,3 +89,29 @@ void PlanetSolver::write_pos_to_file(){
   y.close();
   z.close();
 }
+
+void PlanetSolver::write_vel_to_file(){
+  ofstream x;
+  ofstream y;
+  ofstream z;
+
+  string filename_1("./results/velocity_x.txt");
+  string filename_2("./results/velocity_y.txt");
+  string filename_3("./results/velocity_z.txt");
+  x.open(filename_1);
+  y.open(filename_2);
+  z.open(filename_3);
+  for (int j = 0; j < m_k; j++){
+    for (int i = 0; i < m_N; i++){
+      x << m_X(i*m_k+j) << " ";
+      y << m_Y(i*m_k+j) << " ";
+      z << m_Z(i*m_k+j) << " ";
+    }
+    x << "\n";
+    y << "\n";
+    z << "\n";
+  }
+  x.close();
+  y.close();
+  z.close();
+}
