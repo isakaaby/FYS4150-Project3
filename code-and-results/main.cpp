@@ -28,7 +28,7 @@ void menu() {
   cin >> task;
 
   int N;
-  int k = 1000;
+  int k = 10000;
   double beta = 2;
   double T = 250;
   vector<string> planets;

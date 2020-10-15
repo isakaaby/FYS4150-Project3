@@ -28,7 +28,7 @@ protected:
   double m_T, m_h, m_T0;
   double M;
   vec m_Etot, m_Lx, m_Ly, m_Lz;
-  vector<string> m_names;
+  //vector<string> m_names;
 
 public:                          // general solver
   void initialize(double beta, int N, int k, double T);      // Use keys for each planet
