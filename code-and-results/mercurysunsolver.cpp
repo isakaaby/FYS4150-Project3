@@ -3,8 +3,10 @@
 #include <vector>
 #include <string>
 
-void MercurySunSolver::init(vector<string> m_names, double beta, int N, int k, double T){
+void MercurySunSolver::init(vector<string> names, double beta, int N, int k, double T){
   initialize(beta, N, k, T);
+
+  m_names = names;
 
   Planets Planet;
   Planet.read_pos_vel();
@@ -20,7 +22,7 @@ void MercurySunSolver::init(vector<string> m_names, double beta, int N, int k, d
   m_ax(0) = m_ay(0) = m_az(0) = 0.0;
 
   m_X(m_k) = 0.3075; m_Y(m_k) = m_Z(m_k) = 0.0;
-  m_Vx(m_k) = 12.44; m_Vy(m_k) = m_Vz(m_k) = 0.0;
+  m_Vx(m_k) = 0.0; m_Vy(m_k) = 12.44; m_Vz(m_k) = 0.0;
   m_ax(m_k) = m_ay(m_k) = m_az(m_k) = 0.0;
 
 };

@@ -28,7 +28,7 @@ protected:
   double m_T, m_h, m_T0;
   double M;
   vec m_Etot, m_Lx, m_Ly, m_Lz;
-  //vector<string> m_names;
+  vector<string> m_names;
 
 public:                          // general solver
   void initialize(double beta, int N, int k, double T);      // Use keys for each planet
@@ -50,8 +50,8 @@ class PlanetSolver : public ParticleSolver {
 private:
 
 public:
-  void init(double beta, int N, int k, int m_T, vector<string> names);           //init special solver for planet case
-  void solvesystem();      //  solve for planet system
+  void init(vector<string> names, double beta, int N, int k, double T); //init special solver for planet case
+  void solvesystem();                         //  solve for planet system
   void write_pos_to_file();
   void write_vel_to_file();
 
@@ -62,8 +62,8 @@ public:
 class MercurySunSolver : public ParticleSolver {
 
 public:
-  void init(vector<string> m_names, double beta, int N, int k, double T);
-  void solve_mercury_sun();
+  void init(vector<string> names, double beta, int N, int k, double T);           //init special solver for planet case
+  void solve_mercury_sun();                          //  solve for planet system
   void write_pos_to_file();
 };
 

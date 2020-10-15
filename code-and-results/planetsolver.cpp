@@ -3,13 +3,10 @@
 #include <vector>
 #include <string>
 
-void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names){
+void PlanetSolver::init(vector<string> names, double beta, int N, int k, double T){
   initialize(beta, N, k, T);
 
-vector<string> m_names;
-  for(int i = 0; i < names.size(); i++) {
-    m_names.push_back(names[i]);
-  }
+  m_names = names;
 
   Planets Planet;
   Planet.read_pos_vel();
@@ -48,15 +45,14 @@ vector<string> m_names;
   //m_Vx(0) = velx_sun;
   //m_Vy(0) = vely_sun;
   //m_Vz(0) = velz_sun;
-
-  for (int i = 0; i < m_N; i++){
+  /*for (int i = 0; i < m_N; i++){
     m_X(i*m_k) -= posMx/M;
     m_Y(i*m_k) -= posMy/M;
     m_Z(i*m_k) -= posMz/M;
     m_Vx(i*m_k) -= velMx/M;
     m_Vy(i*m_k) -= velMy/M;
     m_Vz(i*m_k) -= velMz/M;
-  }
+  }*/
 };
 
 
@@ -75,13 +71,17 @@ void PlanetSolver::write_pos_to_file(){
   ofstream x;
   ofstream y;
   ofstream z;
+  ofstream planet_names;
 
   string filename_1("./results/position_x.txt");
   string filename_2("./results/position_y.txt");
   string filename_3("./results/position_z.txt");
+  string filename_4("./results/planet_names.txt");
   x.open(filename_1);
   y.open(filename_2);
   z.open(filename_3);
+  planet_names.open(filename_4);
+
   for (int j = 0; j < m_k; j++){
     for (int i = 0; i < m_N; i++){
       x << m_X(i*m_k+j) << " ";
@@ -92,9 +92,13 @@ void PlanetSolver::write_pos_to_file(){
     y << "\n";
     z << "\n";
   }
+  for (int i = 0; i < m_N; i++){
+    planet_names << m_names[i] << "\n";
+  }
   x.close();
   y.close();
   z.close();
+  planet_names.close();
 }
 
 void PlanetSolver::write_vel_to_file(){
