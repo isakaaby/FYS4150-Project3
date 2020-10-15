@@ -11,8 +11,10 @@ infile3 = open("./results/position_z.txt", "r")
 x = np.loadtxt(infile1)
 y = np.loadtxt(infile2)
 z = np.loadtxt(infile3)
+planets = np.genfromtxt("./results/planet_names.txt",dtype='str')
 
-planets = ["Sun", "Earth", "Jupiter", "Mars", "Venus", "Saturn", "Mercury", "Uranus", "Neptune", "Pluto"]
+
+print(planets)
 
 for i in range(0, N):
     #fig = plt.figure()

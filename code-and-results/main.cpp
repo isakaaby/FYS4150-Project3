@@ -47,7 +47,7 @@ void menu() {
 
   if (task==1){
     int N = 2;
-    T = 500;                    //orbit time for earth
+    T = 1;                    //orbit time for earth
     vector<string> m_names;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
@@ -87,7 +87,7 @@ void menu() {
 
   if (task==4){
     int N = 2;
-    T = 88/(365);           //orbit time for mercury
+    T = 1;           //orbit time for mercury
     vector<string> m_names;
     m_names.push_back(all_names[0]);
     m_names.push_back(all_names[6]);
