@@ -56,6 +56,7 @@ public:
   //double get_Distance(string name);
   void read_pos_vel();
   vec initialize(string planet);
+  vec set_initials(string planet, double x0, double y0, double z0, double vx0, double vy0, double vz0, double masses);
   //void initialize(double m, double r);
 };
 

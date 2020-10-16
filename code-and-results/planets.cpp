@@ -31,10 +31,19 @@ void Planets::read_pos_vel(){
 
 }
 
+vec Planets::set_initials(string planet, double x0, double y0, double z0, double vx0, double vy0, double vz0, double masses) {
+  double x, y, z, vx, vy, vz;
+    mass = masses;
+    x = x0; y = y0; z = z0; vx = vx0; vy = vy0; vz = vz0;
+
+
+  vec l = zeros<vec>(7);
+  l(0) = mass; l(1) = x; l(2) = y; l(3) = z; l(4) = vx; l(5) = vy; l(6) = vz;
+  return l;
+}
+
 vec Planets::initialize(string planet){
   //Read off txt file from NASA here or in method below (return as vector)
-
-
   //defining masses
   double x, y, z, vx, vy, vz;
   if (planet == "Sun"){
@@ -77,6 +86,7 @@ vec Planets::initialize(string planet){
     mass = m_pluto;
     x = x0[9]; y = y0[9]; z = z0[9]; vx = vx0[9]; vy = vy0[9]; vz = vz0[9];
   }
+
   vec l = zeros<vec>(7);
   l(0) = mass; l(1) = x; l(2) = y; l(3) = z; l(4) = vx; l(5) = vy; l(6) = vz;
   return l;

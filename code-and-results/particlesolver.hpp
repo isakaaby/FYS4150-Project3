@@ -51,11 +51,10 @@ private:
 
 public:
   void init(double beta, int N, int k, int m_T, vector<string> names);           //init special solver for planet case
+  void init(double beta, int N, int k, int T, vector<string> names, vector<double> x, vector<double> y, vector<double> z, vector<double> vx, vector<double> vy, vector<double> vz, vector<double> masses);
   void solvesystem();      //  solve for planet system
   void write_pos_to_file();
   void write_vel_to_file();
-
-
 };
 
 
