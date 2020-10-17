@@ -50,8 +50,8 @@ void menu() {
   if (task==1){
     int N = 2;
     if(NASA == 0) {
-      planets.push_back("Earth");
       planets.push_back("Sun");
+      planets.push_back("Earth");
       PlanetSolver solver;
       solver.init(beta,N,k,T, planets);
       solver.solvesystem(check);
@@ -63,18 +63,19 @@ void menu() {
   }
   if (task==2){
     int N = 3;
-    planets.push_back("Earth");
     planets.push_back("Sun");
+    planets.push_back("Earth");
     planets.push_back("Jupiter");
     PlanetSolver solver;
     solver.init(beta,N,k,T, planets);
     solver.solvesystem(check);
+    solver.write_pos_to_file();
   }
 
   if (task==3){
     int N = 10;
-    planets.push_back("Earth");
     planets.push_back("Sun");
+    planets.push_back("Earth");
     planets.push_back("Jupiter");
     planets.push_back("Mars");
     planets.push_back("Venus");
@@ -120,6 +121,7 @@ void menu() {
 
     //int N = input("")
   }
+
 }
 
 /*

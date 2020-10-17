@@ -9,7 +9,7 @@ using namespace chrono;
 
 //Setting up the superclass for Jacobi's method with rotational algorithm to be used in all derived classes
 
-void ParticleSolver::initialize(double beta, int N, int k, int T){
+void ParticleSolver::initialize(double beta, int N, int k, double T){
   m_N = N;
   m_k = k;
   m_T = T;
@@ -140,9 +140,9 @@ double ParticleSolver::angular_momentum(double pos1, double v1, double pos2, dou
 void ParticleSolver::get_angular_momentum(){
   for (int j = 0; j < m_k; j++){ // for time
     for (int i = 0; i < m_N; i++){ //for planets
-      m_Lx(i*m_k+j) = angular_momentum(m_Y(i*m_k+j), m_Vy(i*m_k+j), m_Z(i*m_k+j), m_Vz(i*m_k+j));
-      m_Ly(i*m_k+j) = angular_momentum(m_X(i*m_k+j), m_Vx(i*m_k+j), m_Z(i*m_k+j), m_Vz(i*m_k+j));
-      m_Lz(i*m_k+j) = angular_momentum(m_X(i*m_k+j), m_Vx(i*m_k+j), m_Y(i*m_k+j), m_Vy(i*m_k+j));
+      m_Lx(i*m_k+j) = m_masses(i)*angular_momentum(m_Y(i*m_k+j), m_Vy(i*m_k+j), m_Z(i*m_k+j), m_Vz(i*m_k+j));
+      m_Ly(i*m_k+j) = m_masses(i)*angular_momentum(m_X(i*m_k+j), m_Vx(i*m_k+j), m_Z(i*m_k+j), m_Vz(i*m_k+j));
+      m_Lz(i*m_k+j) = m_masses(i)*angular_momentum(m_X(i*m_k+j), m_Vx(i*m_k+j), m_Y(i*m_k+j), m_Vy(i*m_k+j));
     }
   }
 }

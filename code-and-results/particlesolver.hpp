@@ -28,9 +28,10 @@ protected:
   double m_T, m_h, m_T0;
   double M;
   vec m_Etot, m_Lx, m_Ly, m_Lz;
+  vector<string> m_names;
 
 public:                          // general solver
-  void initialize(double m_beta,int m_N, int k, int m_T);      // Use keys for each planet
+  void initialize(double beta, int N, int k, double T);      // Use keys for each planet
   double force_a(vec pos, int l, int j);
   void verlet_pos(int l, int j);                // Verlet solver
   void verlet_vel_and_a(int l, int j);                // Verlet solver
@@ -42,9 +43,6 @@ public:                          // general solver
   double angular_momentum(double pos1, double v1, double pos2, double v2);
   void get_angular_momentum();
 
-  //void RK4(double f1(double v),double force( double x, double y, double z));           // RungeKutta4 solver
-  //void RK4_xupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
-  //void RK4_yupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
 };
 
 //subclass to solve planet case
