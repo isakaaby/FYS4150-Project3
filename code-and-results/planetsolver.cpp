@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-void PlanetSolver::init(vector<string> names, double beta, int N, int k, double T){
+void PlanetSolver::init(double beta, int N, int k, double T, vector<string> names){
   initialize(beta, N, k, T);
 
   m_names = names;
@@ -30,7 +30,7 @@ void PlanetSolver::init(vector<string> names, double beta, int N, int k, double 
     m_masses(i) = params(0);
     m_X(i*m_k) = params(1); m_Y(i*m_k) = params(2); m_Z(i*m_k) = params(3);
     m_Vx(i*m_k) = 365*params(4); m_Vy(i*m_k) = 365*params(5); m_Vz(i*m_k) = 365*params(6);
-    m_ax(i*m_k) = m_ay(i) = m_az(i*m_k) = 0.0;
+    m_ax(i*m_k) = m_ay(i*m_k) = m_az(i*m_k) = 0.0;
     M += m_masses[i];
     posMx += m_masses[i]*m_X(i*m_k);
     posMy += m_masses[i]*m_Y(i*m_k);
@@ -45,26 +45,74 @@ void PlanetSolver::init(vector<string> names, double beta, int N, int k, double 
   //m_Vx(0) = velx_sun;
   //m_Vy(0) = vely_sun;
   //m_Vz(0) = velz_sun;
-  /*for (int i = 0; i < m_N; i++){
+  for (int i = 0; i < m_N; i++){
     m_X(i*m_k) -= posMx/M;
     m_Y(i*m_k) -= posMy/M;
     m_Z(i*m_k) -= posMz/M;
     m_Vx(i*m_k) -= velMx/M;
     m_Vy(i*m_k) -= velMy/M;
     m_Vz(i*m_k) -= velMz/M;
-  }*/
+  }
+};
+
+void PlanetSolver::init(double beta, int N, int k, double T, vector<string> names, vector<double> x, vector<double> y, vector<double> z, vector<double> vx, vector<double> vy, vector<double> vz, vector<double> masses){
+  initialize(beta, N, k, T);
+
+  Planets Planet;
+  vec params = vec(7);
+
+  m_masses = masses;
+  M = 0;
+  double posMx = 0;
+  double posMy = 0;
+  double posMz = 0;
+  double velMx = 0;
+  double velMy = 0;
+  double velMz = 0;
+
+    for (int i = 0; i < m_N; i++){
+      params = Planet.set_initials(names[i], x[i], y[i], z[i], vx[i], vy[i], vz[i],  masses[i]);
+      m_X(i*m_k) = params(1); m_Y(i*m_k) = params(2); m_Z(i*m_k) = params(3);
+      m_Vx(i*m_k) = 365*params(4); m_Vy(i*m_k) = 365*params(5); m_Vz(i*m_k) = 365*params(6);
+      m_ax(i*m_k) = m_ay(i*m_k) = m_az(i*m_k) = 0.0;
+      M += m_masses[i];
+      posMx += m_masses[i]*m_X(i*m_k);
+      posMy += m_masses[i]*m_Y(i*m_k);
+      posMz += m_masses[i]*m_Z(i*m_k);
+      velMx += m_masses[i]*m_Vx(i*m_k);
+      velMy += m_masses[i]*m_Vy(i*m_k);
+      velMz += m_masses[i]*m_Vz(i*m_k);
+
+    }
+
+
+    for (int i = 0; i < m_N; i++){
+      m_X(i*m_k) -= posMx/M;
+      m_Y(i*m_k) -= posMy/M;
+      m_Z(i*m_k) -= posMz/M;
+      m_Vx(i*m_k) -= velMx/M;
+      m_Vy(i*m_k) -= velMy/M;
+      m_Vz(i*m_k) -= velMz/M;
+    }
+
 };
 
 
-void PlanetSolver::solvesystem(){
-  for (int j = 0; j < m_k-1; j++){ // for time
-    for (int i = 0; i < m_N; i++){ //for planets
-      verlet_pos(i,j);
-    }
-    for (int i = 0; i < m_N; i++){ //for planets
-      verlet_vel_and_a(i,j);
-    }
+void PlanetSolver::solvesystem(bool check){
+  int s;
+  if(check == true) {
+    s = 0;
+  } else{
+    s = 1;
   }
+    for (int j = 0; j < m_k-1; j++){ // for time
+      for (int i = s; i < m_N; i++){ //for planets
+        verlet_pos(i,j);
+      }
+      for (int i = s; i < m_N; i++){ //for planets
+        verlet_vel_and_a(i,j);
+      }
+}
 };
 
 void PlanetSolver::write_pos_to_file(){
