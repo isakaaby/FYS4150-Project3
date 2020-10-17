@@ -34,14 +34,14 @@ public:                          // general solver
   void initialize(double beta, int N, int k, double T);      // Use keys for each planet
   double force_a(vec pos, int l, int j);
   void verlet_pos(int l, int j);                // Verlet solver
-  void verlet_vel_and_a(int l, int j);                // Verlet solver
+  void verlet_vel(int l, int j);                // Verlet solver
 
-  void eulerchromer();          // EulerChromer solver
+  void eulerchromer(int l, int j);          // EulerChromer solver
   void forwardeuler();          // Forward euler solver
   double kinetic_energy(int i, int j);
   double potential_energy(double r, int l, int i, int j);
   double angular_momentum(double pos1, double v1, double pos2, double v2);
-  void get_angular_momentum();
+  void get_angular_momentum(int j);
 
   //void RK4(double f1(double v),double force( double x, double y, double z));           // RungeKutta4 solver
   //void RK4_xupdate(double t, double x, double y, double v, double f1(double t, double x,  double y, double v), double f2(double t, double x, double y, double v));
@@ -54,7 +54,8 @@ private:
 
 public:
   void init(vector<string> names, double beta, int N, int k, double T); //init special solver for planet case
-  void solvesystem();                         //  solve for planet system
+  void init_sun_center(vector<string> names, double beta, int N, int k, double T);
+  void solvesystem(bool check);                         //  solve for planet system
   void write_pos_to_file();
 
 };
@@ -64,7 +65,9 @@ private:
 
 public:
   void init(vector<string> names, double beta, int N, int k, double T);           //init special solver for planet case
-  void solve_mercury_sun();                          //  solve for planet system
+  double force_mercury_rel(vec pos, int l, int j);
+  void solve_mercury_sun_verlet();                          //  solve for planet system
+  void solve_mercury_sun_eulerchromer();
   void write_pos_to_file();
 
 

@@ -53,8 +53,9 @@ void menu() {
       m_names.push_back(all_names[i]);
     }
     PlanetSolver solver;
-    solver.init(m_names,beta,N,k,T);
-    solver.solvesystem();
+    solver.init_sun_center(m_names,beta,N,k,T);
+    bool sun_center = true;
+    solver.solvesystem(sun_center);
     solver.write_pos_to_file();
 
 
@@ -62,14 +63,17 @@ void menu() {
   }
   if (task==2){
     int N = 3;
-    T = 12;                  //orbit time for Jupiter
+    T = 23;                  //orbit time for Jupiter
     vector<string> m_names;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
     PlanetSolver solver;
-    solver.init(m_names,beta,N,k,T);
-    solver.solvesystem();
+    solver.init_sun_center(m_names,beta,N,k,T);
+    bool sun_center = true;
+    solver.solvesystem(sun_center);
+    solver.write_pos_to_file();
+
   }
 
   if (task==3){
@@ -81,19 +85,21 @@ void menu() {
     }
     PlanetSolver solver;
     solver.init(m_names,beta,N,k,T);
-    solver.solvesystem();
+    bool sun_center = false;
+    solver.solvesystem(sun_center);
     solver.write_pos_to_file();
   }
 
   if (task==4){
     int N = 2;
-    T = 1;           //orbit time for mercury
+    T = 100;           //orbit time for mercury
     vector<string> m_names;
     m_names.push_back(all_names[0]);
     m_names.push_back(all_names[6]);
-    PlanetSolver solver;
+    MercurySunSolver solver;
     solver.init(m_names,beta,N,k,T);
-    solver.solvesystem();
+    //solver.solve_mercury_sun_verlet();
+    solver.solve_mercury_sun_eulerchromer();
     solver.write_pos_to_file();
   }
 

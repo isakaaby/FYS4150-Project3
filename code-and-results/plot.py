@@ -14,8 +14,6 @@ z = np.loadtxt(infile3)
 planets = np.genfromtxt("./results/planet_names.txt",dtype='str')
 
 
-print(planets)
-
 for i in range(0, N):
     #fig = plt.figure()
     #ax = fig.gca(projection='3d')

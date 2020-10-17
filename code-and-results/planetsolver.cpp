@@ -55,14 +55,60 @@ void PlanetSolver::init(vector<string> names, double beta, int N, int k, double 
   }*/
 };
 
+void PlanetSolver::init_sun_center(vector<string> names, double beta, int N, int k, double T){
+  initialize(beta, N, k, T);
 
-void PlanetSolver::solvesystem(){
+  m_names = names;
+
+  Planets Planet;
+  Planet.read_pos_vel();
+  vec params = vec(7);
+
+  m_masses = zeros<vec>(m_N);
+
+  double posx0, posy0, posz0, velx0, vely0, velz0;
+  for (int i = 0; i < m_N; i++){
+    params = Planet.initialize(m_names[i]);
+    m_masses(i) = params(0);
+    if (i != 0){
+      cout << "x0 for" << " " << m_names[i] << " " << "=" << " ";
+      cin >> posx0;
+      cout << "y0 for" << " " << m_names[i] << " " << "=" << " ";
+      cin >> posy0;
+      cout << "z0 for" << " " << m_names[i] << " " << "=" << " ";
+      cin >> posz0;
+      cout << "vx0 for" << " " << m_names[i] << " " << "=" << " ";
+      cin >> velx0;
+      cout << "vy0 for" << " " << m_names[i] << " " << "=" << " ";
+      cin >> vely0;
+      cout << "vz0 for" << " " << m_names[i] << " " << "=" << " ";
+      cin >> velz0;
+      m_masses(i) = params(0);
+      m_X(i*m_k) = posx0; m_Y(i*m_k) = posy0; m_Z(i*m_k) = posz0;
+      m_Vx(i*m_k) = velx0; m_Vy(i*m_k) = vely0; m_Vz(i*m_k) = velz0;
+      m_ax(i*m_k) = m_ay(i) = m_az(i*m_k) = 0.0;
+    }
+  }
+};
+
+
+
+void PlanetSolver::solvesystem(bool check){
+ int s;
+ if(check == true) {
+   s = 1;
+ } else{
+   s = 0;
+ }
   for (int j = 0; j < m_k-1; j++){ // for time
-    for (int i = 0; i < m_N; i++){ //for planets
+    for (int i = s; i < m_N; i++){ //for planets
       verlet_pos(i,j);
     }
-    for (int i = 0; i < m_N; i++){ //for planets
-      verlet_vel_and_a(i,j);
+    for (int i = s; i < m_N; i++){ //for planets
+      m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
+      m_ay(i*m_k+j+1) = force_a(m_Y,i,j+1);
+      m_az(i*m_k+j+1) = force_a(m_Z,i,j+1);
+      verlet_vel(i,j);
     }
   }
 };
