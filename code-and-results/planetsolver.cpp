@@ -2,14 +2,14 @@
 #include "planets.hpp"
 #include <vector>
 #include <string>
-#include<iostream>
 
-using namespace std;
-
-void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names){
+void PlanetSolver::init(double beta, int N, int k, double T, vector<string> names){
   initialize(beta, N, k, T);
 
-  vector<string> m_names = names;
+  vector<string> m_names;
+  for(int i = 0; i < names.size(); i++) {
+    m_names.push_back(names[i]);
+  }
 
   Planets Planet;
   Planet.read_pos_vel();
@@ -33,7 +33,7 @@ void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names){
     m_masses(i) = params(0);
     m_X(i*m_k) = params(1); m_Y(i*m_k) = params(2); m_Z(i*m_k) = params(3);
     m_Vx(i*m_k) = 365*params(4); m_Vy(i*m_k) = 365*params(5); m_Vz(i*m_k) = 365*params(6);
-    m_ax(i*m_k) = m_ay(i) = m_az(i*m_k) = 0.0;
+    m_ax(i*m_k) = m_ay(i*m_k) = m_az(i*m_k) = 0.0;
     M += m_masses[i];
     posMx += m_masses[i]*m_X(i*m_k);
     posMy += m_masses[i]*m_Y(i*m_k);
@@ -45,11 +45,9 @@ void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names){
     //vely_sun -= m_masses[i]*m_Vy(i*m_k);
     //velz_sun -= m_masses[i]*m_Vz(i*m_k);
   }
-
   //m_Vx(0) = velx_sun;
   //m_Vy(0) = vely_sun;
   //m_Vz(0) = velz_sun;
-
   for (int i = 0; i < m_N; i++){
     m_X(i*m_k) -= posMx/M;
     m_Y(i*m_k) -= posMy/M;
@@ -58,10 +56,9 @@ void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names){
     m_Vy(i*m_k) -= velMy/M;
     m_Vz(i*m_k) -= velMz/M;
   }
-
 };
 
-void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names, vector<double> x, vector<double> y, vector<double> z, vector<double> vx, vector<double> vy, vector<double> vz, vector<double> masses){
+void PlanetSolver::init(double beta, int N, int k, double T, vector<string> names, vector<double> x, vector<double> y, vector<double> z, vector<double> vx, vector<double> vy, vector<double> vz, vector<double> masses){
   initialize(beta, N, k, T);
 
   Planets Planet;
@@ -76,12 +73,11 @@ void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names, 
   double velMy = 0;
   double velMz = 0;
 
-  for(int j = 0; j < names.size(); j++) {
     for (int i = 0; i < m_N; i++){
-      params = Planet.set_initials(names[j], x[j], y[j], z[j], vx[j], vy[j], vz[j],  masses[j]);
+      params = Planet.set_initials(names[i], x[i], y[i], z[i], vx[i], vy[i], vz[i],  masses[i]);
       m_X(i*m_k) = params(1); m_Y(i*m_k) = params(2); m_Z(i*m_k) = params(3);
       m_Vx(i*m_k) = 365*params(4); m_Vy(i*m_k) = 365*params(5); m_Vz(i*m_k) = 365*params(6);
-      m_ax(i*m_k) = m_ay(i) = m_az(i*m_k) = 0.0;
+      m_ax(i*m_k) = m_ay(i*m_k) = m_az(i*m_k) = 0.0;
       M += m_masses[i];
       posMx += m_masses[i]*m_X(i*m_k);
       posMy += m_masses[i]*m_Y(i*m_k);
@@ -101,14 +97,25 @@ void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names, 
       m_Vy(i*m_k) -= velMy/M;
       m_Vz(i*m_k) -= velMz/M;
     }
-    cout << m_X << endl;
-  }
+
 };
 
 
-void PlanetSolver::solvesystem(){
-  verlet();
-
+void PlanetSolver::solvesystem(bool check){
+  int s;
+  if(check == true) {
+    s = 0;
+  } else{
+    s = 1;
+  }
+    for (int j = 0; j < m_k-1; j++){ // for time
+      for (int i = s; i < m_N; i++){ //for planets
+        verlet_pos(i,j);
+      }
+      for (int i = s; i < m_N; i++){ //for planets
+        verlet_vel_and_a(i,j);
+      }
+}
 };
 
 void PlanetSolver::write_pos_to_file(){
@@ -119,6 +126,32 @@ void PlanetSolver::write_pos_to_file(){
   string filename_1("./results/position_x.txt");
   string filename_2("./results/position_y.txt");
   string filename_3("./results/position_z.txt");
+  x.open(filename_1);
+  y.open(filename_2);
+  z.open(filename_3);
+  for (int j = 0; j < m_k; j++){
+    for (int i = 0; i < m_N; i++){
+      x << m_X(i*m_k+j) << " ";
+      y << m_Y(i*m_k+j) << " ";
+      z << m_Z(i*m_k+j) << " ";
+    }
+    x << "\n";
+    y << "\n";
+    z << "\n";
+  }
+  x.close();
+  y.close();
+  z.close();
+}
+
+void PlanetSolver::write_vel_to_file(){
+  ofstream x;
+  ofstream y;
+  ofstream z;
+
+  string filename_1("./results/velocity_x.txt");
+  string filename_2("./results/velocity_y.txt");
+  string filename_3("./results/velocity_z.txt");
   x.open(filename_1);
   y.open(filename_2);
   z.open(filename_3);

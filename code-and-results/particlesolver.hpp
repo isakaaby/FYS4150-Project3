@@ -32,7 +32,9 @@ protected:
 public:                          // general solver
   void initialize(double m_beta,int m_N, int k, int m_T);      // Use keys for each planet
   double force_a(vec pos, int l, int j);
-  void verlet();                // Verlet solver
+  void verlet_pos(int l, int j);                // Verlet solver
+  void verlet_vel_and_a(int l, int j);                // Verlet solver
+
   void eulerchromer();          // EulerChromer solver
   void forwardeuler();          // Forward euler solver
   double kinetic_energy(int i, int j);
@@ -50,13 +52,11 @@ class PlanetSolver : public ParticleSolver {
 private:
 
 public:
-  void init(double beta, int N, int k, int m_T, vector<string> names);           //init special solver for planet case
-  void init(double beta, int N, int k, int T, vector<string> names, vector<double> x, vector<double> y, vector<double> z, vector<double> vx, vector<double> vy, vector<double> vz, vector<double> masses);
-  void solvesystem();      //  solve for planet system
+  void init(double beta, int N, int k, double T, vector<string> names);           //init special solver for planet case
+  void init(double beta, int N, int k, double T, vector<string> names, vector<double> x, vector<double> y, vector<double> z, vector<double> vx, vector<double> vy, vector<double> vz, vector<double> masses);
+  void solvesystem(bool check);      //  solve for planet system
   void write_pos_to_file();
   void write_vel_to_file();
 };
-
-
 
 #endif

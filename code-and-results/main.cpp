@@ -19,10 +19,17 @@ int main(int argc, char const *argv[]){
 }
 
 void menu() {
+  bool check = true;
   int task;
   int NASA;
+  int s;
   cout << "Press 0 to run the program with initialized values from NASA and 1 to input position, velocity and mass yourself \n";
   cin >> NASA;
+  cout << "Press 0 for sun in motion and 1 for non-moving sun. \n";
+  cin >> s;
+  if(s == 1) {
+    check = false;
+  }
   cout << "Press 1 to run for Earth-Sun system \n";
   cout << "Press 2 to run for Earth-Jupiter-Sun system \n";
   cout << "Press 3 to run for all planets \n";           //asking which task you want to run
@@ -31,12 +38,13 @@ void menu() {
   cin >> task;
 
   int N;
-  int k = 3;
+  int k = 10000;
   double beta = 2;
   double T = 250;
   vector<string> planets;
   vector<double> x, y, z, vx, vy, vz, masses;
   double x_, y_, z_, vx_, vy_, vz_, mass;
+
 
 
   if (task==1){
@@ -46,7 +54,7 @@ void menu() {
       planets.push_back("Sun");
       PlanetSolver solver;
       solver.init(beta,N,k,T, planets);
-      solver.solvesystem();
+      solver.solvesystem(check);
       solver.write_pos_to_file();
     }
 
@@ -60,7 +68,7 @@ void menu() {
     planets.push_back("Jupiter");
     PlanetSolver solver;
     solver.init(beta,N,k,T, planets);
-    solver.solvesystem();
+    solver.solvesystem(check);
   }
 
   if (task==3){
@@ -77,7 +85,7 @@ void menu() {
     planets.push_back("Pluto");
     PlanetSolver solver;
     solver.init(beta,N,k,T, planets);
-    solver.solvesystem();
+    solver.solvesystem(check);
     solver.write_pos_to_file();
   }
 
@@ -107,7 +115,7 @@ void menu() {
 
   PlanetSolver solver;
     solver.init(beta, N, k, T, planets, x, y, z, vx, vy, vz, masses);
-    solver.solvesystem();
+    solver.solvesystem(check);
     solver.write_pos_to_file();
 
     //int N = input("")

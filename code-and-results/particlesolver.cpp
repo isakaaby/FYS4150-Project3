@@ -63,26 +63,21 @@ double ParticleSolver::force_a(vec pos, int l, int j){
   return -a;
 }
 
-void ParticleSolver::verlet(){
+void ParticleSolver::verlet_pos(int l, int j){
   double h = m_h;
-  for (int j = 0; j < m_k-1; j++){ // for time
-    for (int i = 0; i < m_N; i++){ //for planets
-      m_X(i*m_k+j+1) = m_X(i*m_k+j) + h*m_Vx(i*m_k+j) + (1./2)*h*h*m_ax(i*m_k+j);
-      m_Y(i*m_k+j+1) = m_Y(i*m_k+j) + h*m_Vy(i*m_k+j) + (1./2)*h*h*m_ay(i*m_k+j);
-      m_Z(i*m_k+j+1) = m_Z(i*m_k+j) + h*m_Vz(i*m_k+j) + (1./2)*h*h*m_az(i*m_k+j);
-    }
+  m_X(l*m_k+j+1) = m_X(l*m_k+j) + h*m_Vx(l*m_k+j) + (1./2)*h*h*m_ax(l*m_k+j);
+  m_Y(l*m_k+j+1) = m_Y(l*m_k+j) + h*m_Vy(l*m_k+j) + (1./2)*h*h*m_ay(l*m_k+j);
+  m_Z(l*m_k+j+1) = m_Z(l*m_k+j) + h*m_Vz(l*m_k+j) + (1./2)*h*h*m_az(l*m_k+j);
+}
 
-    for (int i = 0; i < m_N; i++){
-      m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
-      m_Vx(i*m_k+j+1) = m_Vx(i*m_k+j) + (1./2)*h*(m_ax(i*m_k+j+1) + m_ax(i*m_k+j));
-
-      m_ay(i*m_k+j+1) = force_a(m_Y,i,j+1);
-      m_Vy(i*m_k+j+1) = m_Vy(i*m_k+j) + (1./2)*h*(m_ay(i*m_k+j+1) + m_ay(i*m_k+j));
-
-      m_az(i*m_k+j+1) = force_a(m_Z,i,j+1);
-      m_Vz(i*m_k+j+1) = m_Vz(i*m_k+j) + (1./2)*h*(m_az(i*m_k+j+1) + m_az(i*m_k+j));
-     }
-  }
+void ParticleSolver::verlet_vel_and_a(int l, int j){
+  double h = m_h;
+  m_ax(l*m_k+j+1) = force_a(m_X,l,j+1);
+  m_ay(l*m_k+j+1) = force_a(m_Y,l,j+1);
+  m_az(l*m_k+j+1) = force_a(m_Z,l,j+1);
+  m_Vx(l*m_k+j+1) = m_Vx(l*m_k+j) + (1./2)*h*(m_ax(l*m_k+j+1) + m_ax(l*m_k+j));
+  m_Vy(l*m_k+j+1) = m_Vy(l*m_k+j) + (1./2)*h*(m_ay(l*m_k+j+1) + m_ay(l*m_k+j));
+  m_Vz(l*m_k+j+1) = m_Vz(l*m_k+j) + (1./2)*h*(m_az(l*m_k+j+1) + m_az(l*m_k+j));
 }
 
 
