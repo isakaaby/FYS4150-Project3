@@ -9,6 +9,9 @@
 
 /*
 TEST_CASE("Conservation of energy"){
+initialize();
+definerer initialverdiene
+
 REQUIRE((val - exact) < tol); Show constant
 Earth - sun system Use initial position 1 AU from sun and v = 5 AU/year.
 Compare total energy for each planet with its previous time step

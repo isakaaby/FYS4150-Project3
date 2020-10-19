@@ -1,3 +1,2 @@
 Sun
-Earth
-Jupiter
+Mercury

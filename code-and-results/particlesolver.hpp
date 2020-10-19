@@ -65,7 +65,7 @@ private:
 
 public:
   void init(vector<string> names, double beta, int N, int k, double T);           //init special solver for planet case
-  double force_mercury_rel(vec pos, int l, int j);
+  vec force_mercury_rel(vec pos, int l, int j);
   void solve_mercury_sun_verlet();                          //  solve for planet system
   void solve_mercury_sun_eulerchromer();
   void write_pos_to_file();

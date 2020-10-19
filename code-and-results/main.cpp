@@ -41,7 +41,7 @@ void menu() {
   all_names.push_back("Pluto");
 
   //int N;
-  int k = 10000;
+  int k = 100000;
   double beta = 2;
   double T;
 
@@ -57,10 +57,8 @@ void menu() {
     bool sun_center = true;
     solver.solvesystem(sun_center);
     solver.write_pos_to_file();
-
-
-
   }
+
   if (task==2){
     int N = 3;
     T = 23;                  //orbit time for Jupiter
@@ -92,14 +90,16 @@ void menu() {
 
   if (task==4){
     int N = 2;
-    T = 100;           //orbit time for mercury
+    T = 100;
+    //T = 200.;          //orbit time for mercury
+    //T = 24.1095;
     vector<string> m_names;
     m_names.push_back(all_names[0]);
     m_names.push_back(all_names[6]);
     MercurySunSolver solver;
     solver.init(m_names,beta,N,k,T);
-    //solver.solve_mercury_sun_verlet();
-    solver.solve_mercury_sun_eulerchromer();
+    solver.solve_mercury_sun_verlet();
+    //solver.solve_mercury_sun_eulerchromer();
     solver.write_pos_to_file();
   }
 

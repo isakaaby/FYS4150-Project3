@@ -21,16 +21,16 @@ void PlanetSolver::init(vector<string> names, double beta, int N, int k, double 
   double velMy = 0;
   double velMz = 0;
 
-  //double velx_sun = 0;
-  //double vely_sun = 0;
-  //double velz_sun = 0;
+  double velx_sun = 0;
+  double vely_sun = 0;
+  double velz_sun = 0;
 
   for (int i = 0; i < m_N; i++){
     params = Planet.initialize(m_names[i]);
     m_masses(i) = params(0);
     m_X(i*m_k) = params(1); m_Y(i*m_k) = params(2); m_Z(i*m_k) = params(3);
     m_Vx(i*m_k) = 365*params(4); m_Vy(i*m_k) = 365*params(5); m_Vz(i*m_k) = 365*params(6);
-    m_ax(i*m_k) = m_ay(i) = m_az(i*m_k) = 0.0;
+    m_ax(i*m_k) = m_ay(i*m_k) = m_az(i*m_k) = 0.0;
     M += m_masses[i];
     posMx += m_masses[i]*m_X(i*m_k);
     posMy += m_masses[i]*m_Y(i*m_k);
@@ -38,21 +38,23 @@ void PlanetSolver::init(vector<string> names, double beta, int N, int k, double 
     velMx += m_masses[i]*m_Vx(i*m_k);
     velMy += m_masses[i]*m_Vy(i*m_k);
     velMz += m_masses[i]*m_Vz(i*m_k);
-    //velx_sun -= m_masses[i]*m_Vx(i*m_k);
-    //vely_sun -= m_masses[i]*m_Vy(i*m_k);
-    //velz_sun -= m_masses[i]*m_Vz(i*m_k);
+    if (i != 0){
+      velx_sun -= m_masses[i]*m_Vx(i*m_k);
+      vely_sun -= m_masses[i]*m_Vy(i*m_k);
+      velz_sun -= m_masses[i]*m_Vz(i*m_k);
+    }
   }
-  //m_Vx(0) = velx_sun;
-  //m_Vy(0) = vely_sun;
-  //m_Vz(0) = velz_sun;
-  /*for (int i = 0; i < m_N; i++){
+  m_Vx(0) = velx_sun;
+  m_Vy(0) = vely_sun;
+  m_Vz(0) = velz_sun;
+  for (int i = 0; i < m_N; i++){
     m_X(i*m_k) -= posMx/M;
     m_Y(i*m_k) -= posMy/M;
     m_Z(i*m_k) -= posMz/M;
     m_Vx(i*m_k) -= velMx/M;
     m_Vy(i*m_k) -= velMy/M;
     m_Vz(i*m_k) -= velMz/M;
-  }*/
+  }
 };
 
 void PlanetSolver::init_sun_center(vector<string> names, double beta, int N, int k, double T){
