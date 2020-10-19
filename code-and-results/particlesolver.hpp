@@ -34,14 +34,14 @@ public:                          // general solver
   void initialize(double beta, int N, int k, double T);      // Use keys for each planet
   double force_a(vec pos, int l, int j);
   void verlet_pos(int l, int j);                // Verlet solver
-  void verlet_vel_and_a(int l, int j);                // Verlet solver
+  void verlet_vel(int l, int j);                // Verlet solver
 
-  void eulerchromer();          // EulerChromer solver
+  void eulerchromer(int l, int j);          // EulerChromer solver
   void forwardeuler();          // Forward euler solver
   double kinetic_energy(int i, int j);
   double potential_energy(double r, int l, int i, int j);
   double angular_momentum(double pos1, double v1, double pos2, double v2);
-  void get_angular_momentum();
+  void get_angular_momentum(int j);
 
 };
 
@@ -50,11 +50,29 @@ class PlanetSolver : public ParticleSolver {
 private:
 
 public:
-  void init(double beta, int N, int k, double T, vector<string> names);           //init special solver for planet case
-  void init(double beta, int N, int k, double T, vector<string> names, vector<double> x, vector<double> y, vector<double> z, vector<double> vx, vector<double> vy, vector<double> vz, vector<double> masses);
-  void solvesystem(bool check);      //  solve for planet system
+  void init(vector<string> names, double beta, int N, int k, double T); //init special solver for planet case
+  void init_sun_center(vector<string> names, double beta, int N, int k, double T);
+  void solvesystem_verlet(bool check);
+  void solvesystem_euler(bool check);                      //  solve for planet system
   void write_pos_to_file();
   void write_vel_to_file();
 };
+
+class MercurySunSolver : public ParticleSolver {
+private:
+
+public:
+  void init(vector<string> names, double beta, int N, int k, double T);           //init special solver for planet case
+  vec force_mercury_rel(vec pos, int l, int j);
+  void solve_mercury_sun_verlet();                          //  solve for planet system
+  void solve_mercury_sun_eulerchromer();
+  void write_pos_to_file();
+
+
+};
+
+
+
+
 
 #endif
