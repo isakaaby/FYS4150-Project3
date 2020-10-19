@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 
-void PlanetSolver::init(double beta, int N, int k, int T, vector<string> names){
+void PlanetSolver::init(double beta, int N, int k, double T, vector<string> names){
   initialize(beta, N, k, T);
 
 vector<string> m_names;
