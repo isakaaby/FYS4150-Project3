@@ -27,8 +27,20 @@ void menu() {
   cout << "Enter number:" << " ";
   cin >> task;
 
-  int N;
-  int k = 10000;
+  vector<string> all_names;
+  all_names.push_back("Sun");
+  all_names.push_back("Earth");
+  all_names.push_back("Jupiter");
+  all_names.push_back("Mars");
+  all_names.push_back("Venus");
+  all_names.push_back("Saturn");
+  all_names.push_back("Mercury");
+  all_names.push_back("Uranus");
+  all_names.push_back("Neptune");
+  all_names.push_back("Pluto");
+
+  //int N;
+  int k = 100000;
   double beta = 2;
   double T = 250;
   vector<string> planets;
@@ -37,25 +49,31 @@ void menu() {
 
   if (task==1){
     int N = 2;
-    planets.push_back("Sun");
-    planets.push_back("Earth");
+    T = 1;                    //orbit time for earth
+    vector<string> m_names;
+    for (int i = 0; i < N; i++){
+      m_names.push_back(all_names[i]);
+    }
     PlanetSolver solver;
-    solver.init(beta,N,k,T, planets);
-    solver.solvesystem();
+    solver.init_sun_center(m_names,beta,N,k,T);
+    bool sun_center = true;
+    solver.solvesystem(sun_center);
     solver.write_pos_to_file();
-
-
-
   }
+
   if (task==2){
     int N = 3;
-    planets.push_back("Sun");
-    planets.push_back("Earth");
-    planets.push_back("Jupiter");
+    T = 23;                  //orbit time for Jupiter
+    vector<string> m_names;
+    for (int i = 0; i < N; i++){
+      m_names.push_back(all_names[i]);
+    }
     PlanetSolver solver;
-    solver.init(beta,N,k,T, planets);
-    solver.solvesystem();
+    solver.init_sun_center(m_names,beta,N,k,T);
+    bool sun_center = true;
+    solver.solvesystem(sun_center);
     solver.write_pos_to_file();
+
   }
 
   if (task==3){
@@ -71,24 +89,24 @@ void menu() {
     planets.push_back("Neptune");
     planets.push_back("Pluto");
     PlanetSolver solver;
-    solver.init(beta,N,k,T, planets);
-    solver.solvesystem();
+    solver.init(m_names,beta,N,k,T);
+    bool sun_center = false;
+    solver.solvesystem(sun_center);
     solver.write_pos_to_file();
   }
 
-  if(task == 4) {
-    string param;
-    cout << "Number of objects ";
-    cin >> N;
-    cout << "Enter planets \n";
-    for(int i = 0; i < N; i++) {
-      cin >> param;
-      planets.push_back(param);
-    }
-
-    PlanetSolver solver;
-    solver.init(beta,N,k,T, planets);
-    solver.solvesystem();
+  if (task==4){
+    int N = 2;
+    T = 100;
+    //T = 200.;          //orbit time for mercury
+    //T = 24.1095;
+    vector<string> m_names;
+    m_names.push_back(all_names[0]);
+    m_names.push_back(all_names[6]);
+    MercurySunSolver solver;
+    solver.init(m_names,beta,N,k,T);
+    solver.solve_mercury_sun_verlet();
+    //solver.solve_mercury_sun_eulerchromer();
     solver.write_pos_to_file();
 
     //int N = input("")
