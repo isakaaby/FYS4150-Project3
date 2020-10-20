@@ -24,6 +24,7 @@ void menu() {
   cout << "Press 2 to run for Earth-Jupiter-Sun system \n";
   cout << "Press 3 to run for all planets \n";           //asking which task you want to run
   cout << "Press 4 to run for a system of preferred objects \n";
+  cout << "Press 5 to run a convergence test (Earth-Sun system) \n";
   cout << "Enter number:" << " ";
   cin >> task;
 
@@ -40,17 +41,17 @@ void menu() {
   all_names.push_back("Pluto");
 
   //int N;
-  int k = 100000;
+  int k = 10000;
   double beta = 2;
   double T = 250;
   vector<string> planets;
+  vector<string> m_names;
 
 
 
   if (task==1){
     int N = 2;
     T = 1;                    //orbit time for earth
-    vector<string> m_names;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -59,12 +60,23 @@ void menu() {
     bool sun_center = true;
     solver.solvesystem(sun_center);
     solver.write_pos_to_file();
+
+    int do_;
+    cout << "Press 1 to test conservation of energy\n";
+    cout << "Press 2 to test conservation of angular momentum\n";
+    cin >> do_;
+    if (do_ == 1){
+      solver.test_constant_energy();
+    }
+
+    if (do_ == 2){
+      solver.test_constant_angular();
+    }
   }
 
   if (task==2){
     int N = 3;
     T = 23;                  //orbit time for Jupiter
-    vector<string> m_names;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -100,7 +112,6 @@ void menu() {
     T = 100;
     //T = 200.;          //orbit time for mercury
     //T = 24.1095;
-    vector<string> m_names;
     m_names.push_back(all_names[0]);
     m_names.push_back(all_names[6]);
     MercurySunSolver solver;
@@ -112,6 +123,20 @@ void menu() {
     //int N = input("")
   }
 
+  if (task == 5){
+    int N_experiments;
+    cout << "Enter number of experiments:" << " ";
+    cin >> N_experiments;
+    cout << "Use 2pi as inital velocity (1axis) to get circular motion \n";
+
+    int N = 2;
+    T = 1;                    //orbit time for earth
+    for (int i = 0; i < N; i++){
+      m_names.push_back(all_names[i]);
+    }
+    PlanetSolver solver;
+    solver.test_convergence(m_names,beta,N,k,T,N_experiments);
+  }
 }
 
 /*

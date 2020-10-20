@@ -2,6 +2,17 @@
 #include "planets.hpp"
 #include <vector>
 #include <string>
+#include <random>
+#include <cmath>
+
+int PlanetSolver::random_index_generator(int min, int max){
+  // Using random generator from namespace std
+  random_device seed;
+  mt19937 rng(seed());
+  uniform_int_distribution<int> uni(min,max);
+  int random_integer = uni(rng);
+  return random_integer;
+}
 
 void PlanetSolver::init(vector<string> names, double beta, int N, int k, double T){
   initialize(beta, N, k, T);
@@ -94,7 +105,6 @@ void PlanetSolver::init_sun_center(vector<string> names, double beta, int N, int
 };
 
 
-
 void PlanetSolver::solvesystem(bool check){
  int s;
  if(check == true) {
@@ -114,6 +124,71 @@ void PlanetSolver::solvesystem(bool check){
     }
   }
 };
+
+void PlanetSolver::test_constant_energy(){
+  double tol = 1e-07;
+  int j = random_index_generator(0,m_k);
+  for (int i = 1; i < m_N; i++){
+    if (m_Etot(i*m_k + 1) - m_Etot(i*m_k + j) < tol) {
+      continue;
+    } else {
+    cout << "Implementation Error: Energy not conserved for celestial bodies" << endl;
+    //cout << m_Etot(i*m_k + 1) - m_Etot(i*m_k + j);
+    break;
+    }
+  }
+}
+
+void PlanetSolver::test_constant_angular(){
+  double tol = 1e-12;
+  // get angular momentum for all times
+  for (int j = 0; j < m_k; j++){
+    get_angular_momentum(j);
+  }
+  int j = random_index_generator(0,m_k);
+  for (int i = 1; i < m_N; i++){
+    if ((m_Lx(i*m_k + 1)*m_Lx(i*m_k + 1) + m_Ly(i*m_k + 1)*m_Ly(i*m_k + 1))  \
+        - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j)) < tol) {
+      continue;
+    } else {
+    cout << "Implementation Error: Angular momentum not conserved for celestial bodies" << endl;
+    break;
+    }
+  }
+}
+
+void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments){
+  // must solve for several dt's and check stability
+  // --> need to call the solver in a loop
+  vec E = zeros<vec>(N_experiments-1);
+  vec r = zeros<vec>(N_experiments-2);
+
+  bool sun_center = true;
+  int steps = 0;
+  double error = 0;
+  int i = 1;
+  double factor = 2;
+  init_sun_center(names,beta,N,k,T);
+  while (steps < N_experiments){
+    solvesystem(sun_center);
+    // Calculate error and convergence rate
+    for (int j = 0; j < m_k; j++){ //calculat error for earth (1 planet) by test of radiii
+      double next_error =  1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
+      + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j));
+      error = error + next_error;
+      }
+    E(steps) = sqrt(m_k*error);
+
+    m_k = m_k*factor; // halving the step size
+    m_h = (m_T-m_T0)/(m_k - 1); //
+    steps += 1;
+    }
+    for (int j = 0; j < N_experiments; j++){
+      r(j) = log(E(j+1)- E(j))/log(1/factor);
+    }
+    cout << "Convergence rates:" << " " << r << endl;
+}
+
 
 void PlanetSolver::write_pos_to_file(){
   ofstream x;
