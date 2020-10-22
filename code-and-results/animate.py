@@ -48,7 +48,7 @@ ax.set_zlabel('Z [AU]')
 """
 
 # This is the first frame, and it is a point in 3D for each planet
-line, = ax.plot(pos[0,0:1],pos[1,0:1],pos[2,0:1], label = planets[0])
+line, = ax.plot(pos[0,0:1],pos[1,0:1],pos[2,0:1],'.', color = 'orange', label = planets[0])
 line1, = ax.plot(pos1[0,0:1],pos1[1,0:1],pos1[2,0:1],'.',label = planets[1])
 #line2, = ax.plot(pos2[0,0:1],pos2[1,0:1],pos2[2,0:1],label = planets[2])
 line3, = ax.plot(pos3[0,0:1],pos3[1,0:1],pos3[2,0:1],'.',label = planets[3])
