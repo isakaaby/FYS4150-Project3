@@ -111,9 +111,9 @@ void MercurySunSolver::solve_mercury_sun_eulerchromer(){
     m_az(l*m_k+j) = uz(1);
     eulerchromer(l,j);
   }
-  double min_distance = min(r_vec);
-  uvec indices = find(r_vec == min(r_vec));
-  cout << indices << "\n";
+  //double min_distance = min(r_vec);
+  //uvec indices = find(r_vec == min(r_vec));
+  //cout << indices << "\n";
   //int I = 98858;
   //cout << m_X(l*m_k+I) << "\n";
   //cout << m_Y(l*m_k+I) << "\n";

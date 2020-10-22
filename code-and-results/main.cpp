@@ -111,13 +111,11 @@ void menu() {
     planets.push_back("Neptune");
     planets.push_back("Pluto");
     PlanetSolver solver;
-    solver.init(m_names,beta,N,k,T);
+    solver.init(planets,beta,N,k,T);
     bool sun_center = false;
     solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
   }
-
-
 
   if (task==4){
     int N = 2;
