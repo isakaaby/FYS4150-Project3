@@ -46,6 +46,9 @@ void menu() {
   double T = 250;
   vector<string> planets;
   vector<string> m_names;
+  int run_verlet = 1;
+  int run_euler_forward = 2;
+  int run_euler_chromer = 3;
 
 
 
@@ -59,7 +62,7 @@ void menu() {
     bool no_error_test = false;
     solver.init_sun_center(m_names,beta,N,k,T,no_error_test);
     bool sun_center = true;
-    solver.solvesystem(sun_center);
+    solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
 
     int do_;
@@ -89,7 +92,7 @@ void menu() {
     bool no_error_test = false;
     solver.init_sun_center(m_names,beta,N,k,T,no_error_test);
     bool sun_center = true;
-    solver.solvesystem(sun_center);
+    solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
 
   }
@@ -109,7 +112,7 @@ void menu() {
     PlanetSolver solver;
     solver.init(m_names,beta,N,k,T);
     bool sun_center = false;
-    solver.solvesystem(sun_center);
+    solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
   }
 
@@ -135,12 +138,12 @@ void menu() {
     cin >> N_experiments;
 
     int N = 2;
-    T = 10;                    //orbit time for earth
-    int k = 1000;
+    T = 100;                    //orbit time for earth
+    int k = 10000;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
     PlanetSolver solver;
-    solver.test_convergence(m_names,beta,N,k,T,N_experiments);
+    solver.test_convergence(m_names,beta,N,k,T,N_experiments, run_euler_chromer);
   }
 }

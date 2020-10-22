@@ -119,25 +119,51 @@ void PlanetSolver::init_sun_center(vector<string> names, double beta, int N, int
 };
 
 
-void PlanetSolver::solvesystem(bool check){
+void PlanetSolver::solvesystem(bool check, int method){
  int s;
  if(check == true) {
    s = 1;
- } else{
+ } else {
    s = 0;
  }
-  for (int j = 0; j < m_k-1; j++){ // for time
-    for (int i = s; i < m_N; i++){ //for planets
-      verlet_pos(i,j);
-    }
-    for (int i = s; i < m_N; i++){ //for planets
-      m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
-      m_ay(i*m_k+j+1) = force_a(m_Y,i,j+1);
-      m_az(i*m_k+j+1) = force_a(m_Z,i,j+1);
-      verlet_vel(i,j);
+
+  if (method == 1){ //use velocity verlet
+    for (int j = 0; j < m_k-1; j++){ // for time
+      for (int i = s; i < m_N; i++){ //for planets
+        verlet_pos(i,j);
+      }
+      for (int i = s; i < m_N; i++){ //for planets
+        m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
+        m_ay(i*m_k+j+1) = force_a(m_Y,i,j+1);
+        m_az(i*m_k+j+1) = force_a(m_Z,i,j+1);
+        verlet_vel(i,j);
+      }
     }
   }
-};
+  if (method == 2){
+    for (int j = 0; j < m_k-1; j++){ // for time
+      for (int i = s; i < m_N; i++){ //for planets
+        m_ax(i*m_k+j) = force_a(m_X,i,j);
+        m_ay(i*m_k+j) = force_a(m_Y,i,j);
+        m_az(i*m_k+j) = force_a(m_Z,i,j);
+        forwardeuler(i,j);
+        }
+      }
+    }
+
+  if (method == 3){
+    for (int j = 0; j < m_k-1; j++){ // for time
+      for (int i = s; i < m_N; i++){ //for planets
+        m_ax(i*m_k+j) = force_a(m_X,i,j);
+        m_ay(i*m_k+j) = force_a(m_Y,i,j);
+        m_az(i*m_k+j) = force_a(m_Z,i,j);
+        eulerchromer(i,j);
+      }
+    }
+  }
+}
+
+
 
 void PlanetSolver::test_constant_energy(double tol){
   int j = random_index_generator(0,m_k);
@@ -170,7 +196,7 @@ void PlanetSolver::test_constant_angular(double tol){
   cout << "Angular momentum conserved with tolerance:" << " " << tol << "\n";
 }
 
-void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments){
+void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments, int method){
   // must solve for several dt's and check stability
   // --> need to call the solver in a loop
   vec E = zeros<vec>(N_experiments);
@@ -185,7 +211,7 @@ void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int 
   while (steps < N_experiments){
     double error = 0;
     init_sun_center(names,beta,N,k,T,test_convergence);
-    solvesystem(sun_center);
+    solvesystem(sun_center,method);
     // Calculate error and convergence rate
     for (int j = 0; j < m_k; j++){ //calculat error for earth (1 planet) by test of radiii
       next_error =  1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \

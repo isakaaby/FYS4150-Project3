@@ -37,7 +37,7 @@ public:                          // general solver
   void verlet_vel(int l, int j);                // Verlet solver
 
   void eulerchromer(int l, int j);          // EulerChromer solver
-  void forwardeuler();          // Forward euler solver
+  void forwardeuler(int l, int j);          // Forward euler solver
   double kinetic_energy(int i, int j);
   double potential_energy(double r, int l, int i, int j);
   double angular_momentum(double pos1, double v1, double pos2, double v2);
@@ -52,13 +52,13 @@ private:
 public:
   void init(vector<string> names, double beta, int N, int k, double T); //init special solver for planet case
   void init_sun_center(vector<string> names, double beta, int N, int k, double T, bool check);
-  void solvesystem(bool check);                         //  solve for planet system
+  void solvesystem(bool check,int method);                         //  solve for planet system
   void write_pos_to_file();
   void write_vel_to_file();
   void test_constant_energy(double tol);
   void test_constant_angular(double tol);
   int random_index_generator(int min, int max);
-  void test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments);
+  void test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments, int method);
 };
 
 

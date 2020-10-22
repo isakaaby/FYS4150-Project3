@@ -92,23 +92,16 @@ void ParticleSolver::eulerchromer(int l, int j){
   m_Z(l*m_k+j+1) = m_Z(l*m_k+j) +   h*m_Vz(l*m_k+j+1);
 };
 
-void ParticleSolver::forwardeuler(){
+void ParticleSolver::forwardeuler(int l, int j){
   double h = m_h;
-  for (int j = 0; j < m_k-1; j++){ // for time
-    for (int i = 0; i < m_N; i++){ //for planets
-    m_ax(i*m_k+j) = force_a(m_X,i,j);
-    m_Vx(i*m_k+j+1) = m_Vx(i*m_k+j) + h*m_ax(i*m_k+j);
-    m_X(i*m_k+j+1) = m_X(i*m_k+j) +   h*m_Vx(i*m_k+j);
+    m_Vx(l*m_k+j+1) = m_Vx(l*m_k+j) + h*m_ax(l*m_k+j);
+    m_X(l*m_k+j+1) = m_X(l*m_k+j) +   h*m_Vx(l*m_k+j);
 
-    m_ay(i*m_k+j) = force_a(m_Y,i,j);
-    m_Vy(i*m_k+j+1) = m_Vy(i*m_k+j) + h*m_ay(i*m_k+j);
-    m_Y(i*m_k+j+1) = m_Y(i*m_k+j) +   h*m_Vy(i*m_k+j);
+    m_Vy(l*m_k+j+1) = m_Vy(l*m_k+j) + h*m_ay(l*m_k+j);
+    m_Y(l*m_k+j+1) = m_Y(l*m_k+j) +   h*m_Vy(l*m_k+j);
 
-    m_az(i*m_k+j) = force_a(m_Y,i,j);
-    m_Vz(i*m_k+j+1) = m_Vz(i*m_k+j) + h*m_az(i*m_k+j);
-    m_Z(i*m_k+j+1) = m_Z(i*m_k+j) +   h*m_Vz(i*m_k+j);
-    };
-  };
+    m_Vz(l*m_k+j+1) = m_Vz(l*m_k+j) + h*m_az(l*m_k+j);
+    m_Z(l*m_k+j+1) = m_Z(l*m_k+j) +   h*m_Vz(l*m_k+j);
 };
 
 
