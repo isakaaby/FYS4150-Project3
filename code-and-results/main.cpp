@@ -23,7 +23,7 @@ void menu() {
   cout << "Press 1 to run for Earth-Sun system \n";
   cout << "Press 2 to run for Earth-Jupiter-Sun system \n";
   cout << "Press 3 to run for all planets \n";
-  cout << "Press 4 to run for a system of preferred objects \n";
+  cout << "Press 4 to run for Mercury-Sun system\n";
   cout << "Press 5 to run a convergence test (Earth-Sun system) \n";
   cout << "Enter number:" << " ";
   cin >> task;
@@ -117,6 +117,8 @@ void menu() {
     solver.write_pos_to_file();
   }
 
+
+
   if (task==4){
     int N = 2;
     T = 100;
@@ -129,7 +131,6 @@ void menu() {
     solver.solve_mercury_sun_verlet();
     //solver.solve_mercury_sun_eulerchromer();
     solver.write_pos_to_file();
-
     //int N = input("")
   }
 

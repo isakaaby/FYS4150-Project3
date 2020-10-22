@@ -164,7 +164,6 @@ void PlanetSolver::solvesystem(bool check, int method){
 }
 
 
-
 void PlanetSolver::test_constant_energy(double tol){
   int j = random_index_generator(0,m_k);
   for (int i = 1; i < m_N; i++){
