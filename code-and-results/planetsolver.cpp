@@ -171,7 +171,7 @@ void PlanetSolver::test_constant_energy(double tol){
     if (m_Etot(i*m_k + 1) - m_Etot(i*m_k + j) < tol) {
       continue;
     } else {
-    cout << "Implementation Error: Energy not conserved for celestial bodies";
+    cout << "Error: Energy not conserved for celestial bodies with tolerance:" << " " << tol << "\n";
     break;
     }
   }
@@ -179,21 +179,35 @@ void PlanetSolver::test_constant_energy(double tol){
 }
 
 void PlanetSolver::test_constant_angular(double tol){
+  double diffL;
   // get angular momentum for all times
   for (int j = 0; j < m_k; j++){
     get_angular_momentum(j);
   }
   int j = random_index_generator(0,m_k);
   for (int i = 1; i < m_N; i++){
-    if ((m_Lx(i*m_k + 1)*m_Lx(i*m_k + 1) + m_Ly(i*m_k + 1)*m_Ly(i*m_k + 1))  \
-        - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j)) < tol) {
+    diffL = (m_Lx(i*m_k + 1)*m_Lx(i*m_k + 1) + m_Ly(i*m_k + 1)*m_Ly(i*m_k + 1))  \
+        - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j));
+    if (diffL < tol) {
       continue;
     } else {
-    cout << "Implementation Error: Angular momentum not conserved for celestial bodies";
+    cout << "Error: Angular momentum not conserved for celestial bodies with tolerance:" << " " << tol << "\n";
     break;
     }
   }
   cout << "Angular momentum conserved with tolerance:" << " " << tol << "\n";
+}
+
+void PlanetSolver::test_circular_orbit(double tol){
+  int i = 1;
+  int j = random_index_generator(0,m_k);
+  double diffr = abs(1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
+              + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j)));
+  if (diffr < tol){
+    cout << "Orbit is circular with tolerance:" << " " << tol << "\n";
+    } else {
+    cout << "Orbit is not circular with tolerance:" << " " << tol << "\n";
+    }
 }
 
 void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments, int method){
@@ -213,7 +227,7 @@ void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int 
     init_sun_center(names,beta,N,k,T,test_convergence);
     solvesystem(sun_center,method);
     // Calculate error and convergence rate
-    for (int j = 0; j < m_k; j++){ //calculat error for earth (1 planet) by test of radiii
+    for (int j = 0; j < m_k; j++){
       next_error =  1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
       + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j));
       error = error + next_error*next_error;

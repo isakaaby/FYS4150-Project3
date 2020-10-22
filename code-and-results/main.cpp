@@ -54,7 +54,8 @@ void menu() {
 
   if (task==1){
     int N = 2;
-    T = 1;                    //orbit time for earth
+    T = 30;                    //orbit time for earth
+    k = 20000;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -67,18 +68,18 @@ void menu() {
 
     int do_;
     double tol;
-    cout << "Press 1 to test conservation of energy\n";
-    cout << "Press 2 to test conservation of angular momentum\n";
+    cout << "Press 1 to test convervation laws \n";
     cout << "Enter number:" << " ";
     cin >> do_;
     if (do_ == 1){
       tol = 1e-07;
       solver.test_constant_energy(tol);
-    }
 
-    if (do_ == 2){
       tol = 1e-12;
       solver.test_constant_angular(tol);
+
+      tol = 1e-03;
+      solver.test_circular_orbit(tol);
     }
   }
 
