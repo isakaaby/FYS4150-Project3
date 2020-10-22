@@ -66,9 +66,10 @@ double ParticleSolver::force_a(vec pos, int l, int j){
 
 void ParticleSolver::verlet_pos(int l, int j){
   double h = m_h;
-  m_X(l*m_k+j+1) = m_X(l*m_k+j) + h*m_Vx(l*m_k+j) + (1./2)*h*h*m_ax(l*m_k+j);
-  m_Y(l*m_k+j+1) = m_Y(l*m_k+j) + h*m_Vy(l*m_k+j) + (1./2)*h*h*m_ay(l*m_k+j);
-  m_Z(l*m_k+j+1) = m_Z(l*m_k+j) + h*m_Vz(l*m_k+j) + (1./2)*h*h*m_az(l*m_k+j);
+  double hh = h*h;
+  m_X(l*m_k+j+1) = m_X(l*m_k+j) + h*m_Vx(l*m_k+j) + (1./2)*hh*m_ax(l*m_k+j);
+  m_Y(l*m_k+j+1) = m_Y(l*m_k+j) + h*m_Vy(l*m_k+j) + (1./2)*hh*m_ay(l*m_k+j);
+  m_Z(l*m_k+j+1) = m_Z(l*m_k+j) + h*m_Vz(l*m_k+j) + (1./2)*hh*m_az(l*m_k+j);
 }
 
 void ParticleSolver::verlet_vel(int l, int j){

@@ -9,3 +9,12 @@ execute:
 
 plot1:
 	python3 plot.py
+
+plotLE:
+	python3 plotLE.py
+
+plot3d:
+	python3 plot3d.py
+
+animation:
+	python3 animate.py

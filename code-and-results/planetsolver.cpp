@@ -4,6 +4,7 @@
 #include <string>
 #include <random>
 #include <cmath>
+#include <stdlib.h>
 
 int PlanetSolver::random_index_generator(int min, int max){
   // Using random generator from namespace std
@@ -68,7 +69,7 @@ void PlanetSolver::init(vector<string> names, double beta, int N, int k, double 
   }
 };
 
-void PlanetSolver::init_sun_center(vector<string> names, double beta, int N, int k, double T){
+void PlanetSolver::init_sun_center(vector<string> names, double beta, int N, int k, double T, bool test_convergence = false){
   initialize(beta, N, k, T);
 
   m_names = names;
@@ -80,6 +81,7 @@ void PlanetSolver::init_sun_center(vector<string> names, double beta, int N, int
   m_masses = zeros<vec>(m_N);
 
   double posx0, posy0, posz0, velx0, vely0, velz0;
+  if (test_convergence == false){
   for (int i = 0; i < m_N; i++){
     params = Planet.initialize(m_names[i]);
     m_masses(i) = params(0);
@@ -96,11 +98,23 @@ void PlanetSolver::init_sun_center(vector<string> names, double beta, int N, int
       cin >> vely0;
       cout << "vz0 for" << " " << m_names[i] << " " << "=" << " ";
       cin >> velz0;
-      m_masses(i) = params(0);
       m_X(i*m_k) = posx0; m_Y(i*m_k) = posy0; m_Z(i*m_k) = posz0;
       m_Vx(i*m_k) = velx0; m_Vy(i*m_k) = vely0; m_Vz(i*m_k) = velz0;
       m_ax(i*m_k) = m_ay(i) = m_az(i*m_k) = 0.0;
+      }
     }
+  } else {
+    for (int i = 0; i < m_N; i++){
+      params = Planet.initialize(m_names[i]);
+      m_masses(i) = params(0);
+      }
+      posx0 = 1.0 ; posy0 = 0.0; posz0 = 0.0;
+      velx0 = 0.0; vely0 = 2*M_PI; velz0 = 0.0;
+
+      int i = 1;
+      m_X(i*m_k) = posx0; m_Y(i*m_k) = posy0; m_Z(i*m_k) = posz0;
+      m_Vx(i*m_k) = velx0; m_Vy(i*m_k) = vely0; m_Vz(i*m_k) = velz0;
+      m_ax(i*m_k) = m_ay(i) = m_az(i*m_k) = 0.0;
   }
 };
 
@@ -125,22 +139,20 @@ void PlanetSolver::solvesystem(bool check){
   }
 };
 
-void PlanetSolver::test_constant_energy(){
-  double tol = 1e-07;
+void PlanetSolver::test_constant_energy(double tol){
   int j = random_index_generator(0,m_k);
   for (int i = 1; i < m_N; i++){
     if (m_Etot(i*m_k + 1) - m_Etot(i*m_k + j) < tol) {
       continue;
     } else {
-    cout << "Implementation Error: Energy not conserved for celestial bodies" << endl;
-    //cout << m_Etot(i*m_k + 1) - m_Etot(i*m_k + j);
+    cout << "Implementation Error: Energy not conserved for celestial bodies";
     break;
     }
   }
+  cout << "Energy conserved with tolerance:" << " " << tol << "\n";
 }
 
-void PlanetSolver::test_constant_angular(){
-  double tol = 1e-12;
+void PlanetSolver::test_constant_angular(double tol){
   // get angular momentum for all times
   for (int j = 0; j < m_k; j++){
     get_angular_momentum(j);
@@ -151,42 +163,44 @@ void PlanetSolver::test_constant_angular(){
         - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j)) < tol) {
       continue;
     } else {
-    cout << "Implementation Error: Angular momentum not conserved for celestial bodies" << endl;
+    cout << "Implementation Error: Angular momentum not conserved for celestial bodies";
     break;
     }
   }
+  cout << "Angular momentum conserved with tolerance:" << " " << tol << "\n";
 }
 
 void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments){
   // must solve for several dt's and check stability
   // --> need to call the solver in a loop
-  vec E = zeros<vec>(N_experiments-1);
-  vec r = zeros<vec>(N_experiments-2);
+  vec E = zeros<vec>(N_experiments);
+  vec r = zeros<vec>(N_experiments-1);
 
   bool sun_center = true;
   int steps = 0;
-  double error = 0;
+  double next_error;
   int i = 1;
   double factor = 2;
-  init_sun_center(names,beta,N,k,T);
+  bool test_convergence = true;
   while (steps < N_experiments){
+    double error = 0;
+    init_sun_center(names,beta,N,k,T,test_convergence);
     solvesystem(sun_center);
     // Calculate error and convergence rate
     for (int j = 0; j < m_k; j++){ //calculat error for earth (1 planet) by test of radiii
-      double next_error =  1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
+      next_error =  1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
       + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j));
-      error = error + next_error;
+      error = error + next_error*next_error;
       }
-    E(steps) = sqrt(m_k*error);
 
-    m_k = m_k*factor; // halving the step size
-    m_h = (m_T-m_T0)/(m_k - 1); //
+    E(steps) = sqrt(m_h*error);
+    k = m_k*factor;
     steps += 1;
     }
-    for (int j = 0; j < N_experiments; j++){
-      r(j) = log(E(j+1)- E(j))/log(1/factor);
+    for (int j = 1; j < N_experiments; j++){
+      r(j-1) = log(E(j)/E(j-1))/log(1/factor);
     }
-    cout << "Convergence rates:" << " " << r << endl;
+    cout << "Convergence rates:" << "" << r;
 }
 
 

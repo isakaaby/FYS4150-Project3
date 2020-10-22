@@ -22,7 +22,7 @@ void menu() {
   int task;
   cout << "Press 1 to run for Earth-Sun system \n";
   cout << "Press 2 to run for Earth-Jupiter-Sun system \n";
-  cout << "Press 3 to run for all planets \n";           //asking which task you want to run
+  cout << "Press 3 to run for all planets \n";
   cout << "Press 4 to run for a system of preferred objects \n";
   cout << "Press 5 to run a convergence test (Earth-Sun system) \n";
   cout << "Enter number:" << " ";
@@ -56,21 +56,26 @@ void menu() {
       m_names.push_back(all_names[i]);
     }
     PlanetSolver solver;
-    solver.init_sun_center(m_names,beta,N,k,T);
+    bool no_error_test = false;
+    solver.init_sun_center(m_names,beta,N,k,T,no_error_test);
     bool sun_center = true;
     solver.solvesystem(sun_center);
     solver.write_pos_to_file();
 
     int do_;
+    double tol;
     cout << "Press 1 to test conservation of energy\n";
     cout << "Press 2 to test conservation of angular momentum\n";
+    cout << "Enter number:" << " ";
     cin >> do_;
     if (do_ == 1){
-      solver.test_constant_energy();
+      tol = 1e-07;
+      solver.test_constant_energy(tol);
     }
 
     if (do_ == 2){
-      solver.test_constant_angular();
+      tol = 1e-12;
+      solver.test_constant_angular(tol);
     }
   }
 
@@ -81,7 +86,8 @@ void menu() {
       m_names.push_back(all_names[i]);
     }
     PlanetSolver solver;
-    solver.init_sun_center(m_names,beta,N,k,T);
+    bool no_error_test = false;
+    solver.init_sun_center(m_names,beta,N,k,T,no_error_test);
     bool sun_center = true;
     solver.solvesystem(sun_center);
     solver.write_pos_to_file();
@@ -127,10 +133,10 @@ void menu() {
     int N_experiments;
     cout << "Enter number of experiments:" << " ";
     cin >> N_experiments;
-    cout << "Use 2pi as inital velocity (1axis) to get circular motion \n";
 
     int N = 2;
-    T = 1;                    //orbit time for earth
+    T = 10;                    //orbit time for earth
+    int k = 1000;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -138,9 +144,3 @@ void menu() {
     solver.test_convergence(m_names,beta,N,k,T,N_experiments);
   }
 }
-
-/*
-double grav_force(double Ma, double Mb,double x, double y, double z):
-  double m_G = 39.478 //AU^(3)*yr^(-2)*M^(-1)
-  double g_force= m_G*(Ma*Mb)/cmath::sqrt(x*x + y*y + z*z)
-*/

@@ -51,12 +51,12 @@ private:
 
 public:
   void init(vector<string> names, double beta, int N, int k, double T); //init special solver for planet case
-  void init_sun_center(vector<string> names, double beta, int N, int k, double T);
+  void init_sun_center(vector<string> names, double beta, int N, int k, double T, bool check);
   void solvesystem(bool check);                         //  solve for planet system
   void write_pos_to_file();
   void write_vel_to_file();
-  void test_constant_energy();
-  void test_constant_angular();
+  void test_constant_energy(double tol);
+  void test_constant_angular(double tol);
   int random_index_generator(int min, int max);
   void test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments);
 };
