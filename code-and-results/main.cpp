@@ -120,9 +120,8 @@ void menu() {
 
   if (task==4){
     int N = 2;
-    k = 100000;
     T = 100;
-    k = 100000;
+    k = 1000000;
     //T = 200.;          //orbit time for mercury
     //T = 24.1095;
     m_names.push_back(all_names[0]);

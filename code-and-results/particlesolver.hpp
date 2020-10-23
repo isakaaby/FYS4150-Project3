@@ -25,7 +25,7 @@ protected:
   vec m_vx0,m_vy0,m_vz0;
   int m_N;          // number of planets
   int m_k;          // number of time steps
-  double m_T, m_h, m_T0;
+  double m_T, m_h, hh, m_T0;
   double M;
   vec m_Etot, m_Lx, m_Ly, m_Lz;
   vector<string> m_names;

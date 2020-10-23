@@ -33,9 +33,9 @@ ax.w_zaxis.line.set_color("grey")
 #ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
 
 # make the grid lines transparent
-ax.xaxis._axinfo["grid"]['color'] =  (1,1,1,0)
-ax.yaxis._axinfo["grid"]['color'] =  (1,1,1,0)
-ax.zaxis._axinfo["grid"]['color'] =  (1,1,1,0)
+#ax.xaxis._axinfo["grid"]['color'] =  (1,1,1,0)
+#ax.yaxis._axinfo["grid"]['color'] =  (1,1,1,0)
+#ax.zaxis._axinfo["grid"]['color'] =  (1,1,1,0)
 
 if x[0,0] == 0.0:
     ax.plot(x[:,0], y[:,0], ".", color = "orange", label = "Sun")
