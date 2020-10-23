@@ -88,7 +88,7 @@ void menu() {
   if (task==2){
     N = 3;
     T = 23;
-    k = 1000000;     //orbit time for Jupiter
+    k = 100000;     //orbit time for Jupiter
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -118,7 +118,7 @@ void menu() {
     PlanetSolver solver;
     solver.init(planets,beta,N,k,T);
     bool sun_center = false;
-    solver.solvesystem(sun_center,run_verlet);
+    solver.solvesystem(sun_center,run_euler_chromer);
     solver.write_pos_to_file();
   }
 

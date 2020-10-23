@@ -5,6 +5,7 @@
 #include <random>
 #include <cmath>
 #include <stdlib.h>
+#include <iomanip>
 
 void PlanetSolver::init(vector<string> names, double beta, int N, int k, double T){
   initialize(beta, N, k, T);

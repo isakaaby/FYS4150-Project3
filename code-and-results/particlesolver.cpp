@@ -15,7 +15,7 @@ void ParticleSolver::initialize(double beta, int N, int k, double T){
   m_T = T;
   m_T0 = 0.0;
   m_h = (m_T-m_T0)/(m_k - 1); // time step
-  cout << m_h << "\n";
+  //cout << m_h << "\n";
   m_beta = beta;
   hh = m_h*m_h;
 

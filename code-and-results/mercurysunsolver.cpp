@@ -2,6 +2,8 @@
 #include "planets.hpp"
 #include <vector>
 #include <string>
+#include <iomanip>
+
 
 void MercurySunSolver::init(vector<string> names, double beta, int N, int k, double T){
   initialize(beta, N, k, T);
