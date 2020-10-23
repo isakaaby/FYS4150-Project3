@@ -13,18 +13,22 @@ z = np.loadtxt(infile3)
 planets = np.genfromtxt("./results/planet_names.txt",dtype='str')
 
 if x[0,0] == 0.0:
-    plt.plot(x[:,0], y[:,0], ".", label = "Sun")
+    plt.plot(x[:,0], y[:,0], ".", color = "orange", label = "Sun")
     for i in range(1, N):
         plt.plot(x[:, i], y[:, i], label = planets[i])
-        plt.xlabel('x (AU)')
-        plt.ylabel('y (AU)')
-        plt.legend()
+        plt.xlabel('x (AU)',fontsize = 13)
+        plt.ylabel('y (AU)',fontsize = 13)
+        plt.legend(loc = "upper right",fontsize = 15)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
     plt.show()
 
 else:
     for i in range(0, N):
         plt.plot(x[:, i], y[:, i], label = planets[i])
-        plt.xlabel('x (AU)')
-        plt.ylabel('y (AU)')
-        plt.legend()
+        plt.xlabel('x (AU)',fontsize = 13)
+        plt.ylabel('y (AU)',fontsize = 13)
+        plt.legend(loc = "upper right",fontsize = 15)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
     plt.show()

@@ -35,15 +35,15 @@ ax = p3.Axes3D(fig)
 # Setting the axes properties so they are constant for each frame
 #ax.set_xlim3d([-5.0, 40.0])
 ax.set_xlim3d([-1.5, 1.5])
-ax.set_xlabel('X [AU]')
+ax.set_xlabel('X [AU]', fontsize = 15)
 
 #ax.set_ylim3d([-30.0, 40.0])
 ax.set_ylim3d([-1.5, 1.5])
-ax.set_ylabel('Y [AU]')
+ax.set_ylabel('Y [AU]', fontsize = 15)
 
 #ax.set_zlim3d([-15.0, 10.0])
 ax.set_zlim3d([-1.5, 1.5])
-ax.set_zlabel('Z [AU]')
+ax.set_zlabel('Z [AU]', fontsize = 15)
 
 """
 #line.set_data(data[:2, :num])
@@ -51,19 +51,19 @@ ax.set_zlabel('Z [AU]')
 """
 
 # This is the first frame, and it is a point in 3D for each planet
-line, = ax.plot(pos[0,0:1],pos[1,0:1],pos[2,0:1],'-', color = 'orange', label = planets[0])
-line1, = ax.plot(pos1[0,0:1],pos1[1,0:1],pos1[2,0:1],'-',label = planets[1])
+line, = ax.plot(pos[0,0:1],pos[1,0:1],pos[2,0:1],'o', color = 'orange', label = planets[0])
+line1, = ax.plot(pos1[0,0:1],pos1[1,0:1],pos1[2,0:1],'o',label = planets[1])
 #line2, = ax.plot(pos2[0,0:1],pos2[1,0:1],pos2[2,0:1],label = planets[2])
-line3, = ax.plot(pos3[0,0:1],pos3[1,0:1],pos3[2,0:1],'-',label = planets[3])
-line4, = ax.plot(pos4[0,0:1],pos4[1,0:1],pos4[2,0:1],'-', label = planets[4])
+line3, = ax.plot(pos3[0,0:1],pos3[1,0:1],pos3[2,0:1],'o',label = planets[3])
+line4, = ax.plot(pos4[0,0:1],pos4[1,0:1],pos4[2,0:1],'o', label = planets[4])
 #line5, = ax.plot(pos5[0,0:1],pos5[1,0:1],pos5[2,0:1],label = planets[5])
-line6, = ax.plot(pos6[0,0:1],pos6[1,0:1],pos6[2,0:1],'-',label = planets[6])
+line6, = ax.plot(pos6[0,0:1],pos6[1,0:1],pos6[2,0:1],'o',label = planets[6])
 """
 line7, = ax.plot(pos7[0,0:1],pos7[1,0:1],pos7[2,0:1],label = planets[7])
 line8, = ax.plot(pos8[0,0:1],pos8[1,0:1],pos8[2,0:1],label = planets[8])
 line9, = ax.plot(pos9[0,0:1],pos9[1,0:1],pos9[2,0:1],label = planets[9])
 """
-plt.legend()
+plt.legend(fontsize = 15)
 
 def animation_frame(num):
     # Update lines  with x,y and z data
@@ -87,5 +87,5 @@ N_points = len(x[:,1]);
 #ani = animation.FuncAnimation(fig, func = animation_frame, N, fargs=(data, line), interval=10000/N, blit=False)
 
 animation = FuncAnimation(fig, func = animation_frame, frames = range(N_points),interval = 150)#, #blit=True)
-#animation.save('matplot003.gif', writer='imagemagick')
+#animation.save('./Results/escape velocity.gif', writer= "imagemagick") # imagemagick') # or ffmpeg
 plt.show()

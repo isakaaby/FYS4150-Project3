@@ -2,7 +2,7 @@
 all: compile execute
 
 compile:
-	c++  -o main.out $(wildcard *.cpp) -larmadillo -std=c++11
+	c++  -o main.out $(wildcard *.cpp) -larmadillo -std=c++11 -Ofast
 
 execute:
 	./main.out

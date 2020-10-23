@@ -54,8 +54,8 @@ void menu() {
 
   if (task==1){
     int N = 2;
-    T = 30;                    //orbit time for earth
-    k = 20000;
+    T = 100;                    //orbit time for earth
+    k = 10000;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -78,7 +78,7 @@ void menu() {
       tol = 1e-12;
       solver.test_constant_angular(tol);
 
-      tol = 1e-03;
+      tol = 1e-02;
       solver.test_circular_orbit(tol);
     }
   }
@@ -121,7 +121,7 @@ void menu() {
   if (task==4){
     int N = 2;
     T = 100;
-    k = 100000;
+    k = 300000;
     //T = 200.;          //orbit time for mercury
     //T = 24.1095;
     m_names.push_back(all_names[0]);
@@ -140,8 +140,8 @@ void menu() {
     cin >> N_experiments;
 
     int N = 2;
-    T = 100;                    //orbit time for earth
-    int k = 10000;
+    T = 1;   //100                  //orbit time for earth
+    int k = 12000;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
