@@ -45,11 +45,10 @@ void MercurySunSolver::init(vector<string> names, double beta, int N, int k, dou
   m_Vz(m_k) -= velMz/M;
 };
 
-vec MercurySunSolver::force_mercury_rel(vec pos, int l, int j){
+double MercurySunSolver::force_mercury_rel(vec pos, int l, int j){
   double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
   double mass_sun = m_masses(0);
   double diffl = m_Lx(l*m_k)*m_Lx(l*m_k) + m_Ly(l*m_k)*m_Ly(l*m_k) + m_Lz(l*m_k)*m_Lz(l*m_k);
-  cout << pow(diffl,0.5) << "\n";
   double c = 173*365;      //AU yr^(-1)
   double cc = c*c;
   double diffr,r,r_term,rel_term,a;
@@ -59,34 +58,25 @@ vec MercurySunSolver::force_mercury_rel(vec pos, int l, int j){
   rel_term = 3*diffl/(diffr*cc);
   //calculate gravitational acceleration
   a = (pos(l*m_k+j)*G*mass_sun)/r_term + ((pos(l*m_k+j)*G*mass_sun)/r_term)*rel_term;
-  vec u = vec(2);
-  u(0) = r;
-  u(1) = -a;
-  return u;
+
+  return -a;
 }
 
 
 
 void MercurySunSolver::solve_mercury_sun_verlet(){
   double l = 1;
-  vec r_vec = vec(m_k);
-  r_vec(0) = m_X(m_k);
   get_angular_momentum(0);
   for (int j = 0; j < m_k-1; j++){ // for time
     verlet_pos(l,j);
-    vec ux = force_mercury_rel(m_X,l,j+1);
-    r_vec(j+1) = ux(0);
-    m_ax(l*m_k+j+1) = ux(1);
-    vec uy = force_mercury_rel(m_Y,l,j+1);
-    m_ay(l*m_k+j+1) = uy(1);
-    vec uz = force_mercury_rel(m_Z,l,j+1);
-    m_az(l*m_k+j+1) = uz(1);
+    m_ax(l*m_k+j+1) = force_mercury_rel(m_X,l,j+1);
+    m_ay(l*m_k+j+1) = force_mercury_rel(m_Y,l,j+1);
+    m_az(l*m_k+j+1) = force_mercury_rel(m_Z,l,j+1);
     verlet_vel(l,j);
   }
-  double min_distance = min(r_vec);
-  uvec indices = find(r_vec == min(r_vec));
-  cout << indices << "\n";
-  int I = 40236;
+  //double min_distance = min(r_vec);
+  //uvec indices = find(r_vec == min(r_vec));
+  //int I = 40236;
   //cout << m_X(l*m_k+I) << "\n";
   //cout << m_Y(l*m_k+I) << "\n";
 
@@ -96,7 +86,7 @@ void MercurySunSolver::solve_mercury_sun_verlet(){
   //cout << theta_rad*3600 << "\n";
 };
 
-void MercurySunSolver::solve_mercury_sun_eulerchromer(){
+/*void MercurySunSolver::solve_mercury_sun_eulerchromer(){
   double l = 1;
   vec r_vec = vec(m_k);
   r_vec(0) = m_X(m_k);
@@ -123,7 +113,7 @@ void MercurySunSolver::solve_mercury_sun_eulerchromer(){
   //double theta_rad = atan(1);
   //cout << theta_rad << "\n";
   //cout << theta_rad*3600 << "\n";
-};
+};*/
 
 
 

@@ -13,6 +13,9 @@ y = np.loadtxt(infile2)
 z = np.loadtxt(infile3)
 planets = np.genfromtxt("./results/planet_names.txt",dtype='str')
 
+#plot_3D = string(input("Plot in 3D? (yes/no):"))
+
+
 if x[0,0] == 0.0:
     plt.plot(x[:,0], y[:,0], ".", label = "Sun")
     for i in range(1, N):

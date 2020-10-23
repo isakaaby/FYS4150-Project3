@@ -96,18 +96,8 @@ void menu() {
 
   if (task==3){
     int N = 10;
-    planets.push_back("Sun");
-    planets.push_back("Earth");
-    planets.push_back("Jupiter");
-    planets.push_back("Mars");
-    planets.push_back("Venus");
-    planets.push_back("Saturn");
-    planets.push_back("Mercury");
-    planets.push_back("Uranus");
-    planets.push_back("Neptune");
-    planets.push_back("Pluto");
     PlanetSolver solver;
-    solver.init(m_names,beta,N,k,T);
+    solver.init(all_names,beta,N,k,T);
     bool sun_center = false;
     solver.solvesystem(sun_center);
     solver.write_pos_to_file();
@@ -115,6 +105,7 @@ void menu() {
 
   if (task==4){
     int N = 2;
+    k = 500000;
     T = 100;
     //T = 200.;          //orbit time for mercury
     //T = 24.1095;

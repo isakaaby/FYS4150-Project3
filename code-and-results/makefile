@@ -2,13 +2,16 @@
 all: compile execute
 
 compile:
-	c++ -Wall -o main.out $(wildcard *.cpp) -larmadillo -std=c++11
+	c++ -o main.out $(wildcard *.cpp) -larmadillo -std=c++11 -Ofast
 
 execute:
 	./main.out
 
 plot1:
 	python3 plot.py
+
+perihelion:
+	python3 perihelion.py
 
 plotLE:
 	python3 plotLE.py
