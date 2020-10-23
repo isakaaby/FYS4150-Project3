@@ -2,7 +2,7 @@
 all: compile execute
 
 compile:
-	c++ -Wall -o main.out $(wildcard *.cpp) -larmadillo -std=c++11
+	c++  -o main.out $(wildcard *.cpp) -larmadillo -std=c++11
 
 execute:
 	./main.out
@@ -18,3 +18,6 @@ plot3d:
 
 animation:
 	python3 animate.py
+
+get_angle:
+	python3 get_angle.py

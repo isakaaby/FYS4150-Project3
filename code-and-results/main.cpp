@@ -100,6 +100,7 @@ void menu() {
 
   if (task==3){
     int N = 10;
+    int k = 10000;
     planets.push_back("Sun");
     planets.push_back("Earth");
     planets.push_back("Jupiter");
@@ -120,6 +121,7 @@ void menu() {
   if (task==4){
     int N = 2;
     T = 100;
+    k = 100000;
     //T = 200.;          //orbit time for mercury
     //T = 24.1095;
     m_names.push_back(all_names[0]);

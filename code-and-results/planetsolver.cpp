@@ -6,15 +6,6 @@
 #include <cmath>
 #include <stdlib.h>
 
-int PlanetSolver::random_index_generator(int min, int max){
-  // Using random generator from namespace std
-  random_device seed;
-  mt19937 rng(seed());
-  uniform_int_distribution<int> uni(min,max);
-  int random_integer = uni(rng);
-  return random_integer;
-}
-
 void PlanetSolver::init(vector<string> names, double beta, int N, int k, double T){
   initialize(beta, N, k, T);
 
@@ -163,6 +154,15 @@ void PlanetSolver::solvesystem(bool check, int method){
   }
 }
 
+
+int PlanetSolver::random_index_generator(int min, int max){
+  // Using random generator from namespace std
+  random_device seed;
+  mt19937 rng(seed());
+  uniform_int_distribution<int> uni(min,max);
+  int random_integer = uni(rng);
+  return random_integer;
+}
 
 void PlanetSolver::test_constant_energy(double tol){
   int j = random_index_generator(0,m_k);
