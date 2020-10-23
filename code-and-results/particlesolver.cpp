@@ -15,6 +15,7 @@ void ParticleSolver::initialize(double beta, int N, int k, double T){
   m_T = T;
   m_T0 = 0.0;
   m_h = (m_T-m_T0)/(m_k - 1); // time step
+  cout << m_h << "\n";
   m_beta = beta;
   hh = m_h*m_h;
 
@@ -40,9 +41,11 @@ void ParticleSolver::initialize(double beta, int N, int k, double T){
 
 };
 
-double ParticleSolver::force_a(vec pos, int l, int j){
+void ParticleSolver::force_a(int l, int j){
   double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
-  double a = 0;
+  double a_x = 0;
+  double a_y = 0;
+  double a_z = 0;
   double V = 0;
   double diffx,diffy,diffz,diffr,r;
   for (int i = 0; i < m_N; i++){ //for planets
@@ -57,11 +60,16 @@ double ParticleSolver::force_a(vec pos, int l, int j){
       // calculate potential energies for a planet
       V += potential_energy(r,l,i,j);
       //calculate gravitational acceleration
-      a += ((pos(l*m_k+j)-pos(i*m_k+j))*G*m_masses(i))/r_term;
+      a_x += ((m_X(l*m_k+j)-m_X(i*m_k+j))*G*m_masses(i))/r_term;
+      a_y += ((m_Y(l*m_k+j)-m_Y(i*m_k+j))*G*m_masses(i))/r_term;
+      a_z += ((m_Z(l*m_k+j)-m_Z(i*m_k+j))*G*m_masses(i))/r_term;
     }
   }
+  m_ax(l*m_k+j) = -a_x;
+  m_ay(l*m_k+j) = -a_y;
+  m_az(l*m_k+j) = -a_z;
+
   m_Etot(l*m_k+j) = kinetic_energy(l,j) + V; // get total energy E = K + V for each planet
-  return -a;
 }
 
 

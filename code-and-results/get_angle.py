@@ -21,16 +21,16 @@ r = np.sqrt(x[:,1]*x[:,1] + y[:,1]*y[:,1] + z[:,1]*z[:,1]);
 dr = np.gradient(r)
 ddr = np.gradient(dr)
 
-print(len(dr))
-print(len(ddr))
+#print(len(dr))
+#print(len(ddr))
 
 
 #get indices where ddr positive (>0) and dr =(approx) 0.
-perihelion_points = np.logical_and(ddr > 0, np.absolute(dr) < 0.43e-4)
+perihelion_points = np.logical_and(ddr > 0, np.absolute(dr) < 6e-5)
 perihelion_indices = np.where(perihelion_points == True)
 print(len(perihelion_indices[0]))
 
-
+"""
 indices = perihelion_indices[0]
 r_mins =  r[indices]
 x_p = x[indices,1]; y_p = y[indices,1];
@@ -56,3 +56,4 @@ plt.show()
 plt.plot(axis,fit(axis),label = 'angles-arcsec');
 plt.legend()
 plt.show()
+"""

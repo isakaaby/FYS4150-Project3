@@ -124,9 +124,7 @@ void PlanetSolver::solvesystem(bool check, int method){
         verlet_pos(i,j);
       }
       for (int i = s; i < m_N; i++){ //for planets
-        m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
-        m_ay(i*m_k+j+1) = force_a(m_Y,i,j+1);
-        m_az(i*m_k+j+1) = force_a(m_Z,i,j+1);
+        force_a(i,j+1);
         verlet_vel(i,j);
       }
     }
@@ -134,9 +132,7 @@ void PlanetSolver::solvesystem(bool check, int method){
   if (method == 2){
     for (int j = 0; j < m_k-1; j++){ // for time
       for (int i = s; i < m_N; i++){ //for planets
-        m_ax(i*m_k+j) = force_a(m_X,i,j);
-        m_ay(i*m_k+j) = force_a(m_Y,i,j);
-        m_az(i*m_k+j) = force_a(m_Z,i,j);
+        force_a(i,j);
         forwardeuler(i,j);
         }
       }
@@ -145,9 +141,7 @@ void PlanetSolver::solvesystem(bool check, int method){
   if (method == 3){
     for (int j = 0; j < m_k-1; j++){ // for time
       for (int i = s; i < m_N; i++){ //for planets
-        m_ax(i*m_k+j) = force_a(m_X,i,j);
-        m_ay(i*m_k+j) = force_a(m_Y,i,j);
-        m_az(i*m_k+j) = force_a(m_Z,i,j);
+        force_a(i,j);
         eulerchromer(i,j);
       }
     }
@@ -260,9 +254,9 @@ void PlanetSolver::write_pos_to_file(){
 
   for (int j = 0; j < m_k; j++){
     for (int i = 0; i < m_N; i++){
-      x << m_X(i*m_k+j) << " ";
-      y << m_Y(i*m_k+j) << " ";
-      z << m_Z(i*m_k+j) << " ";
+      x << setprecision(15) << m_X(i*m_k+j) << " ";
+      y << setprecision(15) << m_Y(i*m_k+j) << " ";
+      z << setprecision(15) << m_Z(i*m_k+j) << " ";
     }
     x << "\n";
     y << "\n";

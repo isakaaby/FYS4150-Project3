@@ -41,9 +41,11 @@ void menu() {
   all_names.push_back("Pluto");
 
   //int N;
-  int k = 10000;
+  int k;
+  int N;
+  double T;
   double beta = 2;
-  double T = 250;
+
   vector<string> planets;
   vector<string> m_names;
   int run_verlet = 1;
@@ -53,9 +55,9 @@ void menu() {
 
 
   if (task==1){
-    int N = 2;
-    T = 30;                    //orbit time for earth
-    k = 20000;
+    N = 2;
+    T = 1;                    //orbit time for earth
+    k = 1e6;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -84,8 +86,9 @@ void menu() {
   }
 
   if (task==2){
-    int N = 3;
-    T = 23;                  //orbit time for Jupiter
+    N = 3;
+    T = 23;
+    k = 1000000;     //orbit time for Jupiter
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -99,8 +102,9 @@ void menu() {
   }
 
   if (task==3){
-    int N = 10;
-    int k = 10000;
+    N = 10;
+    k = 1e6;
+    T = 250;
     planets.push_back("Sun");
     planets.push_back("Earth");
     planets.push_back("Jupiter");
@@ -119,9 +123,9 @@ void menu() {
   }
 
   if (task==4){
-    int N = 2;
+    N = 2;
     T = 100;
-    k = 1000000;
+    k = 1e6;
     //T = 200.;          //orbit time for mercury
     //T = 24.1095;
     m_names.push_back(all_names[0]);
