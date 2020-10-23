@@ -105,7 +105,7 @@ void menu() {
 
   if (task==4){
     int N = 2;
-    k = 500000;
+    k = 100000;
     T = 100;
     //T = 200.;          //orbit time for mercury
     //T = 24.1095;

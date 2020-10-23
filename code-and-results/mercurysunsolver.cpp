@@ -27,7 +27,7 @@ void MercurySunSolver::init(vector<string> names, double beta, int N, int k, dou
   m_ax(m_k) = m_ay(m_k) = m_az(m_k) = 0.0;
 
 
-  double posMx,posMy,posMz,velMx,velMy,velMz;
+  /*double posMx,posMy,posMz,velMx,velMy,velMz;
   double M = 0;
   M = m_masses[0] + m_masses[1];
   posMx = m_masses[1]*m_X(m_k);
@@ -42,7 +42,7 @@ void MercurySunSolver::init(vector<string> names, double beta, int N, int k, dou
   m_Z(m_k) -= posMz/M;
   m_Vx(m_k) -= velMx/M;
   m_Vy(m_k) -= velMy/M;
-  m_Vz(m_k) -= velMz/M;
+  m_Vz(m_k) -= velMz/M;*/
 };
 
 double MercurySunSolver::force_mercury_rel(vec pos, int l, int j){
