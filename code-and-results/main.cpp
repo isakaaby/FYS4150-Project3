@@ -1,6 +1,3 @@
-// declare force here PS. Remember unit time [years], length in [AU] and mass [solar mass]
-// tried to make a general class system which can be used on many body problems
-// this uses class planets
 #include <cmath>
 #include <armadillo>
 #include "particlesolver.hpp"
@@ -10,7 +7,6 @@
 using namespace arma;
 using namespace std;
 
-//double grav_force();
 void menu();
 
 int main(int argc, char const *argv[]){
@@ -45,6 +41,8 @@ void menu() {
   int N;
   double T;
   double beta = 2;
+  int do_;
+  double tol;
 
   vector<string> planets;
   vector<string> m_names;
@@ -56,8 +54,9 @@ void menu() {
 
   if (task==1){
     N = 2;
-    T = 1;                    //orbit time for earth
-    k = 1e6;
+    T = 20;                    //orbit time for earth
+    k = 1e5;
+    double beta = 3.0;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -68,13 +67,11 @@ void menu() {
     solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
 
-    int do_;
-    double tol;
     cout << "Press 1 to test convervation laws \n";
     cout << "Enter number:" << " ";
     cin >> do_;
     if (do_ == 1){
-      tol = 1e-07;
+      tol = 1e-06;
       solver.test_constant_energy(tol);
 
       tol = 1e-12;
@@ -87,7 +84,7 @@ void menu() {
 
   if (task==2){
     N = 3;
-    T = 23;
+    T = 50;
     k = 100000;     //orbit time for Jupiter
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
@@ -99,6 +96,19 @@ void menu() {
     solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
 
+    cout << "Press 1 to test convervation laws \n";
+    cout << "Enter number:" << " ";
+    cin >> do_;
+    if (do_ == 1){
+      tol = 1e-05;
+      solver.test_constant_energy(tol);
+
+      tol = 1e-12;
+      solver.test_constant_angular(tol);
+
+      tol = 1e-02;
+      solver.test_circular_orbit(tol);
+    }
   }
 
   if (task==3){
@@ -118,24 +128,21 @@ void menu() {
     PlanetSolver solver;
     solver.init(planets,beta,N,k,T);
     bool sun_center = false;
-    solver.solvesystem(sun_center,run_euler_chromer);
+    solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
   }
 
   if (task==4){
     N = 2;
     T = 100;
-    k = 1e6;
-    //T = 200.;          //orbit time for mercury
-    //T = 24.1095;
+    k = 3e5;
     m_names.push_back(all_names[0]);
     m_names.push_back(all_names[6]);
     MercurySunSolver solver;
     solver.init(m_names,beta,N,k,T);
     solver.solve_mercury_sun_verlet();
-    //solver.solve_mercury_sun_eulerchromer();
     solver.write_pos_to_file();
-    //int N = input("")
+
   }
 
   if (task == 5){
@@ -143,9 +150,9 @@ void menu() {
     cout << "Enter number of experiments:" << " ";
     cin >> N_experiments;
 
-    int N = 2;
-    T = 1;   //100                  //orbit time for earth
-    int k = 12000;
+    int N = 1;
+    T = 1;
+    int k = 50000;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }

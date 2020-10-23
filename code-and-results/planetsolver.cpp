@@ -161,8 +161,10 @@ int PlanetSolver::random_index_generator(int min, int max){
 
 void PlanetSolver::test_constant_energy(double tol){
   int j = random_index_generator(0,m_k);
+  double diff;
   for (int i = 1; i < m_N; i++){
-    if (m_Etot(i*m_k + 1) - m_Etot(i*m_k + j) < tol) {
+    diff = abs(m_Etot(i*m_k + 1) - m_Etot(i*m_k + j));
+    if (diff < tol) {
       continue;
     } else {
     cout << "Error: Energy not conserved for celestial bodies with tolerance:" << " " << tol << "\n";
@@ -179,8 +181,8 @@ void PlanetSolver::test_constant_angular(double tol){
   }
   int j = random_index_generator(0,m_k);
   for (int i = 1; i < m_N; i++){
-    diffL = (m_Lx(i*m_k + 1)*m_Lx(i*m_k + 1) + m_Ly(i*m_k + 1)*m_Ly(i*m_k + 1))  \
-        - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j));
+    diffL = abs((m_Lx(i*m_k + 1)*m_Lx(i*m_k + 1) + m_Ly(i*m_k + 1)*m_Ly(i*m_k + 1))  \
+        - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j)));
     if (diffL < tol) {
       continue;
     } else {
@@ -203,15 +205,18 @@ void PlanetSolver::test_circular_orbit(double tol){
 void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments, int method){
   // must solve for several dt's and check stability
   // --> need to call the solver in a loop
+  // Check for conservation of energy og angular momentum?
+  vec numpoints = zeros<vec>(N_experiments);
   vec E = zeros<vec>(N_experiments);
-  vec rel_error = zeros<vec>(N_experiments);
-  vec r = zeros<vec>(N_experiments-1);
+  vec h = zeros<vec>(N_experiments);
+  vec r = zeros<vec>(N_experiments);
+  r(N_experiments-1)= 0.0;
 
   bool sun_center = true;
   int steps = 0;
   double next_error;
   int i = 1;
-  double factor = 2;
+  double factor = 5;
   bool test_convergence = true;
   while (steps < N_experiments){
     double error = 0;
@@ -224,19 +229,20 @@ void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int 
       error = error + next_error*next_error;
       }
 
-    rel_error(steps) = next_error; //last point
     E(steps) = sqrt(m_h*error);
+    h(steps) = m_h;
+    numpoints(steps) = m_k;
     k = m_k*factor;
     steps += 1;
     }
     for (int j = 1; j < N_experiments; j++){
       r(j-1) = log(E(j)/E(j-1))/log(1/factor);
     }
-    cout << "Convergence rates:" << " " << r <<"\n";
-    cout << "relative error:" << " " << rel_error << "\n";
-    // get relative error for last step
+    write_error_to_file(N_experiments,E,r,h,numpoints);
+    cout << "Convergence rates:\n"  << r <<"\n";
+    cout << "relative error:\n"  << E << "\n";
+    cout << "step size:\n" << h << "\n";
 }
-
 
 void PlanetSolver::write_pos_to_file(){
   ofstream x;
@@ -296,4 +302,24 @@ void PlanetSolver::write_vel_to_file(){
   x.close();
   y.close();
   z.close();
+}
+
+void PlanetSolver::write_error_to_file(int N_experiments, vec E, vec r, vec h, vec nump){
+  ofstream error;
+
+  string filename_1("./results/error_params.txt");
+  error.open(filename_1);
+
+  error << "E" << " "; error << "h" << " ";
+  error << "r" << " "; error << "num_points" << " ";
+  error << "\n";
+  for (int j = 0; j < N_experiments; j++){
+    error << E(j) << " ";
+    error << h(j) << " ";
+    error << r(j) << " ";
+    error << nump(j) << " ";
+    error << "\n";
+    }
+  error.close();
+
 }

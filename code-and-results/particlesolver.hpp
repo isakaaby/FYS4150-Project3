@@ -55,6 +55,7 @@ public:
   void solvesystem(bool check,int method);                         //  solve for planet system
   void write_pos_to_file();
   void write_vel_to_file();
+  void write_error_to_file(int N_experiments, vec E, vec r, vec h, vec nump);
   void test_constant_energy(double tol);
   void test_constant_angular(double tol);
   void test_circular_orbit(double tol);
