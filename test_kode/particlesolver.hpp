@@ -32,7 +32,7 @@ protected:
 
 public:                          // general solver
   void initialize(double beta, int N, int k, double T);      // Use keys for each planet
-  void force_a(int l, int j);
+  double force_a(vec pos, int l, int j);
   void verlet_pos(int l, int j);                // Verlet solver
   void verlet_vel(int l, int j);                // Verlet solver
 
@@ -67,7 +67,7 @@ class MercurySunSolver : public ParticleSolver {
 
 public:
   void init(vector<string> names, double beta, int N, int k, double T);           //init special solver for planet case
-  void force_mercury_rel(int l, int j);
+  double force_mercury_rel(vec pos, int l, int j);
   void solve_mercury_sun_verlet();                          //  solve for planet system
   void solve_mercury_sun_eulerchromer();
   void write_pos_to_file();

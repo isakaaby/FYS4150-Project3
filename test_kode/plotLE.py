@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 
 N = int(input("Insert number of objects N: "))
 
@@ -12,27 +13,25 @@ y = np.loadtxt(infile2)
 z = np.loadtxt(infile3)
 planets = np.genfromtxt("./results/planet_names.txt",dtype='str')
 
-#plot_3D = string(input("Plot in 3D? (yes/no):"))
-
-
 if x[0,0] == 0.0:
-    plt.plot(x[:,0], y[:,0], ".", color = "orange", label = "Sun")
+    plt.plot(x[:,0], y[:,0], ".", label = "Sun")
     for i in range(1, N):
-        #plt.plot(x[99500:, i], y[99500:, i], label = planets[i])
+        #fig = plt.figure()
+        #ax = fig.gca(projection='3d')
+        #ax.plot(x[:, i], y[:, i], z[:, i])
         plt.plot(x[:, i], y[:, i], label = planets[i])
-        plt.xlabel('x (AU)',fontsize = 13)
-        plt.ylabel('y (AU)',fontsize = 13)
-        plt.legend(loc = "upper right",fontsize = 15)
-        plt.xticks(fontsize=14)
-        plt.yticks(fontsize=14)
+        plt.xlabel('x (AU)')
+        plt.ylabel('y (AU)')
+        plt.legend()
     plt.show()
 
 else:
     for i in range(0, N):
+        #fig = plt.figure()
+        #ax = fig.gca(projection='3d')
+        #ax.plot(x[:, i], y[:, i], z[:, i])
         plt.plot(x[:, i], y[:, i], label = planets[i])
-        plt.xlabel('x (AU)',fontsize = 13)
-        plt.ylabel('y (AU)',fontsize = 13)
-        plt.legend(loc = "upper right",fontsize = 15)
-        plt.xticks(fontsize=14)
-        plt.yticks(fontsize=14)
+        plt.xlabel('x (AU)')
+        plt.ylabel('y (AU)')
+        plt.legend()
     plt.show()

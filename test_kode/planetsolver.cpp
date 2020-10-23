@@ -124,7 +124,9 @@ void PlanetSolver::solvesystem(bool check, int method){
         verlet_pos(i,j);
       }
       for (int i = s; i < m_N; i++){ //for planets
-        force_a(i,j+1);
+        m_ax(i*m_k+j+1) = force_a(m_X,i,j+1);
+        m_ay(i*m_k+j+1) = force_a(m_Y,i,j+1);
+        m_az(i*m_k+j+1) = force_a(m_Z,i,j+1);
         verlet_vel(i,j);
       }
     }
@@ -132,7 +134,9 @@ void PlanetSolver::solvesystem(bool check, int method){
   if (method == 2){
     for (int j = 0; j < m_k-1; j++){ // for time
       for (int i = s; i < m_N; i++){ //for planets
-        force_a(i,j);
+        m_ax(i*m_k+j) = force_a(m_X,i,j);
+        m_ay(i*m_k+j) = force_a(m_Y,i,j);
+        m_az(i*m_k+j) = force_a(m_Z,i,j);
         forwardeuler(i,j);
         }
       }
@@ -141,7 +145,9 @@ void PlanetSolver::solvesystem(bool check, int method){
   if (method == 3){
     for (int j = 0; j < m_k-1; j++){ // for time
       for (int i = s; i < m_N; i++){ //for planets
-        force_a(i,j);
+        m_ax(i*m_k+j) = force_a(m_X,i,j);
+        m_ay(i*m_k+j) = force_a(m_Y,i,j);
+        m_az(i*m_k+j) = force_a(m_Z,i,j);
         eulerchromer(i,j);
       }
     }
@@ -168,6 +174,7 @@ void PlanetSolver::test_constant_energy(double tol){
     break;
     }
   }
+  cout << "Energy conserved with tolerance:" << " " << tol << "\n";
 }
 
 void PlanetSolver::test_constant_angular(double tol){
@@ -187,6 +194,7 @@ void PlanetSolver::test_constant_angular(double tol){
     break;
     }
   }
+  cout << "Angular momentum conserved with tolerance:" << " " << tol << "\n";
 }
 
 void PlanetSolver::test_circular_orbit(double tol){
@@ -194,7 +202,9 @@ void PlanetSolver::test_circular_orbit(double tol){
   int j = random_index_generator(0,m_k);
   double diffr = abs(1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
               + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j)));
-  if (diffr > tol){
+  if (diffr < tol){
+    cout << "Orbit is circular with tolerance:" << " " << tol << "\n";
+    } else {
     cout << "Orbit is not circular with tolerance:" << " " << tol << "\n";
     }
 }
@@ -203,7 +213,6 @@ void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int 
   // must solve for several dt's and check stability
   // --> need to call the solver in a loop
   vec E = zeros<vec>(N_experiments);
-  vec rel_error = zeros<vec>(N_experiments);
   vec r = zeros<vec>(N_experiments-1);
 
   bool sun_center = true;
@@ -223,7 +232,6 @@ void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int 
       error = error + next_error*next_error;
       }
 
-    rel_error(steps) = next_error; //last point
     E(steps) = sqrt(m_h*error);
     k = m_k*factor;
     steps += 1;
@@ -231,9 +239,7 @@ void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int 
     for (int j = 1; j < N_experiments; j++){
       r(j-1) = log(E(j)/E(j-1))/log(1/factor);
     }
-    cout << "Convergence rates:" << " " << r <<"\n";
-    cout << "relative error:" << " " << rel_error << "\n";
-    // get relative error for last step
+    cout << "Convergence rates:" << "" << r;
 }
 
 
@@ -254,9 +260,9 @@ void PlanetSolver::write_pos_to_file(){
 
   for (int j = 0; j < m_k; j++){
     for (int i = 0; i < m_N; i++){
-      x << setprecision(15) << m_X(i*m_k+j) << " ";
-      y << setprecision(15) << m_Y(i*m_k+j) << " ";
-      z << setprecision(15) << m_Z(i*m_k+j) << " ";
+      x << m_X(i*m_k+j) << " ";
+      y << m_Y(i*m_k+j) << " ";
+      z << m_Z(i*m_k+j) << " ";
     }
     x << "\n";
     y << "\n";
