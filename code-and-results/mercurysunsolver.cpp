@@ -49,6 +49,7 @@ double MercurySunSolver::force_mercury_rel(vec pos, int l, int j){
   double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
   double mass_sun = m_masses(0);
   double diffl = m_Lx(l*m_k)*m_Lx(l*m_k) + m_Ly(l*m_k)*m_Ly(l*m_k) + m_Lz(l*m_k)*m_Lz(l*m_k);
+  //cout << pow(diffl,0.5) << "\n";
   double c = 173*365;      //AU yr^(-1)
   double cc = c*c;
   double diffr,r,r_term,rel_term,a;
@@ -76,6 +77,7 @@ void MercurySunSolver::solve_mercury_sun_verlet(){
   }
   //double min_distance = min(r_vec);
   //uvec indices = find(r_vec == min(r_vec));
+  //cout << indices << "\n";
   //int I = 40236;
   //cout << m_X(l*m_k+I) << "\n";
   //cout << m_Y(l*m_k+I) << "\n";
@@ -101,9 +103,9 @@ void MercurySunSolver::solve_mercury_sun_verlet(){
     m_az(l*m_k+j) = uz(1);
     eulerchromer(l,j);
   }
-  double min_distance = min(r_vec);
-  uvec indices = find(r_vec == min(r_vec));
-  cout << indices << "\n";
+  //double min_distance = min(r_vec);
+  //uvec indices = find(r_vec == min(r_vec));
+  //cout << indices << "\n";
   //int I = 98858;
   //cout << m_X(l*m_k+I) << "\n";
   //cout << m_Y(l*m_k+I) << "\n";

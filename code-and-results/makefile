@@ -21,3 +21,6 @@ plot3d:
 
 animation:
 	python3 animate.py
+
+get_angle:
+	python3 get_angle.py
