@@ -19,61 +19,92 @@ int main(int argc, char const *argv[]){
 }
 
 void menu() {
-  bool check = true;
   int task;
-  int NASA;
-  int s;
-  cout << "Press 0 to run the program with initialized values from NASA and 1 to input position, velocity and mass yourself \n";
-  cin >> NASA;
-  cout << "Press 0 for sun in motion and 1 for non-moving sun. \n";
-  cin >> s;
-  if(s == 1) {
-    check = false;
-  }
   cout << "Press 1 to run for Earth-Sun system \n";
   cout << "Press 2 to run for Earth-Jupiter-Sun system \n";
-  cout << "Press 3 to run for all planets \n";           //asking which task you want to run
-  cout << "Press 4 to run for a system of preferred objects \n";
+  cout << "Press 3 to run for all planets \n";
+  cout << "Press 4 to run for Mercury-Sun system\n";
+  cout << "Press 5 to run a convergence test (Earth-Sun system) \n";
   cout << "Enter number:" << " ";
   cin >> task;
 
+  vector<string> all_names;
+  all_names.push_back("Sun");
+  all_names.push_back("Earth");
+  all_names.push_back("Jupiter");
+  all_names.push_back("Mars");
+  all_names.push_back("Venus");
+  all_names.push_back("Saturn");
+  all_names.push_back("Mercury");
+  all_names.push_back("Uranus");
+  all_names.push_back("Neptune");
+  all_names.push_back("Pluto");
+
+  //int N;
+  int k;
   int N;
-  int k = 10000;
+  double T;
   double beta = 2;
-  double T = 250;
+
   vector<string> planets;
-  vector<double> x, y, z, vx, vy, vz, masses;
-  double x_, y_, z_, vx_, vy_, vz_, mass;
+  vector<string> m_names;
+  int run_verlet = 1;
+  int run_euler_forward = 2;
+  int run_euler_chromer = 3;
 
 
 
   if (task==1){
-    int N = 2;
-    if(NASA == 0) {
-      planets.push_back("Sun");
-      planets.push_back("Earth");
-      PlanetSolver solver;
-      solver.init(beta,N,k,T, planets);
-      solver.solvesystem(check);
-      solver.write_pos_to_file();
+    N = 2;
+    T = 1;                    //orbit time for earth
+    k = 1e6;
+    for (int i = 0; i < N; i++){
+      m_names.push_back(all_names[i]);
     }
-
-
-
-  }
-  if (task==2){
-    int N = 3;
-    planets.push_back("Sun");
-    planets.push_back("Earth");
-    planets.push_back("Jupiter");
     PlanetSolver solver;
-    solver.init(beta,N,k,T, planets);
-    solver.solvesystem(check);
+    bool no_error_test = false;
+    solver.init_sun_center(m_names,beta,N,k,T,no_error_test);
+    bool sun_center = true;
+    solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
+
+    int do_;
+    double tol;
+    cout << "Press 1 to test convervation laws \n";
+    cout << "Enter number:" << " ";
+    cin >> do_;
+    if (do_ == 1){
+      tol = 1e-07;
+      solver.test_constant_energy(tol);
+
+      tol = 1e-12;
+      solver.test_constant_angular(tol);
+
+      tol = 1e-02;
+      solver.test_circular_orbit(tol);
+    }
+  }
+
+  if (task==2){
+    N = 3;
+    T = 23;
+    k = 100000;     //orbit time for Jupiter
+    for (int i = 0; i < N; i++){
+      m_names.push_back(all_names[i]);
+    }
+    PlanetSolver solver;
+    bool no_error_test = false;
+    solver.init_sun_center(m_names,beta,N,k,T,no_error_test);
+    bool sun_center = true;
+    solver.solvesystem(sun_center,run_verlet);
+    solver.write_pos_to_file();
+
   }
 
   if (task==3){
-    int N = 10;
+    N = 10;
+    k = 1e6;
+    T = 250;
     planets.push_back("Sun");
     planets.push_back("Earth");
     planets.push_back("Jupiter");
@@ -85,47 +116,40 @@ void menu() {
     planets.push_back("Neptune");
     planets.push_back("Pluto");
     PlanetSolver solver;
-    solver.init(beta,N,k,T, planets);
-    solver.solvesystem(check);
+    solver.init(planets,beta,N,k,T);
+    bool sun_center = false;
+    solver.solvesystem(sun_center,run_euler_chromer);
     solver.write_pos_to_file();
   }
 
-  if(task == 4) {
-    string param;
-    cout << "Number of objects ";
-    cin >> N;
-    cout << "Enter planets \n";
-    if (NASA == 1) {
-      for(int i = 0; i < N; i++) {
-        cin >> param >> x_ >> y_ >> z_ >> vx_ >> vy_ >> vz_ >> mass;
-        planets.push_back(param);
-        x.push_back(x_);
-        y.push_back(y_);
-        z.push_back(z_);
-        vx.push_back(vx_);
-        vy.push_back(vy_);
-        vz.push_back(vz_);
-        masses.push_back(mass);
-      }
-    }else {
-      for(int i = 0; i < N; i++) {
-        cin >> param;
-        planets.push_back(param);
-      }
-    }
-
-  PlanetSolver solver;
-    solver.init(beta, N, k, T, planets, x, y, z, vx, vy, vz, masses);
-    solver.solvesystem(check);
+  if (task==4){
+    N = 2;
+    T = 100;
+    k = 1e6;
+    //T = 200.;          //orbit time for mercury
+    //T = 24.1095;
+    m_names.push_back(all_names[0]);
+    m_names.push_back(all_names[6]);
+    MercurySunSolver solver;
+    solver.init(m_names,beta,N,k,T);
+    solver.solve_mercury_sun_verlet();
+    //solver.solve_mercury_sun_eulerchromer();
     solver.write_pos_to_file();
-
     //int N = input("")
   }
 
-}
+  if (task == 5){
+    int N_experiments;
+    cout << "Enter number of experiments:" << " ";
+    cin >> N_experiments;
 
-/*
-double grav_force(double Ma, double Mb,double x, double y, double z):
-  double m_G = 39.478 //AU^(3)*yr^(-2)*M^(-1)
-  double g_force= m_G*(Ma*Mb)/cmath::sqrt(x*x + y*y + z*z)
-*/
+    int N = 2;
+    T = 1;   //100                  //orbit time for earth
+    int k = 12000;
+    for (int i = 0; i < N; i++){
+      m_names.push_back(all_names[i]);
+    }
+    PlanetSolver solver;
+    solver.test_convergence(m_names,beta,N,k,T,N_experiments, run_euler_chromer);
+  }
+}
