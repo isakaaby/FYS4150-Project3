@@ -24,3 +24,6 @@ animation:
 
 get_angle:
 	python3 get_angle.py
+
+energy:
+	python3 plotenergy.py

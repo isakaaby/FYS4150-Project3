@@ -15,10 +15,10 @@ t = np.linspace(1, len(x), len(x))
 
 #plt.plot(t, x[:, 1])
 #plt.plot(t, y[:, 1])
-plt.plot(t, z[:, 0])
+#plt.plot(t, z[:, 0])
 
-#for i in range(0, len(x[1, :])):
+for i in range(0, len(x[1, :])):
     #plt.plot(t, x[:, i])
     #plt.plot(t, y[:, i])
-    #plt.plot(t, z[:, i])
+    plt.plot(t, z[:, i])
 plt.show()

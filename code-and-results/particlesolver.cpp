@@ -167,3 +167,31 @@ void ParticleSolver::write_energy_to_file() {
   k.close();
   t.close();
 }
+
+void ParticleSolver::write_angular_momentum_to_file() {
+  ofstream x;
+  ofstream y;
+  ofstream z;
+
+  string filename_1("./results/ang_x.txt");
+  string filename_2("./results/ang_y.txt");
+  string filename_3("./results/ang_z.txt");
+
+  x.open(filename_1);
+  y.open(filename_2);
+  z.open(filename_3);
+
+  for (int j = 0; j < m_k; j++){
+    for (int i = 0; i < m_N; i++){
+      x << m_Lx(i*m_k) << " ";
+      y << m_Ly(i*m_k) << " ";
+      z << m_Lz(i*m_k) << " ";
+    }
+    x << "\n";
+    y << "\n";
+    z << "\n";
+  }
+  x.close();
+  y.close();
+  z.close();
+}

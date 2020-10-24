@@ -44,6 +44,7 @@ public:                          // general solver
   void get_angular_momentum(int j);
 
   void write_energy_to_file();
+  void write_angular_momentum_to_file();
 
 };
 

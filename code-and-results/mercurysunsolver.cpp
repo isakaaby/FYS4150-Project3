@@ -49,8 +49,9 @@ void MercurySunSolver::init(vector<string> names, double beta, int N, int k, dou
 void MercurySunSolver::force_mercury_rel(int l, int j){
   double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
   double mass_sun = m_masses(0);
+  double V = 0;
   double diffl = m_Lx(l*m_k)*m_Lx(l*m_k) + m_Ly(l*m_k)*m_Ly(l*m_k) + m_Lz(l*m_k)*m_Lz(l*m_k);
-  //cout << pow(diffl,0.5) << "\n";
+  cout << pow(diffl,0.5) << "\n";
   double c = 173*365;      //AU yr^(-1)
   double cc = c*c;
   double diffr,r,r_term,rel_term,a;

@@ -119,16 +119,16 @@ void menu() {
     PlanetSolver solver;
     solver.init(planets,beta,N,k,T);
     bool sun_center = false;
-    solver.solvesystem(sun_center, run_verlet);
+    solver.solvesystem(sun_center, run_euler_chromer);
     solver.write_pos_to_file();
     solver.write_energy_to_file();
   }
 
   if (task==4){
     N = 2;
-    T = 100;
-    k = 1e6;
-    //T = 200.;          //orbit time for mercury
+    T = 100;  //orbit time for mercury
+    k = 100;
+    //T = 200.;
     //T = 24.1095;
     m_names.push_back(all_names[0]);
     m_names.push_back(all_names[6]);
@@ -137,6 +137,8 @@ void menu() {
     solver.solve_mercury_sun_verlet();
     //solver.solve_mercury_sun_eulerchromer();
     solver.write_pos_to_file();
+    solver.write_energy_to_file();
+    solver.write_angular_momentum_to_file();
     //int N = input("")
   }
 
