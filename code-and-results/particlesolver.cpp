@@ -75,7 +75,7 @@ void ParticleSolver::force_a(int l, int j){
 
   pot(l*m_k + j) = V;
   kin(l*m_k + j) = kinetic_energy(l, j);
-  m_Etot(l*m_k+j) = kinetic_energy(l,j) + V; // get total energy E = K + V for each planet
+  tot(l*m_k + j) = kin(l*m_k + j) + pot(l*m_k + j); //get total energy E = K + V for each planet
 }
 
 
@@ -141,5 +141,29 @@ void ParticleSolver::get_angular_momentum(int j){
 }
 
 void ParticleSolver::write_energy_to_file() {
+  ofstream p;
+  ofstream k;
+  ofstream t;
 
+  string filename_1("./results/kinetic.txt");
+  string filename_2("./results/potential.txt");
+  string filename_3("./results/total.txt");
+
+  p.open(filename_1);
+  k.open(filename_2);
+  t.open(filename_3);
+
+  for (int j = 0; j < m_k; j++){
+    for (int i = 0; i < m_N; i++){
+      p << pot(i*m_k+j) << " ";
+      k << kin(i*m_k+j) << " ";
+      t << tot(i*m_k+j) << " ";
+    }
+    p << "\n";
+    k << "\n";
+    t << "\n";
+  }
+  p.close();
+  k.close();
+  t.close();
 }

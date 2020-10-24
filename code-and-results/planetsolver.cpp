@@ -174,7 +174,7 @@ int PlanetSolver::random_index_generator(int min, int max){
 void PlanetSolver::test_constant_energy(double tol){
   int j = random_index_generator(0,m_k);
   for (int i = 1; i < m_N; i++){
-    if (m_Etot(i*m_k + 1) - m_Etot(i*m_k + j) < tol) {
+    if (tot(i*m_k + 1) - tot(i*m_k + j) < tol) {
       continue;
     } else {
     cout << "Error: Energy not conserved for celestial bodies with tolerance:" << " " << tol << "\n";

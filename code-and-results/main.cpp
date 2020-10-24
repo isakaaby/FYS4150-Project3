@@ -40,7 +40,6 @@ void menu() {
   all_names.push_back("Neptune");
   all_names.push_back("Pluto");
 
-  //int N;
   int k;
   int N;
   double T;
@@ -67,6 +66,7 @@ void menu() {
     bool sun_center = true;
     solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
+    solver.write_energy_to_file();
 
     int do_;
     double tol;
@@ -98,6 +98,7 @@ void menu() {
     bool sun_center = true;
     solver.solvesystem(sun_center,run_verlet);
     solver.write_pos_to_file();
+    solver.write_energy_to_file();
 
   }
 
@@ -118,8 +119,9 @@ void menu() {
     PlanetSolver solver;
     solver.init(planets,beta,N,k,T);
     bool sun_center = false;
-    solver.solvesystem(sun_center,run_euler_chromer);
+    solver.solvesystem(sun_center, run_verlet);
     solver.write_pos_to_file();
+    solver.write_energy_to_file();
   }
 
   if (task==4){
