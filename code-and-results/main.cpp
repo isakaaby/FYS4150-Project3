@@ -122,7 +122,7 @@ void menu() {
     PlanetSolver solver;
     solver.init(planets,beta,N,k,T);        //Initializing the system.
     bool sun_center = false;
-    solver.solvesystem(sun_center, run_verlet);    //Solving the system using the Euler-Cromer method.
+    solver.solvesystem(sun_center, run_euler_forward);    //Solving the system using the Euler-Cromer method.
     solver.write_pos_to_file();                           //Writing positions to files.
     solver.write_energy_to_file();                        //Writing potential, kinetic and total energy to files.
   }

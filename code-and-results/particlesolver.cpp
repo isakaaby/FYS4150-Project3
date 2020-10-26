@@ -162,8 +162,8 @@ void ParticleSolver::write_energy_to_file() {
   ofstream k;
   ofstream t;
 
-  string filename_1("./results/kinetic.txt");
-  string filename_2("./results/potential.txt");
+  string filename_1("./results/potential.txt");
+  string filename_2("./results/kinetic.txt");
   string filename_3("./results/total.txt");
 
   p.open(filename_1);

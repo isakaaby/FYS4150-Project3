@@ -142,8 +142,9 @@ void PlanetSolver::solvesystem(bool check, int method){
         verlet_pos(i,j);
       }
       for (int i = s; i < m_N; i++){ //for planets
-        force_a(i,j+1);
         verlet_vel(i,j);
+        force_a(i,j+1);
+
       }
     }
     auto finish = chrono::high_resolution_clock::now(); //End timer
@@ -207,8 +208,8 @@ void PlanetSolver::test_constant_angular(double tol){
   get_angular_Momentum();
   int j = random_index_generator(0,m_k); //Random index.
   for (int i = 1; i < m_N; i++){
-    diffL = (m_Lx(i*m_k + 1)*m_Lx(i*m_k + 1) + m_Ly(i*m_k + 1)*m_Ly(i*m_k + 1))  \ //Computing the difference in
-        - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j));     //angular momentum at different time steps.
+    diffL = (m_Lx(i*m_k + 1)*m_Lx(i*m_k + 1) + m_Ly(i*m_k + 1)*m_Ly(i*m_k + 1))  \
+        - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j));    //Computing the difference in angular momentum at different time steps.
     if (diffL < tol) {
       continue;
     } else {
@@ -222,8 +223,8 @@ void PlanetSolver::test_constant_angular(double tol){
 void PlanetSolver::test_circular_orbit(double tol){
   int i = 1;
   int j = random_index_generator(0,m_k);      //Random index method.
-  double diffr = abs(1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \     //Checking the difference in distance.
-              + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j)));
+  double diffr = abs(1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
+              + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j)));    //Checking the difference in distance.
   if (diffr > tol){
     cout << "Orbit is not circular with tolerance:" << " " << tol << "\n";
     }
@@ -247,12 +248,12 @@ void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int 
   bool test_convergence = true;
   while (steps < N_experiments){
     double error = 0;
-    init_sun_center(names,beta,N,k,T,test_convergence);   //Initializing a system with Sun
-    solvesystem(sun_center,method);                       //as center and testing convergence.
+    init_sun_center(names,beta,N,k,T,test_convergence);   //Initializing a system with Sun as center and testing convergence.
+    solvesystem(sun_center,method);
     // Calculate error and convergence rate
     for (int j = 0; j < m_k; j++){    //For planets
-      next_error =  1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \      //Calulating the error.
-      + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j));
+      next_error =  1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
+      + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j));   //Calulating the error.
       error = error + next_error*next_error;
       }
 
