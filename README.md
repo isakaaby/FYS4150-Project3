@@ -37,6 +37,8 @@ How to run the programmes to reproduce the results discussed in the article: The
   4. Run for the Mercury Sun system: Solves for the case with Mercury around the Sun. Used together with get_angle.py, this is used to get the perihelion precession of Mercury.
   5. 
 
+### Links and packages
+The NASA data used to initialize some of the systems was pulled from [here.](https://ssd.jpl.nasa.gov/horizons.cgi#top)
 
 
 
