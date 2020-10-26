@@ -40,11 +40,10 @@ public:                          // general solver
   void forwardeuler(int l, int j);          // Forward euler solver
   double kinetic_energy(int i, int j);
   double potential_energy(double r, int l, int i, int j);
-  double angular_momentum(double pos1, double v1, double pos2, double v2);
-  void get_angular_momentum(int j);
+  double angular_Momentum(double pos1, double v1, double pos2, double v2);
+  void get_angular_Momentum();
 
   void write_energy_to_file();
-  void write_angular_momentum_to_file();
 
 };
 
@@ -73,7 +72,10 @@ public:
   void force_mercury_rel(int l, int j);
   void solve_mercury_sun_verlet();                          //  solve for planet system
   void solve_mercury_sun_eulerchromer();
+  double angular_momentum(double pos1, double v1, double pos2, double v2);
+  void get_angular_momentum(int j);
   void write_pos_to_file();
+  void write_angular_momentum_to_file(vec x, vec y, vec z);
 };
 
 

@@ -4,19 +4,19 @@
 #include <string>
 #include <iomanip>
 
-
+//Method that initializes the solver, returns nothing.
 void MercurySunSolver::init(vector<string> names, double beta, int N, int k, double T){
-  initialize(beta, N, k, T);
+  initialize(beta, N, k, T);    //Calls on particlesolver.cpp's initializer.
 
   m_names = names;
 
   Planets Planet;
-  Planet.read_pos_vel();
+  Planet.read_pos_vel();      //Reads NASA positions and velocities from .txt file.
   vec params = vec(7);
   m_masses = zeros<vec>(m_N);
 
   for (int i = 0; i < m_N; i++){
-    params = Planet.initialize(m_names[i]);
+    params = Planet.initialize(m_names[i]);   //Initializing Mercury and the Sun.
     m_masses(i) = params(0);
   }
 
@@ -46,12 +46,12 @@ void MercurySunSolver::init(vector<string> names, double beta, int N, int k, dou
   m_Vz(m_k) -= velMz/M;*/
 };
 
+//Method that computes the gravitational force, returns nothing.
 void MercurySunSolver::force_mercury_rel(int l, int j){
   double G = 4*M_PI*M_PI; //AU^(3)*yr^(-2)*M(sol)^(-1);
   double mass_sun = m_masses(0);
   double V = 0;
   double diffl = m_Lx(l*m_k)*m_Lx(l*m_k) + m_Ly(l*m_k)*m_Ly(l*m_k) + m_Lz(l*m_k)*m_Lz(l*m_k);
-  cout << pow(diffl,0.5) << "\n";
   double c = 173*365;      //AU yr^(-1)
   double cc = c*c;
   double diffr,r,r_term,rel_term,a;
@@ -59,6 +59,7 @@ void MercurySunSolver::force_mercury_rel(int l, int j){
   r = pow(diffr,0.5);
   r_term = pow(r,(m_beta+1));
   rel_term = 3*diffl/(diffr*cc);
+
   //calculate gravitational acceleration
   double ax = (m_X(l*m_k+j)*G*mass_sun)/r_term + ((m_X(l*m_k+j)*G*mass_sun)/r_term)*rel_term;
   double ay = (m_Y(l*m_k+j)*G*mass_sun)/r_term + ((m_Y(l*m_k+j)*G*mass_sun)/r_term)*rel_term;
@@ -69,15 +70,17 @@ void MercurySunSolver::force_mercury_rel(int l, int j){
 }
 
 
-
+//Method that solves the problem using the velocity Verlet method, returns nothing.
 void MercurySunSolver::solve_mercury_sun_verlet(){
   double l = 1;
-  get_angular_momentum(0);
+  get_angular_momentum(0);    //Calculating the angular momentum.
   for (int j = 0; j < m_k-1; j++){ // for time
-    verlet_pos(l,j);
-    force_mercury_rel(l,j+1);
-    verlet_vel(l,j);
+    verlet_pos(l,j);                //Updating the positions.
+    force_mercury_rel(l,j+1);       //Calculating the gravitational force.
+    verlet_vel(l,j);                //Updating the velocities.
   }
+
+
   //double min_distance = min(r_vec);
   //uvec indices = find(r_vec == min(r_vec));
   //cout << indices << "\n";
@@ -91,6 +94,19 @@ void MercurySunSolver::solve_mercury_sun_verlet(){
   //cout << theta_rad*3600 << "\n";
 };
 
+//Mehod that calculates the angular momentum, returns angular momentum.
+double MercurySunSolver::angular_momentum(double pos1, double v1, double pos2, double v2){
+  return pos1*v2 - pos2*v1;
+}
+
+//Method that updates the angular momentum, returns nothing.
+void MercurySunSolver::get_angular_momentum(int j){
+  for (int i = 0; i < m_N; i++){ //for planets
+    m_Lx(i*m_k+j) = angular_momentum(m_Y(i*m_k+j), m_Vy(i*m_k+j), m_Z(i*m_k+j), m_Vz(i*m_k+j));
+    m_Ly(i*m_k+j) = angular_momentum(m_X(i*m_k+j), m_Vx(i*m_k+j), m_Z(i*m_k+j), m_Vz(i*m_k+j));
+    m_Lz(i*m_k+j) = angular_momentum(m_X(i*m_k+j), m_Vx(i*m_k+j), m_Y(i*m_k+j), m_Vy(i*m_k+j));
+  }
+}
 /*void MercurySunSolver::solve_mercury_sun_eulerchromer(){
   double l = 1;
   vec r_vec = vec(m_k);
@@ -120,7 +136,7 @@ void MercurySunSolver::solve_mercury_sun_verlet(){
 };*/
 
 
-
+//Method that writes the positions to a file, returns nothing.
 void MercurySunSolver::write_pos_to_file(){
   ofstream x;
   ofstream y;
@@ -152,4 +168,34 @@ void MercurySunSolver::write_pos_to_file(){
   y.close();
   z.close();
   planet_names.close();
+}
+
+//Method that writes the angular momentum to file, returns nothing. 
+void MercurySunSolver::write_angular_momentum_to_file(vec x, vec y, vec z) {
+  ofstream x_;
+  ofstream y_;
+  ofstream z_;
+
+  string filename_1("./results/ang_x.txt");
+  string filename_2("./results/ang_y.txt");
+  string filename_3("./results/ang_z.txt");
+
+  x_.open(filename_1);
+  y_.open(filename_2);
+  z_.open(filename_3);
+
+  for (int j = 0; j < m_N; j++) {
+    for (int i = 0; i < m_N; i++){
+      x_ << x(i*m_k + j) << " ";
+      y_ << y(i*m_k + j) << " ";
+      z_ << z(i*m_k + j) << " ";
+    }
+    x_ << "\n";
+    y_ << "\n";
+    z_ << "\n";
+
+  }
+  x_.close();
+  y_.close();
+  z_.close();
 }

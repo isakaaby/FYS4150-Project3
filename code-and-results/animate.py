@@ -6,15 +6,18 @@ from matplotlib.animation import FuncAnimation
 # N = int(input("Insert number of objects N: ")) Could choose to use this
 # Maybe we can make animation for mercury sun and jupyter earth sun
 
+#Reading in posiion values from textfiles.
 infile1 = open("./results/position_x.txt", "r")
 infile2 = open("./results/position_y.txt", "r")
 infile3 = open("./results/position_z.txt", "r")
 
+#Assigning variable names to file input.
 x = np.loadtxt(infile1)
 y = np.loadtxt(infile2)
 z = np.loadtxt(infile3)
 planets = np.genfromtxt("./results/planet_names.txt",dtype='str') # order given in main
 
+#Separating position by planet.
 pos =  np.array([x[:,0],y[:,0],z[:,0]]); pos1 = np.array([x[:,1],y[:,1],z[:,1]])
 #pos2 = np.array([x[:,2],y[:,2],z[:,2]]); Why is jupyter number two here?
 pos3 = np.array([x[:,3],y[:,3],z[:,3]])
@@ -84,8 +87,6 @@ def animation_frame(num):
 
 N_points = len(x[:,1]);
 
-#ani = animation.FuncAnimation(fig, func = animation_frame, N, fargs=(data, line), interval=10000/N, blit=False)
-
-animation = FuncAnimation(fig, func = animation_frame, frames = range(N_points),interval = 150)#, #blit=True)
+animation = FuncAnimation(fig, func = animation_frame, frames = range(N_points),interval = 150)#, blit=True)
 #animation.save('./Results/escape velocity.gif', writer= "imagemagick") # imagemagick') # or ffmpeg
 plt.show()

@@ -10,6 +10,7 @@ using namespace std;
 using namespace chrono;
 using namespace arma;
 
+//Method that reads in position and velocity from NASA data, returns nothing.
 void Planets::read_pos_vel(){
   int Nparticles = 10;
   x0 = new double[Nparticles];
@@ -31,9 +32,8 @@ void Planets::read_pos_vel(){
 
 }
 
+//Method that initializes planets using the name as paramter, returns the planetobject created.
 vec Planets::initialize(string planet){
-  //Read off txt file from NASA here or in method below (return as vector)
-
 
   //defining masses
   double x, y, z, vx, vy, vz;
