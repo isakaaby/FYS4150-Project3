@@ -30,4 +30,5 @@ In this project we have built a model for different solar systems using differen
 
 ### Links and packages
 
-The NASA data used to initialize some of the systems was pulled from [here.](https://ssd.jpl.nasa.gov/horizons.cgi#top)
+- The NASA data used to initialize some of the systems was pulled from [here.](https://ssd.jpl.nasa.gov/horizons.cgi#top)
+- 
