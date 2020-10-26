@@ -22,8 +22,6 @@ In this project we have built a model for different solar systems using differen
 
 - [plot3d.py](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/plot3d.py) makes a 3D plot for a chosen number of planets.
 
-- [plotLE.py](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/plotLE.py) makes 
-
 - [plotenergy.py](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/plotenergy.py)
 
 - [animate.py](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/animate.py)
