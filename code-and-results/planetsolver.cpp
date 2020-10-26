@@ -171,6 +171,7 @@ void PlanetSolver::test_constant_energy(double tol){
     break;
     }
   }
+  cout << "Absolute error total energy:" << " " <<  diff << "\n";
 }
 
 void PlanetSolver::test_constant_angular(double tol){
@@ -190,6 +191,7 @@ void PlanetSolver::test_constant_angular(double tol){
     break;
     }
   }
+  cout << "Absolute error total angular momentum:" << " " << diffL << "\n";
 }
 
 void PlanetSolver::test_circular_orbit(double tol){
@@ -200,6 +202,7 @@ void PlanetSolver::test_circular_orbit(double tol){
   if (diffr > tol){
     cout << "Orbit is not circular with tolerance:" << " " << tol << "\n";
     }
+    cout << "Relative error from a circular orbit: " << " " << diffr << "\n";
 }
 
 void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments, int method){

@@ -54,9 +54,9 @@ void menu() {
 
   if (task==1){
     N = 2;
-    T = 20;                    //orbit time for earth
-    k = 1e5;
-    double beta = 3.0;
+    T = 1;                    //orbit time for earth
+    k = 10e6;
+    double beta = 2.0;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -71,13 +71,13 @@ void menu() {
     cout << "Enter number:" << " ";
     cin >> do_;
     if (do_ == 1){
-      tol = 1e-06;
+      tol = 1e-07;
       solver.test_constant_energy(tol);
 
       tol = 1e-12;
       solver.test_constant_angular(tol);
 
-      tol = 1e-02;
+      tol = 1e-03;
       solver.test_circular_orbit(tol);
     }
   }
@@ -85,7 +85,7 @@ void menu() {
   if (task==2){
     N = 3;
     T = 50;
-    k = 100000;     //orbit time for Jupiter
+    k = 1e5;     //orbit time for Jupiter
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
@@ -100,7 +100,7 @@ void menu() {
     cout << "Enter number:" << " ";
     cin >> do_;
     if (do_ == 1){
-      tol = 1e-05;
+      tol = 1e-07;
       solver.test_constant_energy(tol);
 
       tol = 1e-12;
@@ -113,7 +113,7 @@ void menu() {
 
   if (task==3){
     N = 10;
-    k = 1e6;
+    k = 1e4;
     T = 250;
     planets.push_back("Sun");
     planets.push_back("Earth");
@@ -135,7 +135,7 @@ void menu() {
   if (task==4){
     N = 2;
     T = 100;
-    k = 3e5;
+    k = 1e6;
     m_names.push_back(all_names[0]);
     m_names.push_back(all_names[6]);
     MercurySunSolver solver;
@@ -150,13 +150,13 @@ void menu() {
     cout << "Enter number of experiments:" << " ";
     cin >> N_experiments;
 
-    int N = 1;
+    int N = 2;
     T = 1;
     int k = 50000;
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);
     }
     PlanetSolver solver;
-    solver.test_convergence(m_names,beta,N,k,T,N_experiments, run_euler_chromer);
+    solver.test_convergence(m_names,beta,N,k,T,N_experiments, run_euler_forward);
   }
 }

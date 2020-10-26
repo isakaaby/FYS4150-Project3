@@ -18,13 +18,13 @@ planets = np.genfromtxt("./results/planet_names.txt",dtype='str')
 if x[0,0] == 0.0:
     plt.plot(x[:,0], y[:,0], ".", color = "orange", label = "Sun")
     for i in range(1, N):
-        #plt.plot(x[99500:, i], y[99500:, i], label = planets[i])
         plt.plot(x[:, i], y[:, i], label = planets[i])
         plt.xlabel('x (AU)',fontsize = 13)
         plt.ylabel('y (AU)',fontsize = 13)
         plt.legend(loc = "upper right",fontsize = 15)
         plt.xticks(fontsize=14)
         plt.yticks(fontsize=14)
+    plt.tight_layout()
     plt.show()
 
 else:
@@ -35,4 +35,5 @@ else:
         plt.legend(loc = "upper right",fontsize = 15)
         plt.xticks(fontsize=14)
         plt.yticks(fontsize=14)
+    plt.tight_layout()
     plt.show()

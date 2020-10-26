@@ -20,7 +20,7 @@ private:
 protected:
   double m_sun = 2E+30;
   double m_earth = (6E+24)/m_sun;
-  double m_jupiter = (1.9E+27)/m_sun*1000;
+  double m_jupiter = (1.9E+27)/m_sun;
   double m_mars = (6.6E23)/m_sun;
   double m_venus = (4.9E24)/m_sun;
   double m_saturn = (5.5E26)/m_sun;
