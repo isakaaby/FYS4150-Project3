@@ -62,6 +62,7 @@ public:
   void test_circular_orbit(double tol);
   int random_index_generator(int min, int max);
   void test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments, int method);
+  void write_error_to_file(int N_experiments, vec E, vec r, vec h, vec nump);
 };
 
 

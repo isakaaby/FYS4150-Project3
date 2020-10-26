@@ -56,7 +56,7 @@ void menu() {
   if (task==1){
     N = 2;                    //Number of planetary objects
     T = 1;                    //orbit time for earth
-    k = 1e6;                  //time step
+    k = 1e4;                  //time step
     for (int i = 0; i < N; i++){
       m_names.push_back(all_names[i]);  //Filling array with names of the planets.
     }
@@ -105,7 +105,7 @@ void menu() {
   //Code for all planets.
   if (task==3){
     N = 10;             //Number of planetary objects
-    k = 1e4;            //Time step
+    k = 1e6;            //Time step
     T = 250;            //Years (using earth years)
 
     //Filling array with all the planets.
@@ -122,7 +122,7 @@ void menu() {
     PlanetSolver solver;
     solver.init(planets,beta,N,k,T);        //Initializing the system.
     bool sun_center = false;
-    solver.solvesystem(sun_center, run_euler_forward);    //Solving the system using the Euler-Cromer method.
+    solver.solvesystem(sun_center, run_verlet);    //Solving the system using the Euler-Cromer method.
     solver.write_pos_to_file();                           //Writing positions to files.
     solver.write_energy_to_file();                        //Writing potential, kinetic and total energy to files.
   }

@@ -29,3 +29,4 @@ In this project we have built a model for different solar systems using differen
 - [animate.py](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/animate.py)
 
 - [get_angle.py](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/get_angle.py)
+

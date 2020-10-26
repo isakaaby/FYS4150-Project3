@@ -14,11 +14,13 @@ z = np.loadtxt(infile3.readlines(), skiprows=1)
 t = np.linspace(1, len(x), len(x))
 
 #Plotting potential, kinetic and total energy as x, y, z.
-for i in range(0, len(x[1, :])):
-    #plt.plot(t, x[:, i])
-    #plt.plot(t, y[:, i])
-    #plt.plot(t, z[:, i])
-    plt.xlabel("Timestep (dt)")
-    plt.ylabel("Energy (J)")
-    #plt.title("Earth's energy")
+#for i in range(0, len(x[1, :])):
+plt.plot(t, x[:, 1], label = "Potential energy")
+plt.plot(t, y[:, 1], label = "Kinetic energy")
+#plt.plot(t, z[:, i])
+plt.xlabel("Timestep (dt)")
+plt.ylabel("Energy (J)")
+plt.title("Earth's energy")
+plt.legend()
+plt.tight_layout()
 plt.show()
