@@ -10,7 +10,7 @@ In this project we have built a model for different solar systems using differen
 
 - [makefile](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/makefile) is the file through which all programs are run.
 
-- [mercurysunsolver.cpp](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/mercurysunsolver.cpp) is used to model a solar system consisting of the Sun and Mercury.
+- [mercurysunsolver.cpp](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/mercurysunsolver.cpp) is used to model a solar system consisting of the Sun and Mercury, using a relativistic correction to the newtonian force to find perihelion precession.
 
 - [particlesolver.cpp](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/particlesolver.cpp) is the "main" file consisting all the ODEs along with methods for finding the gravitational force and the potential, kinetic and total energy of the system.
 
@@ -18,6 +18,14 @@ In this project we have built a model for different solar systems using differen
 
 - [planetsolver.cpp](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/planetsolver.cpp) creates a solar system and adjusts it according to the center of mass and velocity, and tracks the trajectory while writing out position and velocity to separate files.
 
-- [plot.py](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/plot.py) makes a plot for a chosen number of planets.
+- [plot.py](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/plot.py) makes a 2D plot for a chosen number of planets.
 
-- [test.cpp](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/test.cpp) is the program that tests the code.
+- [plot3d.py] (https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/plot3d.py) makes a 3D plot for a chosen number of planets.
+
+- [plotLE.py] (https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/plotLE.py) makes 
+
+- [plotenergy.py] (https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/plotenergy.py)
+
+- [animate.py] (https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/animate.py)
+
+- [get_angle.py](https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/get_angle.py)
