@@ -84,8 +84,7 @@ void ParticleSolver::force_a(int l, int j){
   m_az(l*m_k+j) = -a_z;
 
   pot(l*m_k + j) = V;
-  kin(l*m_k + j) = kinetic_energy(l, j);
-  tot(l*m_k + j) = kin(l*m_k + j) + pot(l*m_k + j); //get total energy E = K + V for each planet
+  
 }
 
 //Method that computes the positions using the Verlet method, returns nothing.
