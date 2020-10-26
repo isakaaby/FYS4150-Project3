@@ -2,7 +2,7 @@
 Git for Project 3 in Computational Physics (FYS4150).
 
 ### Main overview
-In this project we have built a model for different solar systems using differential equations: forward Euler, Euler-Cromer and the Verlet method. The project description can be found [here:] (https://github.com/isakaaby/FYS4150-Project3/blob/master/Report/Project3.pdf)
+In this project we have built a model for different solar systems using differential equations: forward Euler, Euler-Cromer and the Verlet method. The project description can be found [here] (https://github.com/isakaaby/FYS4150-Project3/blob/master/Report/Project3.pdf)
 
 
 ### Code: Link and description of programs:
