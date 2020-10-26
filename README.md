@@ -35,10 +35,8 @@ How to run the programmes to reproduce the results discussed in the article: The
   2. Run for Earth-Jupiter-Sun system: This method was used to investigate the effects of Jupiter on the Earth with masses 1,100 and 1000 times of Jupiter's original mass. The planets were initialized with x = 1, y = 0, z = 0, vx = 0, vy = 6.28, vz = 0 for the Earth and x = 6.2, y = 0, z = 0, vx = 0, vy = 2.76 and vz = 0. It also tests if energy is constant, constant angular momentum and if the orbit is circular.
   3. Run for all planets: Solves the entire solar system with data from NASA. 
   4. Run for the Mercury Sun system: Solves for the case with Mercury around the Sun. Used together with get_angle.py, this is used to get the perihelion precession of Mercury.
-  5. 
+  5. Calculates a convergence test for the Eart-Sun system with orbit of 1 AU (circular) as exact solution. Choose number of experiments as terminal input and wanted method in main.
 
-### Links and packages
-The NASA data used to initialize some of the systems was pulled from [here.](https://ssd.jpl.nasa.gov/horizons.cgi#top)
 
 
 
