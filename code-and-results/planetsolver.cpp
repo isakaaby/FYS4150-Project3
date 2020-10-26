@@ -206,15 +206,14 @@ void PlanetSolver::test_constant_energy(double tol){
   }
 }
 
-//Method that tests if the angular momentum is constant, returns nothing.
 void PlanetSolver::test_constant_angular(double tol){
   double diffL;
   // get angular momentum for all times
   get_angular_Momentum();
-  int j = random_index_generator(0,m_k); //Random index.
+  int j = random_index_generator(0,m_k);
   for (int i = 1; i < m_N; i++){
-    diffL = (m_Lx(i*m_k + 1)*m_Lx(i*m_k + 1) + m_Ly(i*m_k + 1)*m_Ly(i*m_k + 1))  \
-        - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j));    //Computing the difference in angular momentum at different time steps.
+    diffL = abs((m_Lx(i*m_k + 1)*m_Lx(i*m_k + 1) + m_Ly(i*m_k + 1)*m_Ly(i*m_k + 1))  \
+        - (m_Lx(i*m_k + j)*m_Lx(i*m_k + j) + m_Ly(i*m_k + j)*m_Ly(i*m_k + j))); //Computing the difference in angular momentum at different time steps.
     if (diffL < tol) {
       continue;
     } else {
@@ -222,58 +221,85 @@ void PlanetSolver::test_constant_angular(double tol){
     break;
     }
   }
+  cout << "Absolute error total angular momentum:" << " " << diffL << "\n";
 }
 
 //Method that tests if an orbit is cicular or not, returns nothing.
 void PlanetSolver::test_circular_orbit(double tol){
   int i = 1;
-  int j = random_index_generator(0,m_k);      //Random index method.
+  int j = random_index_generator(0,m_k);
   double diffr = abs(1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
-              + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j)));    //Checking the difference in distance.
+              + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j))); //Checking the difference in distance.
   if (diffr > tol){
     cout << "Orbit is not circular with tolerance:" << " " << tol << "\n";
     }
+    cout << "Relative error from a circular orbit: " << " " << diffr << "\n";
+}
+
+//Method that writes error to file, returns nothing.
+void PlanetSolver::write_error_to_file(int N_experiments, vec E, vec r, vec h, vec nump){
+  ofstream error;
+
+  string filename_1("./results/error_params.txt");
+  error.open(filename_1);
+
+  error << "E" << " "; error << "h" << " ";
+  error << "r" << " "; error << "num_points" << " ";
+  error << "\n";
+  for (int j = 0; j < N_experiments; j++){
+    error << E(j) << " ";
+    error << h(j) << " ";
+    error << r(j) << " ";
+    error << nump(j) << " ";
+    error << "\n";
+    }
+  error.close();
 }
 
 //Method that tests the convergence, returns nothing.
 void PlanetSolver::test_convergence(vector<string> names,double beta, int N,int k, double T, int N_experiments, int method){
   // must solve for several dt's and check stability
   // --> need to call the solver in a loop
-
+  // Check for conservation of energy og angular momentum?
   //Initializing arrays.
+  vec numpoints = zeros<vec>(N_experiments);
   vec E = zeros<vec>(N_experiments);
-  vec rel_error = zeros<vec>(N_experiments);
-  vec r = zeros<vec>(N_experiments-1);
+  vec h = zeros<vec>(N_experiments);
+  vec r = zeros<vec>(N_experiments);
+  r(N_experiments-1)= 0.0;
 
   bool sun_center = true;   //Set Sun as center of system.
   int steps = 0;
   double next_error;
   int i = 1;
-  double factor = 2;
+  double factor = 5;
   bool test_convergence = true;
   while (steps < N_experiments){
     double error = 0;
     init_sun_center(names,beta,N,k,T,test_convergence);   //Initializing a system with Sun as center and testing convergence.
     solvesystem(sun_center,method);
     // Calculate error and convergence rate
-    for (int j = 0; j < m_k; j++){    //For planets
+    for (int j = 0; j < m_k; j++){
       next_error =  1 - sqrt(m_X(i*m_k+j)*m_X(i*m_k+j) \
       + m_Y(i*m_k+j)*m_Y(i*m_k+j) + m_Z(i*m_k+j)*m_Z(i*m_k+j));   //Calulating the error.
       error = error + next_error*next_error;
       }
 
-    rel_error(steps) = next_error; //last point
     E(steps) = sqrt(m_h*error);
+    h(steps) = m_h;
+    numpoints(steps) = m_k;
     k = m_k*factor;
     steps += 1;
     }
     for (int j = 1; j < N_experiments; j++){
       r(j-1) = log(E(j)/E(j-1))/log(1/factor);
     }
-    cout << "Convergence rates:" << " " << r <<"\n";
-    cout << "relative error:" << " " << rel_error << "\n";
-    // get relative error for last step
-}
+
+    write_error_to_file(N_experiments,E,r,h,numpoints);
+    cout << "Convergence rates:\n"  << r <<"\n";
+    cout << "relative error:\n"  << E << "\n";
+    cout << "step size:\n" << h << "\n";
+  }
 
 //Method that writes position to file, returns nothing.
 void PlanetSolver::write_pos_to_file(){
