@@ -20,4 +20,3 @@ In this project we have built a model for different solar systems using differen
 
 [plot.py] (https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/plot.py) makes a plot for a chosen number of planets.
 
-[test.cpp] (https://github.com/isakaaby/FYS4150-Project3/blob/master/code-and-results/test.cpp) is the program that tests the code.
