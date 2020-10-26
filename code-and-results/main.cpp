@@ -105,7 +105,7 @@ void menu() {
   //Code for all planets.
   if (task==3){
     N = 10;             //Number of planetary objects
-    k = 1e6;            //Time step
+    k = 1e4;            //Time step
     T = 250;            //Years (using earth years)
 
     //Filling array with all the planets.

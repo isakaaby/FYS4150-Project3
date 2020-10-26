@@ -15,10 +15,10 @@ t = np.linspace(1, len(x), len(x))
 
 #Plotting potential, kinetic and total energy as x, y, z.
 for i in range(0, len(x[1, :])):
-    plt.plot(t, x[:, i])
-    plt.plot(t, y[:, i])
-    plt.plot(t, z[:, i])
+    #plt.plot(t, x[:, i])
+    #plt.plot(t, y[:, i])
+    #plt.plot(t, z[:, i])
     plt.xlabel("Timestep (dt)")
     plt.ylabel("Energy (J)")
-    plt.title("Earth's energy")
+    #plt.title("Earth's energy")
 plt.show()

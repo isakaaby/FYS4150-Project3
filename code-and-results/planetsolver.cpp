@@ -142,9 +142,10 @@ void PlanetSolver::solvesystem(bool check, int method){
         verlet_pos(i,j);
       }
       for (int i = s; i < m_N; i++){ //for planets
-        verlet_vel(i,j);
         force_a(i,j+1);
-
+        verlet_vel(i,j);
+        kin(i*m_k + j+1) = kinetic_energy(i, j);
+        tot(i*m_k + j+1) = kin(i*m_k + j+1) + pot(i*m_k + j+1); //get total energy E = K + V for each planet
       }
     }
     auto finish = chrono::high_resolution_clock::now(); //End timer
@@ -157,6 +158,8 @@ void PlanetSolver::solvesystem(bool check, int method){
       for (int i = s; i < m_N; i++){ //for planets
         force_a(i,j);
         forwardeuler(i,j);
+        kin(i*m_k + j+1) = kinetic_energy(i, j);
+        tot(i*m_k + j+1) = kin(i*m_k + j+1) + pot(i*m_k + j+1); //get total energy E = K + V for each planet
         }
       }
       auto finish = chrono::high_resolution_clock::now(); //End timer
@@ -170,6 +173,8 @@ void PlanetSolver::solvesystem(bool check, int method){
       for (int i = s; i < m_N; i++){ //for planets
         force_a(i,j);
         eulerchromer(i,j);
+        kin(i*m_k + j+1) = kinetic_energy(i, j);
+        tot(i*m_k + j+1) = kin(i*m_k + j+1) + pot(i*m_k + j+1); //get total energy E = K + V for each planet
       }
     }
     auto finish = chrono::high_resolution_clock::now(); //End timer
