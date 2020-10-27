@@ -100,6 +100,22 @@ void menu() {
     solver.solvesystem(sun_center,run_verlet);    //Solving the system using the velocity Verlet method.
     solver.write_pos_to_file();                   //Writing positions to files.
     solver.write_energy_to_file();                //Writing potential, kinetic and total energy to files.
+
+    int do_;
+    double tol;
+    cout << "Press 1 to test convervation laws \n";
+    cout << "Enter number:" << " ";
+    cin >> do_;
+    if (do_ == 1){
+      tol = 1e-07;
+      solver.test_constant_energy(tol);     //Testing if energy is constant.
+
+      tol = 1e-12;
+      solver.test_constant_angular(tol);    //Testing if angular momentum is constant.
+
+      tol = 1e-02;
+      solver.test_circular_orbit(tol);      //Testing if the orbit is circular.
+    }
   }
 
   //Code for all planets.
